@@ -3,6 +3,10 @@
   "name": "MyCalendar",
   "version": "1.0",
   "description": "Automatically export your UW course calendar into an iCalendar file",
+  "action": {
+    "default_popup": "popup/settings.html",
+    "default_icon": "images/icon-16.png"
+  },
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
