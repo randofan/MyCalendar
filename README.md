@@ -8,10 +8,10 @@ MyCalendar is a Google chrome extension that launches on the UW registration pag
 4. Export all available sections for a class you’re registered for.
 
 ## Stretch Goals
-Use ChatGPT to generate fun facts about the buildings that classes are held in.
-Implement the extension for multiple browsers, not just Chrome.
-Allow the user to download an .ics file or open a new calendar/event in common calendar apps (Google calendar, Apple calendar).
+1. Use ChatGPT to generate fun facts about the buildings that classes are held in.
+2. Implement the extension for multiple browsers, not just Chrome.
+3. Allow the user to download an .ics file or open a new calendar/event in common calendar apps (Google calendar, Apple calendar).
 
 ## Repository Layout
-/popup:frontend code
-/scripts - backend code
+- /popup:frontend code
+- /scripts - backend code
