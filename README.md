@@ -13,5 +13,5 @@ MyCalendar is a Google chrome extension that launches on the UW registration pag
 3. Allow the user to download an .ics file or open a new calendar/event in common calendar apps (Google calendar, Apple calendar).
 
 ## Repository Layout
-- /popup:frontend code
-- /scripts - backend code
+- /popup: frontend code
+- /scripts: backend code
