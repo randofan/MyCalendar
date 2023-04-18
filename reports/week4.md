@@ -4,7 +4,7 @@
 ## Issues
 - What you did: we worked on the Git setup and finished the project proposal.
 - What worked: we successfully set up the Github repository and were able to revise the project proposal.
-- What you learned: we learned how to set up issues on Github.
+- What you learned: we learned how to use GitHub.
 - Where you had trouble: no trouble.
 - Where you are stuck: there's nothing we're stuck on.
 ## New Goals
@@ -18,15 +18,16 @@
 
 ## David
 ### Old Goals
-1.
+1. Revise the project proposal to follow given use case template.
+2. Determine risks.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
-- Where you are stuck:
+- What you did: revised project proposal to include improved information and set up the Git repository. Added an issue to the repository.
+- What worked: successfully revised project proposal and set up the repository + shared it with team members.
+- What you learned: I learned how to make an issue.
+- Where you had trouble: no trouble.
+- Where you are stuck: there's nothing we're stuck on.
 ### New Goals
-1. 
+1. Read Chrome extension documentation and follow setup tutorial for "estimated read time" (follows similar requirements to our project).
 
 ## Saket
 ### Old Goals
