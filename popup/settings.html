@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    function saveState() {
+        chrome.storage.set({state: {
+            "directions": ,
+            "fun_facts": 
+        }})
+    }
+</head>
 <body>
     <h1>MyCalendar</h1>
     <form>
         
     </form>
+    <button type="button" onclick="saveState()">Save Settings</button>
 </body>
 </html>
