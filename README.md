@@ -15,3 +15,4 @@ MyCalendar is a Google chrome extension that launches on the UW registration pag
 ## Repository Layout
 - /popup: frontend code
 - /scripts: backend code
+
