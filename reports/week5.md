@@ -10,32 +10,44 @@
 - What you did:
     - Finished fleshing out design and architecture
     - Finalized the popup wireframe
-    - Open conversation on testing architecture
+    - Open conversation on automated build and testing architecture
     - Updated our work timeline
 - What worked:
     - Splitting up work and then reviewing as a team in class
 - What you learned:
     - We're all shaking off some of the javascsript dust :)
 - Where you had trouble:
-    - Testing may be more complicated since we are deploying a browser extension. David is going to focus on this for the next week
+    - Testing may be more complicated since we are deploying a browser extension. David is going to focus on this for the next week.
+    - Building may be more complicated since we're deploying a browser extension. David is going to focus on this for the next week.
 ## New Goals
 1. Implementing core of backend (Trinity & Gavin)
     - Flesh out each component. Get the popup functioning with mock scraped data
 2. Figure out how to run the content scraper in the background and export that data to other components
 3. Figure out what a viable testing architecture will be (David & Saket)
+4. Figure out how to use shell scripts to automate building and CI/CD
 
 # Contributions of Individuals
 
 ## David
 ### Old Goals
-1. 
+1. Read Chrome extension documentation and follow setup tutorial for "estimated read time" (follows similar requirements to our project).
 ### Issues
-- What you did:
+- What you did: 
+    - Read more into the limitations of Chrome extensions. I learned more about how content scripts work.
+    - Researched how we can incorporate build and test tools into our Chrome extension.
+    - Revised the Design Architecture to follow an MVC. Improved the design's modulation.
+    - Wrote code to get user registration data from the class schedule page.
 - What worked:
+    - Confident that our project is feasible given the technology's constraints.
 - What you learned:
+    - Learned more about how JavaScript runs differently through the browser and via Node.js
+    - Determined a plan for how we can use CI/CD and automated testing.
 - Where you had trouble:
+    - Still unable to test if content script works.
+    - Unsure if it'll be possible to run Chrome extensions on Chromium browser.
 ### New Goals
-1.
+1. Look at other popular Chrome extensions on Github to see how they handle CI/CD.
+2. Write code to get data from the content script to the popup script via SessionStorage.
 
 ## Saket
 ### Old Goals
