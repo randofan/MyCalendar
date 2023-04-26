@@ -1,13 +1,28 @@
 # Team Report/Agenda
 ## Old Goals
-1. 
+1. Update project requirements. Include revised non-functional requirements.
+2. Wireframe popup UI.
+3. Design backend system architecture. Finalize a coding language and framework.
+4. Determine what data we need to collect.
+5. Get all mappings to time schedules. Each department has its own time schedule, so we need to find them all.
+6. Figure out what software we will use to develop project.
 ## Issues
 - What you did:
+    - Finished fleshing out design and architecture
+    - Finalized the popup wireframe
+    - Open conversation on testing architecture
+    - Updated our work timeline
 - What worked:
+    - Splitting up work and then reviewing as a team in class
 - What you learned:
+    - We're all shaking off some of the javascsript dust :)
 - Where you had trouble:
+    - Testing may be more complicated since we are deploying a browser extension. David is going to focus on this for the next week
 ## New Goals
-1. 
+1. Implementing core of backend (Trinity & Gavin)
+    - Flesh out each component. Get the popup functioning with mock scraped data
+2. Figure out how to run the content scraper in the background and export that data to other components
+3. Figure out what a viable testing architecture will be (David & Saket)
 
 # Contributions of Individuals
 
