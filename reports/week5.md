@@ -39,9 +39,13 @@
 
 ## Saket
 ### Old Goals
-1.
+1. Revise the project proposal to follow given use case template.
+2. Determine risks.
 ### Issues
-- What you did:
+- What you did: helped design the overall relationships of our modules and figure out how the overall application would work with respect to all other 
+  parts of the project and what modules are needed and how they should all be connected in order for the application to be correctly built and working 
+  properly. Additionally got all the data needed form the time schedule that should allow us to be able to scrape all the section information from the 
+  time schedule.
 - What worked:
 - What you learned:
 - Where you had trouble:
