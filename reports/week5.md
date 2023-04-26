@@ -79,12 +79,13 @@
 
 ## Gavin
 ### Old Goals
-1.
+1. For this coming week, I want to focus on the architecture of the plugin, especially the code behind parsing the calendar and creating the .ics file from it.
+2. I think overall I want to work mostly on the code for converting between the different data types that will be present in our plugin.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: I worked on the architecture and how the program will be broken up into different files, and how those files will interact and pass data between themselves. I also researched the format of an .ics file, in preparation for writing the .ics file creator this week.
+- What worked: Communicating clearly with the other members of the team on how we should write our files how the code that each of us write should interact.
+- What you learned: I learned a lot about the format of an .ics file, which is a relatively simple format that we can create easily.
+- Where you had trouble: I was not able to start writing the ics.js script yet, which I will start on this week.
 ### New Goals
-1. 
+1. Write ics.js
 
