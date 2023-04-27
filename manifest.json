@@ -20,5 +20,8 @@
         "https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=*"
       ]
     }
+  ],
+  "permissions": [
+    "storage"
   ]
 }
