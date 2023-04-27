@@ -17,11 +17,11 @@ MyCalendar is a Google chrome extension that launches on the UW registration pag
 - /scripts: backend code
 
 ## Set Up
-cd test
-pip3 install virtualenv
-virtualenv .env
-source .env/bin/activate
-pip3 install -r requirements.txt
+- cd test
+- pip3 install virtualenv
+- virtualenv .env
+- source .env/bin/activate
+- pip3 install -r requirements.txt
 
 ## Shut Down
 close with ```deactivate```
