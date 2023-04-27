@@ -51,18 +51,28 @@
 
 ## Saket
 ### Old Goals
-1. Revise the project proposal to follow given use case template.
-2. Determine risks.
+1. finish backend mapping between course name and html page to get schedule information.
+2. review javascript for the programing aspect of the project.
+
 ### Issues
 - What you did: helped design the overall relationships of our modules and figure out how the overall application would work with respect to all other 
   parts of the project and what modules are needed and how they should all be connected in order for the application to be correctly built and working 
   properly. Additionally got all the data needed form the time schedule that should allow us to be able to scrape all the section information from the 
   time schedule.
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What worked: Being able to fully visuallize how all the different components of our app will be connected is really helpful because it helped me to
+  vizualize what i may need to do in order build the specific component and how it worls with all the different parts and what i need to do to make sure
+  the module or part i create is able to seamlessly mesh with the app we are building. Also beinga able to discuss with everyone helps all of us be on
+  the same page developing this project.
+- What you learned: learned that being able to brainstorm and preplan is really helpful because there is an existing structure that we can use to build
+  our module and it gives sort of a reference we can use to make sure we are on the right track and we are doing everything we need to in order to get
+  the best results possible.
+- Where you had trouble: there was some trouble trying to efficently parse the available course page to get all the html pages for each course time
+  schedules to get all the schedule information without doing it one at a time manually. So trying to code up a way to extract this information with one
+  go was a bit tricky.
 ### New Goals
-1. 
+1. continue to review javascript for the programing aspect of the project.
+2. start on the sections.js module by creating the back end portion and the map for the html scraper. 
+3. start to build test modules to test functionality of the components.
 
 ## Trinity
 ### Old Goals
