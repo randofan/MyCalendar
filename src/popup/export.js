@@ -1,16 +1,41 @@
+// var selection = {
+//     // fields are hardcoded for sake of example
+//     schedule: ["CSE 403", "CSE 340"],
+//     sections: ["CSE 340"]
+// }
 var selection = {
-    // fields are hardcoded for sake of example
-    schedule: ["CSE 403", "CSE 340"],
-    sections: ["CSE 340"]
+    schedule: [],
+    sections: []
 }
 
+var courses;
+
+// get course names from data scraped by content.js and populate selection
+// populate HTML with courses + input checkbox elements
 function displayNames() {
-    // get course names from data scraped by content.js and populate selection
-    // populate HTML with courses + input checkbox elements
+    // TODO: populate courses from content.js. gi
+    courses = ["CSE 403", "CSE 340", "HCDE 318"];
+
+    let table = document.querySelector('.selection-table');
+
+    for (let i = 0; i < courses.length; i++) {
+        let course = courses[i];
+        let id_schedule = courses[i] + "-schedule";
+        let id_section = courses[i] + "-section"
+
+        let row_html =  '<tr>' +
+                        `    <th>${course}</th>` +
+                        `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
+                        `    <th><input type="checkbox" id=${id_section} value="section"></th>` +
+                        '</tr>'
+
+        table.innerHTML += row_html;
+    }
 }
 
-function onClick() {
-    // travserse HTML checkbox input elements and populate selection accordingly
-    // to send to ics.js
+// travserse HTML checkbox input elements and populate selection accordingly
+// to send to ics.js
+function onDownloadClick() {
+
 }
 
