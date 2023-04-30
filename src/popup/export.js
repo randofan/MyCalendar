@@ -19,9 +19,10 @@ function displayNames() {
     let table = document.querySelector('.selection-table');
 
     for (let i = 0; i < courses.length; i++) {
-        let course = courses[i];
-        let id_schedule = courses[i] + "-schedule";
-        let id_section = courses[i] + "-section"
+        let course = courses[i];                        // "CSE 403"
+        let course_id = courses[i].replace(/\s+/g, '-') // "CSE-403"
+        let id_schedule = course_id + "-schedule";
+        let id_section = course_id + "-section"
 
         let row_html =  '<tr>' +
                         `    <th>${course}</th>` +
