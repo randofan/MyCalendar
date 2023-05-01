@@ -25,3 +25,6 @@ MyCalendar is a Google chrome extension that launches on the UW registration pag
 
 ## Shut Down
 close with ```deactivate```
+
+
+chromedriver running version 112
