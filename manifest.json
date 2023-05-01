@@ -1,0 +1,27 @@
+{
+  "manifest_version": 1,
+  "name": "MyCalendar",
+  "version": "0.0.1",
+  "description": "Automatically export your UW course calendar into an iCalendar file",
+  "action": {
+    "default_popup": "popup/export.html",
+    "default_icon": "images/icon-16.png"
+  },
+  "icons": {
+    "16": "images/16.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": [
+        "https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=*"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}
