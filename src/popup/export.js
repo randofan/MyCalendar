@@ -1,10 +1,13 @@
 // e.g. Populated selection
 //      schedule: ["CSE 403", "CSE 340"],
 //      sections: ["CSE 340"]
-export var selection = {
-    schedule: [],
-    sections: []
-}
+// export var selection = {
+//     schedule: [],
+//     sections: []
+// }
+
+
+// module.exports = sum;
 
 // TODO: populate courses from content.js. gi
 var courses;
