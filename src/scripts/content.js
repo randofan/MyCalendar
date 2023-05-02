@@ -1,8 +1,12 @@
 // Get the content from class schedule.
 const map = getClassSchedule();
-console.log(map);
 
 function getClassSchedule() {
+    // console.log(document.getElementsByClassName("sps_table even_rows"));
+    // console.log(document.getElementsByClassName("sps_table even_rows").innerHTML);
+
+    console.log(document.getElementsByClassName("sps-data"));
+    
     const table = document.getElementsByClassName("sps_table even_rows").rows;
     if (table) {
         let map = {}
