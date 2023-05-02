@@ -26,8 +26,6 @@ suite(function (env) {
       let title = await driver.getTitle();
       assert.equal("Web form", title);
 
-      await driver.manage().setTimeouts({implicit: 500});
-
       let textBox = await driver.findElement(By.name('my-text'));
       let submitButton = await driver.findElement(By.css('button'));
 
