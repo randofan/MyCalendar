@@ -16,6 +16,7 @@ jobs:
       - name: Build
         run: cd build && ./build.sh
       - name: Test
+        uses: actions/setup-node@v2
         with:
           node-version: 16
         run: npm ci && npm test
