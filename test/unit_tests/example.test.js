@@ -1,5 +1,9 @@
 const sum = require('./../../src/popup/export.js');
+const assert = require('assert');
 
-test('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3);
+
+describe('My function', () => {
+  it('should return the sum of two numbers', () => {
+    assert.equal(sum(2, 3));
   });
+});

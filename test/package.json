@@ -4,14 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest ; mocha"
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "jest": "^29.5.0"
-  },
   "dependencies": {
     "mocha": "^10.2.0",
     "selenium-webdriver": "^4.9.0"
