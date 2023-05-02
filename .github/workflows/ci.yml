@@ -1,0 +1,18 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: cd test && npm install
+      - name: Run Tests
+        run: cd test && npm test
