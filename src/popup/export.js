@@ -6,8 +6,8 @@
 //     sections: []
 // }
 
-
 // module.exports = sum;
+displayNames();
 
 // TODO: populate courses from content.js. gi
 var courses;
@@ -19,7 +19,7 @@ function displayNames() {
     courses = ["CSE 403", "CSE 340", "HCDE 318"];
 
     let table = document.querySelector('.selection-table');
-
+    
     for (let i = 0; i < courses.length; i++) {
         let course = courses[i];                        // "CSE 403"
         let course_id = courses[i].replace(/\s+/g, '-') // "CSE-403"
