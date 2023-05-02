@@ -6,9 +6,6 @@
 //     sections: []
 // }
 
-// module.exports = sum;
-displayNames();
-
 // TODO: populate courses from content.js. gi
 var courses;
 

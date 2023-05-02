@@ -1,16 +1,21 @@
-const {By, Builder, Browser} = require('selenium-webdriver');
+const {By, Browser} = require('selenium-webdriver');
 const {suite} = require('selenium-webdriver/testing');
 const assert = require("assert");
+const chrome = require('selenium-webdriver/chrome');
+const webdriver = require('selenium-webdriver')
 
 suite(function (env) {
   describe('First script', function () {
     let driver;
 
     before(async function () {
-        const service = new chrome.ServiceBuilder('../chromedriver');
         let opt = new chrome.Options();
-        opt.addArguments("--load-extension=/path/to/extension");
-        driver = await new Builder().forBrowser('chrome').setChromeService(service).setChromeOptions(opt).build();
+        opt.addArguments("--load-extension=../src");
+        opt.addArguments('--headless'); // Run Chrome in headless mode
+        driver = await new webdriver.Builder()
+          .forBrowser('chrome')
+          .setChromeOptions(opt)
+          .build();
     });
 
     after(async () => await driver.quit());
