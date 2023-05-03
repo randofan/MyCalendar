@@ -55,14 +55,22 @@
 
 ## Trinity
 ### Old Goals
-1.
+1. Start implementing backend!!! Make progress on export.js and content.js by next team meeting
 ### Issues
 - What you did:
+  - Finished export.js, which injects the user's course names into the HTML table and parses the checkboxes upon button click to record the user's selections
+  - Got the extension running in Chrome in developer mode. 
+  - Did research on how we can send data on the DOM from our content script to our popup scripts
+  - Started revising content.js. The HTML parsing logic needs to be updated
 - What worked:
+  - I did a deepr dive into the Chrome API / Extensions documentation and it gave me a much better idea of how to set up our extension
 - What you learned:
+  - About the architecture of Chrome Extensions, and how to rn an extension locally in Chrome
 - Where you had trouble:
+  - Minimal trouble
 ### New Goals
-1.
+1. Finish content.js (backend script & html parser)
+2. Work with Gavin to get the entire extension functional in the browser
 
 ## Gavin
 ### Old Goals
