@@ -16,3 +16,5 @@ jobs:
         run: cd test && npm install
       - name: Run Tests
         run: cd test && npm test
+      - name: Build
+        run: zip src zrc.zip
