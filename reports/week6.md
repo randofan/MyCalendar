@@ -1,13 +1,24 @@
 # Team Report/Agenda
 ## Old Goals
-1. 
+1. Implementing core of backend (Trinity & Gavin)
+    - Flesh out each component. Get the popup functioning with mock scraped data
+2. Figure out how to run the content scraper in the background and export that data to other components
+3. Figure out what a viable testing architecture will be (David & Saket)
+4. Figure out how to use shell scripts to automate building and CI/CD
+
 ## Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: 
+  - Started implementing the backend
+  - Successfully ran the frontend of the extension on Chrome locally
+  - Solidify our testing architecture (Selenium & Mocha)
+  - Setup our CI system through Git Actions
+- What worked: Dividing and conquering worked really well this week. We all focused on separate parts of the project which allowed us to get a lot done.
+- What you learned: We gained confidence in how we are are going to implement our browser through Chrome's API and how we will test our browser's integration/system. 
+- Where you had trouble: David had some trouble setting up our CI system through Git action, but was able to figure it out. Otherwise, no other problems!
 ## New Goals
-1. 
+1. Finish backend (Trinity, Gavin, Saket)
+2. Deploy functional extension in Chrome (locally)
+3. Write basic tests for all components
 
 # Contributions of Individuals
 
