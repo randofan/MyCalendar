@@ -2,16 +2,34 @@
 document.getElementById("download").addEventListener("click", onDownloadClick);
 document.getElementById("settings").addEventListener("click", openSettingsPage);
 
-displayNames();
+var courses = null;
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        displayNames(Object.keys(request.classSchedule));
+    }
+);
 
-// TODO: populate courses from content.js. gi
-var courses;
+
+// TODO everything below is just how to save settings on the settings page idk where we want to put it in the end
+// document.getElementById("settings").addEventListener("click", saveState);
+
+// function saveState() {
+//     chrome.storage.local.set({state: {
+//         "directions": "",
+//         "fun_facts": ""
+//     }})
+// }
+
 
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
-function displayNames() {
+function displayNames(courses) {
     // TEMPORARILY HARD CODED
-    courses = ["CSE 403", "CSE 340", "HCDE 318"];
+    // courses = ["CSE 403", "CSE 340", "HCDE 318"];
+
+    // Get rid of the loading text oncce we've generated the table of courses.
+    const loading = document.getElementById("loading")
+    loading.remove()
 
     let table = document.querySelector('.selection-table');
     
@@ -29,6 +47,8 @@ function displayNames() {
 
         table.innerHTML += row_html;
     }
+
+    return table
 }
 
 // Travserse HTML checkbox input elements and populate selection accordingly
@@ -59,6 +79,4 @@ function onDownloadClick() {
     }
 }
 
-function openSettingsPage() {
-
-}
+module.exports = displayNames

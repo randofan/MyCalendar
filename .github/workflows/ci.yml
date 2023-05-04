@@ -15,6 +15,5 @@ jobs:
       - name: Install Dependencies
         run: cd test && npm install
       - name: Run Tests
+        timeout-minutes: 10
         run: cd test && npm test
-      - name: Build
-        run: zip src zrc.zip
