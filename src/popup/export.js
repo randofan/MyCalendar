@@ -9,6 +9,18 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
+
+// TODO everything below is just how to save settings on the settings page idk where we want to put it in the end
+// document.getElementById("settings").addEventListener("click", saveState);
+
+// function saveState() {
+//     chrome.storage.local.set({state: {
+//         "directions": "",
+//         "fun_facts": ""
+//     }})
+// }
+
+
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
 function displayNames(courses) {
