@@ -24,14 +24,16 @@
 
 ## David
 ### Old Goals
-1. 
+1. Look at other popular Chrome extensions on Github to see how they handle CI/CD.
+2. Write code to get data from the content script to the popup script via SessionStorage.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: worked on setting up testing and CI.
+- What worked: created an node.js project in the test/ folder and installed dependencies to support testing via Mocha and Selenium. Set up CI with GitHub Actions, which automatically runs the tests whenever we push to main.
+- What you learned: How to set up CI with GitHub Actions. I also learned how Mocha tests and Selenium work in JS.
+- Where you had trouble: I had trouble setting up the CI because the Selenium tests keep timing out seemingly randomly when I push to main, despite them being well under the timeout when I run locally.
 ### New Goals
-1.
+1. Write more tests for our application for alpha release.
+2. Help with message passing between our content script and main thread.
 
 ## Saket
 ### Old Goals
