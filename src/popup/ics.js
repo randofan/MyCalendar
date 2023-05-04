@@ -35,7 +35,8 @@ function buildICS(selection) {
     let startDates = [firstDayOfInstruction].concat(holidayArray);
     let endDates = holidayArray.concat([lastDayOfInstuction]);
     map.forEach(en => { // for each class
-        //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
+        if (selection.contains(en.title)) { // if the user selected it
+            //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
             let times = convertTime(en.time);
             let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
             file += "BEGIN:VEVENT\n";
@@ -45,7 +46,8 @@ function buildICS(selection) {
             file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + lastDayOfInstuction + "\n"; // change for holiday
             file += "LOCATION:" + en.location + "\n";
             file += "END:VEVENT\n";
-        //}
+            //}
+        }
     })
     file += "END:VCALENDAR\n";
 }
