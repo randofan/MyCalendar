@@ -6,7 +6,10 @@ const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["
 const dayToNumber = ["SU", "MO", "TU", "TH", "FR", "SA"]; // used to convert day codes to day numbers
 const holidayArray = [0]; // ICS style, get from content.js
 
-function buildICS() {
+function buildICS(selection) {
+    console.log("IN ICS!");
+    console.log(selection);
+    
     const map = getClassSchedule();
     let file = "";
     file += "BEGIN:VCALENDAR\n"; // start calendar object

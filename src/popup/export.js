@@ -1,12 +1,7 @@
-// e.g. Populated selection
-//      schedule: ["CSE 403", "CSE 340"],
-//      sections: ["CSE 340"]
-// export var selection = {
-//     schedule: [],
-//     sections: []
-// }
+// Set up button event listeners
+document.getElementById("download").addEventListener("click", onDownloadClick);
+document.getElementById("settings").addEventListener("click", openSettingsPage);
 
-// module.exports = sum;
 displayNames();
 
 // TODO: populate courses from content.js. gi
@@ -39,6 +34,12 @@ function displayNames() {
 // Travserse HTML checkbox input elements and populate selection accordingly
 // to send to ics.js
 function onDownloadClick() {
+    // stores the courses the user has selected
+    var selection = {
+        schedule: [],
+        sections: []
+    }
+
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
     for (let i = 1; i < inputs.length; i++) { // omit the table header (first element)
@@ -52,5 +53,11 @@ function onDownloadClick() {
         // Push course name to respective arrays based on if user checked the box
         if (export_schedule) { selection.schedule.push(course); };
         if (export_sections) { selection.sections.push(course); };
+
+        buildICS(selection);
     }
+}
+
+function openSettingsPage() {
+
 }

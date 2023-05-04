@@ -1,10 +1,10 @@
 {
-  "name": "test2",
+  "name": "test1",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha unit_tests/*.test.js system_tests/*.test.js --timeout 100000"
   },
   "keywords": [],
   "author": "",
