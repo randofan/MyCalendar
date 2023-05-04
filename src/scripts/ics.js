@@ -32,17 +32,17 @@ function buildICS() {
     let startDates = [firstDayOfInstruction].concat(holidayArray);
     let endDates = holidayArray.concat([lastDayOfInstuction]);
     map.forEach(en => { // for each class
-        for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
+        //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
             let times = convertTime(en.time);
-            let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 41. doesn't start on the right next day after a holiday
+            let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
             file += "BEGIN:VEVENT\n";
             file += "SUMMARY:" + en.title + "\n";
-            file += "DSTART:" + getFirstDay(startDates[i], DOW) + "T" + times[0] + "\n";
-            file += "DTEND" + getFirstDay(startDates[i], DOW) + "T" + times[1] + "\n";
-            file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n";
+            file += "DSTART:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n"; // change for holiday
+            file += "DTEND" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[1] + "\n"; // change for holiday
+            file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + lastDayOfInstuction + "\n"; // change for holiday
             file += "LOCATION:" + en.location + "\n";
             file += "END:VEVENT\n";
-        }
+        //}
     })
     file += "END:VCALENDAR\n";
 }
