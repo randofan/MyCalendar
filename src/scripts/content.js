@@ -1,8 +1,10 @@
 // Get the content from class schedule.
-(async () => {
-    const response = await chrome.runtime.sendMessage({classSchedule: getClassSchedule(), classQuarter: getQuarter()});
-  }
-)();
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        sendResponse({classSchedule: getClassSchedule(), classQuarter: getQuarter()});// this is how you send message to popup
+        return true; // this make sure sendResponse will work asynchronously
+    }
+);
 
 function getClassSchedule() {
     // console.log(document.getElementsByClassName("sps_table even_rows"));

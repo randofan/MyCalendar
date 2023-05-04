@@ -2,12 +2,13 @@
 document.getElementById("download").addEventListener("click", onDownloadClick);
 document.getElementById("settings").addEventListener("click", openSettingsPage);
 
-var courses = null;
-chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        displayNames(Object.keys(request.classSchedule));
-    }
-);
+document.addEventListener('DOMContentLoaded', function() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage("GET", function(response){
+            displayNames(Object.keys(response.classSchedule));
+        });
+    });
+})
 
 
 // TODO everything below is just how to save settings on the settings page idk where we want to put it in the end
