@@ -4,10 +4,15 @@
   }
 )();
 
+var map = getClassSchedule();
+console.log(map);
+
 function getClassSchedule() {
     const table = document.getElementsByClassName("sps-data");
     const data = table[0];
     const trs = data.getElementsByTagName("tr");
+
+    let courses = [];
 
     for (let i = 0; i < trs.length; i++) {
         let map = {};
@@ -35,10 +40,11 @@ function getClassSchedule() {
                             "location": location, 
                             "prof": prof
                         }
-    
-            return map;
+
+            courses.push(map);
         }
     }
+    return courses;
 }
 
 // Gets the quarter. In form of "Spring 2023"
