@@ -76,12 +76,12 @@
 
 ## Gavin
 ### Old Goals
-1.
+1. Write ics.js
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: I wrote the first version of ics.js. It takes in an array of classes in a specific format, and converts it into an .ics file that contains all the classes for the quarter.
+- What worked: I took care to look at how my teammates had written their code for pulling the classes out of the html. This helped me to write my code in a way that would work well with theirs.
+- What you learned: I learned a lot about how to write efficient Javascipt and good ways to build strings in js.
+- Where you had trouble: It had been a while since I had written in Javascipt, so I had to remind myself about the syntax and how the language works. This slowed me down a bit in the early stages.
 ### New Goals
-1. 
+1. Update ics.js to work with holidays and interruptions in the quarter calendar.
 
