@@ -2,16 +2,20 @@
 document.getElementById("download").addEventListener("click", onDownloadClick);
 document.getElementById("settings").addEventListener("click", openSettingsPage);
 
-displayNames();
 
-// TODO: populate courses from content.js. gi
-var courses;
+// TODO maybe move this inside of 
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        displayNames(request);
+    }
+);
+    
 
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
-function displayNames() {
+function displayNames(courses) {
     // TEMPORARILY HARD CODED
-    courses = ["CSE 403", "CSE 340", "HCDE 318"];
+    // courses = ["CSE 403", "CSE 340", "HCDE 318"];
 
     let table = document.querySelector('.selection-table');
     

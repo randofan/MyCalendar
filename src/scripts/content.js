@@ -1,5 +1,8 @@
 // Get the content from class schedule.
-const map = getClassSchedule();
+(async () => {
+    const response = await chrome.runtime.sendMessage({classSchedule: getClassSchedule(), classQuarter: getQuarter()});
+  }
+)();
 
 function getClassSchedule() {
     // console.log(document.getElementsByClassName("sps_table even_rows"));
@@ -44,8 +47,4 @@ function getClassSchedule() {
 // Gets the quarter. In form of "Spring 2023"
 function getQuarter() {
     return document.getElementsByTagName("h1")[0].innerText
-}
-
-function getSections(map) {
-    
 }
