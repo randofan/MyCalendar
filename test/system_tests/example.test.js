@@ -21,10 +21,10 @@ suite(function (env) {
     after(async () => await driver.quit());
 
     it('First Selenium script', async function () {
-      await driver.get('https://www.google.com');
+      await driver.get('../ClassSchedule.html');
 
       let title = await driver.getTitle();
-      assert.equal("Google", title);
+      assert.equal("Class Schedule", title);
 
       // let textBox = await driver.findElement(By.name('my-text'));
       // let submitButton = await driver.findElement(By.css('button'));

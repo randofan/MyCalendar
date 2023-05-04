@@ -47,6 +47,8 @@ function displayNames(courses) {
 
         table.innerHTML += row_html;
     }
+
+    return table
 }
 
 // Travserse HTML checkbox input elements and populate selection accordingly
@@ -76,6 +78,4 @@ function onDownloadClick() {
     }
 }
 
-function openSettingsPage() {
-
-}
+module.exports = displayNames

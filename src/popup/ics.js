@@ -96,3 +96,5 @@ function getFirstDay(ICSDate, dow) {
     classDate.setDate(classDate.getDate() + ((dow - firstDate.getDay() + 7) % 7)); // increment to the right day
     return classDate.toISOString().substring(0, 10).replace("-", ""); // convert ISO date to ICS date
 }
+
+module.exports = buildICS
