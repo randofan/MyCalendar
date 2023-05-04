@@ -2,20 +2,22 @@
 document.getElementById("download").addEventListener("click", onDownloadClick);
 document.getElementById("settings").addEventListener("click", openSettingsPage);
 
-
-// TODO maybe move this inside of 
+var courses = null;
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        displayNames(request);
+        displayNames(Object.keys(request.classSchedule));
     }
 );
-    
 
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
 function displayNames(courses) {
     // TEMPORARILY HARD CODED
     // courses = ["CSE 403", "CSE 340", "HCDE 318"];
+
+    // Get rid of the loading text oncce we've generated the table of courses.
+    const loading = document.getElementById("loading")
+    loading.remove()
 
     let table = document.querySelector('.selection-table');
     
