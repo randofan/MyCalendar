@@ -54,7 +54,8 @@ function onDownloadClick() {
         if (export_schedule) { selection.schedule.push(course); };
         if (export_sections) { selection.sections.push(course); };
 
-        buildICS(selection);
+        var icsFile = buildICS(selection);
+        // TODO: download ics file
     }
 }
 
