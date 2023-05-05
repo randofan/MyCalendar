@@ -16,4 +16,4 @@ jobs:
         run: cd test && npm install
       - name: Run Tests
         timeout-minutes: 10
-        run: cd test && npm test
+        run: cp -r src test & cd test & echo "\nmodule.exports = displayNames" >> src/popup/export.js & npm test

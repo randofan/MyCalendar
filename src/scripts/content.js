@@ -6,18 +6,13 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-var map = getClassSchedule();
-console.log(map);
-
 function getClassSchedule() {
     const table = document.getElementsByClassName("sps-data");
     const data = table[0];
     const trs = data.getElementsByTagName("tr");
 
-    let courses = [];
-
+    let map = {};
     for (let i = 0; i < trs.length; i++) {
-        let map = {};
         let row = trs[i];
         const cells = row.getElementsByTagName("td");
 
@@ -43,10 +38,9 @@ function getClassSchedule() {
                             "prof": prof
                         }
 
-            courses.push(map);
         }
     }
-    return courses;
+    return map;
 }
 
 // Gets the quarter. In form of "Spring 2023"

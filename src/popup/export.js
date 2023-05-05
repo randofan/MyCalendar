@@ -1,19 +1,10 @@
 // Set up button event listeners
 document.getElementById("download").addEventListener("click", onDownloadClick);
-document.getElementById("settings").addEventListener("click", openSettingsPage);
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//         chrome.tabs.sendMessage("GET", function(response){
-//             displayNames(Object.keys(response.classSchedule));
-//         });
-//     });
-// })
 
 (async () => {
     const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
     const response = await chrome.tabs.sendMessage(tab.id, {});
-    // do something with response here, not outside the function
     displayNames(Object.keys(response.classSchedule));
   })();
 
@@ -31,7 +22,6 @@ document.getElementById("settings").addEventListener("click", openSettingsPage);
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
 function displayNames(courses) {
-    console.log(courses);
     // TEMPORARILY HARD CODED
     // courses = ["CSE 403", "CSE 340", "HCDE 318"];
 
