@@ -1,4 +1,4 @@
 cp -r ../src .
-echo "\nmodule.exports = displayNames" >> src/popup/export.js
-echo "\nmodule.exports = buildICS" >> src/popup/ics.js
-echo "\nmodule.exports = getClassSchedule" >> src/scripts/content.js
+echo "module.exports = displayNames" >> src/popup/export.js
+echo "module.exports = buildICS" >> src/popup/ics.js
+echo "module.exports = getClassSchedule" >> src/scripts/content.js
