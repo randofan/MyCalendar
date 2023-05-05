@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
 function displayNames(courses) {
+    console.log(courses);
     // TEMPORARILY HARD CODED
     // courses = ["CSE 403", "CSE 340", "HCDE 318"];
 
