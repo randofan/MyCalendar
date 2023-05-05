@@ -1,29 +1,16 @@
 // Set up button event listeners
 document.getElementById("download").addEventListener("click", onDownloadClick);
 
-
 (async () => {
     const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
     const response = await chrome.tabs.sendMessage(tab.id, {});
     displayNames(Object.keys(response.classSchedule));
   })();
 
-// TODO everything below is just how to save settings on the settings page idk where we want to put it in the end
-// document.getElementById("settings").addEventListener("click", saveState);
-
-// function saveState() {
-//     chrome.storage.local.set({state: {
-//         "directions": "",
-//         "fun_facts": ""
-//     }})
-// }
-
 
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
 function displayNames(courses) {
-    // TEMPORARILY HARD CODED
-    // courses = ["CSE 403", "CSE 340", "HCDE 318"];
 
     // Get rid of the loading text oncce we've generated the table of courses.
     const loading = document.getElementById("loading")
@@ -46,6 +33,11 @@ function displayNames(courses) {
         table.innerHTML += row_html;
     }
 
+    chrome.storage.local.get(['state']).then((result) => {
+        document.getElementById("sections").checked = result["directions"]
+        document.getElementById("map").checked = result["fun_facts"]
+    })
+
     return table
 }
 
@@ -57,6 +49,26 @@ function onDownloadClick() {
         schedule: [],
         sections: []
     }
+
+    let isSections = document.getElementById("sections").checked
+    let isMap = document.getElementById("map").checked
+
+    if (document.getElementById("savestate").checked) {
+        chrome.storage.local.set({state: {
+            "directions": isMap,
+            "fun_facts": isSections
+        }})
+    }
+
+    // include sections?
+    if (isSections) {
+
+    }
+    // include map?
+    if (isMap) {
+
+    }
+
 
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
