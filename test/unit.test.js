@@ -1,5 +1,6 @@
-const displayNames = require('./../../src/popup/export.js');
-const buildICS = require('./../../src/popup/ics.js');
+const displayNames = require('./src/popup/export.js');
+const buildICS = require('./src/popup/ics.js');
+const getClassSchedule = require('./src/scripts/content.js');
 
 const assert = require('assert');
 
