@@ -2,14 +2,20 @@
 document.getElementById("download").addEventListener("click", onDownloadClick);
 document.getElementById("settings").addEventListener("click", openSettingsPage);
 
-document.addEventListener('DOMContentLoaded', function() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage("GET", function(response){
-            displayNames(Object.keys(response.classSchedule));
-        });
-    });
-})
+// document.addEventListener('DOMContentLoaded', function() {
+//     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+//         chrome.tabs.sendMessage("GET", function(response){
+//             displayNames(Object.keys(response.classSchedule));
+//         });
+//     });
+// })
 
+(async () => {
+    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+    const response = await chrome.tabs.sendMessage(tab.id, {});
+    // do something with response here, not outside the function
+    displayNames(Object.keys(response.classSchedule));
+  })();
 
 // TODO everything below is just how to save settings on the settings page idk where we want to put it in the end
 // document.getElementById("settings").addEventListener("click", saveState);
@@ -79,5 +85,3 @@ function onDownloadClick() {
         // TODO: download ics file
     }
 }
-
-module.exports = displayNames
