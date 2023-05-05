@@ -53,26 +53,34 @@ function displayNames(courses) {
 // to send to ics.js
 function onDownloadClick() {
     // stores the courses the user has selected
-    var selection = {
-        schedule: [],
-        sections: []
-    }
+    // var selection = {
+    //     schedule: [],
+    //     sections: []
+    // }
 
-    const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
+    // const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
-    for (let i = 1; i < inputs.length; i++) { // omit the table header (first element)
-        let input = inputs[i];
-        const cells = input.getElementsByTagName("th");
+    // for (let i = 1; i < inputs.length; i++) { // omit the table header (first element)
+    //     let input = inputs[i];
+    //     const cells = input.getElementsByTagName("th");
 
-        const course = cells[0].innerHTML;
-        const export_schedule = cells[1].getElementsByTagName("input")[0].checked;
-        const export_sections = cells[2].getElementsByTagName("input")[0].checked;
+    //     const course = cells[0].innerHTML;
+    //     const export_schedule = cells[1].getElementsByTagName("input")[0].checked;
+    //     const export_sections = cells[2].getElementsByTagName("input")[0].checked;
 
-        // Push course name to respective arrays based on if user checked the box
-        if (export_schedule) { selection.schedule.push(course); };
-        if (export_sections) { selection.sections.push(course); };
+    //     // Push course name to respective arrays based on if user checked the box
+    //     if (export_schedule) { selection.schedule.push(course); };
+    //     if (export_sections) { selection.sections.push(course); };
 
-        var icsFile = buildICS(selection);
-        // TODO: download ics file
-    }
+    //     var icsFile = buildICS(selection);
+        
+
+    // }
+
+    // TODO icsFile needs to be a string representation of input
+    let ics = new Blob([icsFile], {type: "text/calendar"})
+    chrome.downloads.download({
+        url: URL.createObjectURL(ics),
+        filename: "schedule.ics" // Optional
+        });
 }
