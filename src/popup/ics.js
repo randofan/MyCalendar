@@ -1,4 +1,12 @@
-// builds a .ics file from a passed in calendar object
+// Builds a .ics file from a passed in calendar object
+
+var scheduleData = null;
+
+(async () => {
+    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+    const response = await chrome.tabs.sendMessage(tab.id, {});
+    scheduleData = response.classSchedule;
+})();
 
 const firstDayOfInstruction = (new Date()).toISOString().substring(0, 10).replace("-", ""); // ICS style, get from content.js
 const lastDayOfInstuction = 20231230; // ICS style, get from content.js
@@ -6,11 +14,9 @@ const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["
 const dayToNumber = ["SU", "MO", "TU", "TH", "FR", "SA"]; // used to convert day codes to day numbers
 const holidayArray = [0]; // ICS style, get from content.js
 
-function buildICS(selection) {
-    console.log("IN ICS!");
-    console.log(selection);
-    
-    // const map = getClassSchedule();
+function buildICS(selection) {    
+    const map = scheduleData;
+    console.log(map);
     let file = "";
     file += "BEGIN:VCALENDAR\n"; // start calendar object
     file += "BEGIN:VTIMEZONE\n" +
@@ -34,8 +40,11 @@ function buildICS(selection) {
 
     let startDates = [firstDayOfInstruction].concat(holidayArray);
     let endDates = holidayArray.concat([lastDayOfInstuction]);
-    map.forEach(en => { // for each class
-        if (selection.contains(en.title)) { // if the user selected it
+
+    Object.keys(map).forEach(course => {
+        let en = map[course];
+
+        if (selection.schedule.includes(en.title)) { // if the user selected it
             //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
             let times = convertTime(en.time);
             let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
@@ -48,8 +57,24 @@ function buildICS(selection) {
             file += "END:VEVENT\n";
             //}
         }
-    })
+    });
+    // map.forEach(en => { // for each class
+    //     if (selection.contains(en.title)) { // if the user selected it
+    //         //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
+    //         let times = convertTime(en.time);
+    //         let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
+    //         file += "BEGIN:VEVENT\n";
+    //         file += "SUMMARY:" + en.title + "\n";
+    //         file += "DSTART:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n"; // change for holiday
+    //         file += "DTEND" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[1] + "\n"; // change for holiday
+    //         file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + lastDayOfInstuction + "\n"; // change for holiday
+    //         file += "LOCATION:" + en.location + "\n";
+    //         file += "END:VEVENT\n";
+    //         //}
+    //     }
+    // })
     file += "END:VCALENDAR\n";
+    return file;
 }
 
 // converts from the days on the registration page to ICS days

@@ -1,12 +1,12 @@
 // Set up button event listeners
 document.getElementById("download").addEventListener("click", onDownloadClick);
 
-
 (async () => {
     const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
     const response = await chrome.tabs.sendMessage(tab.id, {});
+    console.log(response.classSchedule);
     displayNames(Object.keys(response.classSchedule));
-  })();
+})();
 
 // TODO everything below is just how to save settings on the settings page idk where we want to put it in the end
 // document.getElementById("settings").addEventListener("click", saveState);
@@ -17,7 +17,6 @@ document.getElementById("download").addEventListener("click", onDownloadClick);
 //         "fun_facts": ""
 //     }})
 // }
-
 
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
@@ -73,6 +72,17 @@ function onDownloadClick() {
         if (export_sections) { selection.sections.push(course); };
 
         var icsFile = buildICS(selection);
-        // TODO: download ics file
+
+        if (icsFile) {
+            const file = new Blob([icsFile], { type: 'text/calendar' }); // change to text/plain for debugging
+            var url = URL.createObjectURL(file);
+    
+            chrome.downloads.download({
+                url: url,
+                filename: "schedule.ics" // Optional
+            });
+        } else {
+
+        }
     }
 }
