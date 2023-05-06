@@ -82,26 +82,13 @@ function onDownloadClick() {
         // Push course name to respective arrays based on if user checked the box
         if (export_schedule) { selection.schedule.push(course); };
         if (export_sections) { selection.sections.push(course); };
-
-        var icsFile = buildICS(selection);
-
-        if (icsFile) {
-            const file = new Blob([icsFile], { type: 'text/calendar' }); // change to text/plain for debugging
-            var url = URL.createObjectURL(file);
-    
-            chrome.downloads.download({
-                url: url,
-                filename: "schedule.ics" // Optional
-            });
-        } else {
-
-        }
     }
 
     // TODO icsFile needs to be a string representation of input
+    var icsFile = buildICS(selection);
     let ics = new Blob([icsFile], {type: "text/calendar"})
     chrome.downloads.download({
         url: URL.createObjectURL(ics),
         filename: "schedule.ics" // Optional
-        });
+    });
 }
