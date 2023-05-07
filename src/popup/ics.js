@@ -10,7 +10,7 @@ function buildICS(selection) {
     console.log("IN ICS!");
     console.log(selection);
     
-    const map = getClassSchedule();
+    const map = getClassSchedule(); // need to replace with Chrome API call because of background script weirdness
     let file = "";
     file += "BEGIN:VCALENDAR\n"; // start calendar object
     file += "BEGIN:VTIMEZONE\n" +
