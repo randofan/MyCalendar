@@ -1,17 +1,20 @@
 // Set up button event listeners
 document.getElementById("download").addEventListener("click", onDownloadClick);
-document.getElementById("settings").addEventListener("click", openSettingsPage);
 
-displayNames();
-
-// TODO: populate courses from content.js. gi
-var courses;
+(async () => {
+    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+    const response = await chrome.tabs.sendMessage(tab.id, {});
+    console.log(response.classSchedule);
+    displayNames(Object.keys(response.classSchedule));
+})();
 
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
-function displayNames() {
-    // TEMPORARILY HARD CODED
-    courses = ["CSE 403", "CSE 340", "HCDE 318"];
+function displayNames(courses) {
+
+    // Get rid of the loading text oncce we've generated the table of courses.
+    const loading = document.getElementById("loading")
+    loading.remove()
 
     let table = document.querySelector('.selection-table');
     
@@ -29,6 +32,13 @@ function displayNames() {
 
         table.innerHTML += row_html;
     }
+
+    chrome.storage.local.get(['state']).then((result) => {
+        document.getElementById("sections").checked = result["directions"]
+        document.getElementById("map").checked = result["fun_facts"]
+    })
+
+    return table
 }
 
 // Travserse HTML checkbox input elements and populate selection accordingly
@@ -38,6 +48,25 @@ function onDownloadClick() {
     var selection = {
         schedule: [],
         sections: []
+    }
+
+    let isSections = document.getElementById("sections").checked
+    let isMap = document.getElementById("map").checked
+
+    if (document.getElementById("savestate").checked) {
+        chrome.storage.local.set({state: {
+            "directions": isMap,
+            "fun_facts": isSections
+        }})
+    }
+
+    // include sections?
+    if (isSections) {
+
+    }
+    // include map?
+    if (isMap) {
+
     }
 
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
@@ -53,11 +82,13 @@ function onDownloadClick() {
         // Push course name to respective arrays based on if user checked the box
         if (export_schedule) { selection.schedule.push(course); };
         if (export_sections) { selection.sections.push(course); };
-
-        buildICS(selection);
     }
-}
 
-function openSettingsPage() {
-
+    // TODO icsFile needs to be a string representation of input
+    var icsFile = buildICS(selection);
+    let ics = new Blob([icsFile], {type: "text/calendar"})
+    chrome.downloads.download({
+        url: URL.createObjectURL(ics),
+        filename: "schedule.ics" // Optional
+    });
 }

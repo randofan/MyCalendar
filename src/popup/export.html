@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop Up</title>
+</head>
 <body>
-   <table class="selection-table">
-    <tr>
-        <th></th>
-        <th>Schedule</th>
-        <th>Additional Sections</th>
-    </tr>
-    <tr>
-        <th>TEST 101</th>
-        <th><input type="checkbox" id="CSE 403-schedule" value="schedule"></th>
-        <th><input type="checkbox" id="CSE 403-section" value="section"></th>
-    </tr>
-   </table>
-
+    <p id="loading">Loading...</p>
+    <table class="selection-table">
+        <tr>
+            <th></th>
+            <th>Schedule</th>
+            <th>Additional Sections</th>
+        </tr>
+    </table>
+    <section class="settings">
+        <input type="checkbox" id="sections" value="sections">
+        <input type="checkbox" id="map" value="map">
+    </section>
     <section class="buttons">
-        <button id="settings" type="button">Settings</button>
+        <input id="savestate" type="checkbox" value="save preferences">
         <button id="download" type="button">Download ICS file</button>
     </section>
+    <script src="ics.js"></script>
+    <script src="export.js"></script>
 </body>
-<script src="ics.js"></script>
-<script src="export.js"></script>
 </html>

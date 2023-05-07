@@ -1,51 +1,49 @@
 // Get the content from class schedule.
-const map = getClassSchedule();
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        sendResponse({classSchedule: getClassSchedule(), classQuarter: getQuarter()});// this is how you send message to popup
+        return true; // this make sure sendResponse will work asynchronously
+    }
+);
 
 function getClassSchedule() {
-    // console.log(document.getElementsByClassName("sps_table even_rows"));
-    // console.log(document.getElementsByClassName("sps_table even_rows").innerHTML);
+    const table = document.getElementsByClassName("sps-data");
+    const data = table[0];
+    const trs = data.getElementsByTagName("tr");
 
-    console.log(document.getElementsByClassName("sps-data"));
-    
-    const table = document.getElementsByClassName("sps_table even_rows").rows;
-    if (table) {
-        let map = {}
-    
-        // Loop over each course
-        table.forEach(tr => {
-            let sln = tr.cells[0] // SLN
-            let title =  tr.cells[1] // Course Title; CSE 403
-            let type = tr.cells[2] // LC = lecture; QZ = section; IS = individual
-            let name = tr.cells[4] // Course Name; Software Engineering
-            let days = tr.cells[5] // Days
-            let time = tr.cells[6] // Time
-            let location = tr.cells[7] // Location
-            let prof = tr.cells[8] // Instructor
+    let map = {};
+    for (let i = 0; i < trs.length; i++) {
+        let row = trs[i];
+        const cells = row.getElementsByTagName("td");
+
+        if (cells.length == 10) { // only process table rows that represent courses
+
+            let sln = cells[0].getElementsByTagName("a")[0].textContent;    // SLN
+            let title =  cells[1].innerHTML                                 // Course Title; CSE 403 A
+            let type = cells[2].innerHTML                                   // LC = lecture; QZ = section; IS = individual
+            let name = cells[4].getElementsByTagName("a")[0].textContent    // Course Name; Software Engineering
+            let days = cells[5].innerHTML                                   // Days
+            let time = cells[6].innerHTML.replace(/&nbsp;/g,'');            // Time
+            let location = cells[7].getElementsByTagName("a")[0].textContent // Location
+            let prof = cells[8].innerHTML.replace(/&nbsp;/g,'');            // Instructor
     
             map[title] = {
-                          "sln": sln, 
-                          "title": title, 
-                          "type": type, 
-                          "name": name, 
-                          "days": days, 
-                          "time": time, 
-                          "location": location, 
-                          "prof": prof
+                            "sln": sln, 
+                            "title": title, 
+                            "type": type, 
+                            "name": name, 
+                            "days": days, 
+                            "time": time, 
+                            "location": location, 
+                            "prof": prof
                         }
-        })
-        return map
+
+        }
     }
-    else {
-        alert("No class schedule detected")
-        return null
-    }
+    return map;
 }
 
 // Gets the quarter. In form of "Spring 2023"
 function getQuarter() {
     return document.getElementsByTagName("h1")[0].innerText
-}
-
-function getSections(map) {
-    
 }
