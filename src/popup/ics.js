@@ -50,7 +50,7 @@ function buildICS(scheduleData) {
     //         //}
     //     }
     // });
-    map.forEach(en => { // for each class
+    map.schedule.forEach(en => { // for each class
         //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
         let times = convertTime(en.time);
         let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
