@@ -1,11 +1,10 @@
-// Set up button event listeners
-document.getElementById("download").addEventListener("click", onDownloadClick);
+var scheduleData = null;
 
 (async () => {
     const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
     const response = await chrome.tabs.sendMessage(tab.id, {});
-    console.log(response.classSchedule);
     displayNames(Object.keys(response.classSchedule));
+    scheduleData = response.classSchedule;
 })();
 
 // Get course names from data scraped by content.js and populate selection
@@ -37,6 +36,9 @@ function displayNames(courses) {
         document.getElementById("sections").checked = result["directions"]
         document.getElementById("map").checked = result["fun_facts"]
     })
+
+    // Set up button event listener
+    document.getElementById("download").addEventListener("click", onDownloadClick);
 
     return table
 }
@@ -80,8 +82,9 @@ function onDownloadClick() {
         const export_sections = cells[2].getElementsByTagName("input")[0].checked;
 
         // Push course name to respective arrays based on if user checked the box
-        if (export_schedule) { selection.schedule.push(course); };
-        if (export_sections) { selection.sections.push(course); };
+        if (export_schedule) { selection.schedule.push(scheduleData[course]); };
+        if (export_sections) { selection.sections.push(scheduleData[course]); };
+        console.log(selection);
     }
 
     // TODO icsFile needs to be a string representation of input
