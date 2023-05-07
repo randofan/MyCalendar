@@ -1,10 +1,20 @@
 var scheduleData = null;
 
 (async () => {
-    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-    const response = await chrome.tabs.sendMessage(tab.id, {});
-    displayNames(Object.keys(response.classSchedule));
-    scheduleData = response.classSchedule;
+    let fail = true
+    while (fail) {
+        try {
+            const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+            const response = await chrome.tabs.sendMessage(tab.id, {});
+            displayNames(Object.keys(response.classSchedule));
+            scheduleData = response.classSchedule;
+            fail = false
+        }
+        catch(e) {
+            console.log(e)
+            fail = true
+        }
+    }
 })();
 
 // Get course names from data scraped by content.js and populate selection
