@@ -1,6 +1,6 @@
 // Builds a .ics file from a passed in calendar object
 
-const firstDayOfInstruction = (new Date()).toISOString().substring(0, 10).replace("-", ""); // ICS style, get from content.js
+const firstDayOfInstruction = (new Date()).toISOString().substring(0, 10).replaceAll("-", ""); // ICS style, get from content.js
 const lastDayOfInstuction = 20231230; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
 const dayToNumber = ["SU", "MO", "TU", "TH", "FR", "SA"]; // used to convert day codes to day numbers
@@ -55,7 +55,7 @@ function buildICS(scheduleData) {
         let times = convertTime(en.time);
         let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
         file += "BEGIN:VEVENT\n";
-        file += "SUMMARY:" + en.title + "\n";
+        file += "SUMMARY:" + en.title.replaceAll("&nbsp;", " ") + "\n";
         file += "DSTART:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n"; // change for holiday
         file += "DTEND" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[1] + "\n"; // change for holiday
         file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + lastDayOfInstuction + "\n"; // change for holiday
@@ -102,12 +102,22 @@ function convertTime(registrationTime) {
 // date must be in ICS style (YYYYMMDD)
 function getFirstDay(ICSDate, dow) {
     let ISODate = ICSDate.substring(0, 4) + "-" + ICSDate.substring(4, 6) + "-" + ICSDate.substring(6, 8);
-    let firstDate = new Date(ISODate + "T000000Z"); // calculate all dates inside the method in Z
+    console.log("ISODate: " + ISODate);
+    let firstDate = new Date(ISODate); // calculate all dates inside the method in Z
+    firstDate.setHours(12);
+    firstDate.setMinutes(0);
+    firstDate.setSeconds(0);
+    firstDate.setMilliseconds(0);
     let firstDOW = firstDate.getDay();
+    console.log("first day of instruction: " + firstDayOfInstruction);
+    console.log("ISODate: " + ISODate);
+    console.log("firstDate: " + firstDate);
     if (dow === firstDOW) {
         return firstDate;
     }
     let classDate = firstDate;
+    console.log("classDate: " + classDate);
     classDate.setDate(classDate.getDate() + ((dow - firstDate.getDay() + 7) % 7)); // increment to the right day
-    return classDate.toISOString().substring(0, 10).replace("-", ""); // convert ISO date to ICS date
+    console.log("setDate internal: " + classDate.getDate() + ((dow - firstDate.getDay() + 7) % 7));
+    return classDate.toISOString().substring(0, 10).replaceAll("-", ""); // convert ISO date to ICS date
 }
