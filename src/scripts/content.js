@@ -10,13 +10,14 @@ function getClassSchedule() {
     const table = document.getElementsByClassName("sps-data");
     const data = table[0];
     const trs = data.getElementsByTagName("tr");
+    console.log(trs)
 
     let map = {};
     for (let i = 0; i < trs.length; i++) {
         let row = trs[i];
         const cells = row.getElementsByTagName("td");
 
-        if (cells.length == 10) { // only process table rows that represent courses
+        if (cells.length >= 10) { // only process table rows that represent courses
 
             let sln = cells[0].getElementsByTagName("a")[0].textContent;    // SLN
             let title =  cells[1].innerHTML                                 // Course Title; CSE 403 A
