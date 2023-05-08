@@ -10,7 +10,7 @@ suite(function (env) {
 
     before(async function () {
         let opt = new chrome.Options();
-        opt.addArguments("--load-extension=src/");
+        opt.addArguments("--load-extension=../src");
         opt.addArguments('--headless'); // Run Chrome in headless mode
         driver = await new webdriver.Builder()
           .forBrowser('chrome')
@@ -21,10 +21,10 @@ suite(function (env) {
     after(async () => await driver.quit());
 
     it('First Selenium script', async function () {
-      await driver.get('ClassSchedule.html');
+      await driver.get('www.google.com');
 
       let title = await driver.getTitle();
-      assert.equal("Class Schedule", title);
+      assert.equal("Google", title);
 
       // let textBox = await driver.findElement(By.name('my-text'));
       // let submitButton = await driver.findElement(By.css('button'));
