@@ -3,6 +3,7 @@ const {suite} = require('selenium-webdriver/testing');
 const assert = require("assert");
 const chrome = require('selenium-webdriver/chrome');
 const webdriver = require('selenium-webdriver')
+const path = require('path')
 
 suite(function (env) {
   describe('First script', function () {
@@ -20,11 +21,19 @@ suite(function (env) {
 
     after(async () => await driver.quit());
 
-    it('First Selenium script', async function () {
-      await driver.get('www.google.com');
+    it('Example', async function () {
+      // Path to website html
+      const absolutePath = path.resolve('ClassSchedule.html');
 
+      // Have the driver navigate to page
+      await driver.get(`file://${absolutePath}`);
+
+      // The example here just checks to see if the title matches. There are some
+      // more examples below on how to get other elements.
+      // You'll have to do some Googling to figure out how to interact with the
+      // chrome extension.
       let title = await driver.getTitle();
-      assert.equal("Google", title);
+      assert.equal("Class Schedule", title);
 
       // let textBox = await driver.findElement(By.name('my-text'));
       // let submitButton = await driver.findElement(By.css('button'));
