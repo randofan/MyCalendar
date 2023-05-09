@@ -3,7 +3,7 @@
 const firstDayOfInstruction = (new Date()).toISOString().substring(0, 10).replaceAll("-", ""); // ICS style, get from content.js
 const lastDayOfInstuction = 20231230; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
-const dayToNumber = ["SU", "MO", "TU", "TH", "FR", "SA"]; // used to convert day codes to day numbers
+const dayToNumber = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]; // used to convert day codes to day numbers
 const holidayArray = [0]; // ICS style, get from content.js
 
 function buildICS(scheduleData) {    
@@ -27,7 +27,7 @@ function buildICS(scheduleData) {
         "TZOFFSETTO:-0800\n" +
         "TZNAME:PST\n" +
         "END:STANDARD\n" +
-        "END:VTIMEZONE"; // add time zone data
+        "END:VTIMEZONE\n"; // add time zone data
 
 
     let startDates = [firstDayOfInstruction].concat(holidayArray);
@@ -55,9 +55,11 @@ function buildICS(scheduleData) {
         let times = convertTime(en.time);
         let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
         file += "BEGIN:VEVENT\n";
+        file += "UID:" + makeUID(en) + "\n";
         file += "SUMMARY:" + en.title.replaceAll("&nbsp;", " ") + "\n";
-        file += "DSTART:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n"; // change for holiday
-        file += "DTEND" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[1] + "\n"; // change for holiday
+        file += "DTSTAMP:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n";
+        file += "DTSTART:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n"; // change for holiday
+        file += "DTEND:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[1] + "\n"; // change for holiday
         file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + lastDayOfInstuction + "\n"; // change for holiday
         file += "LOCATION:" + en.location + "\n";
         file += "END:VEVENT\n";
@@ -77,19 +79,26 @@ function convertDays(registrationDays) {
         }
     }
     let icsDays = [];
-    for (let day in dayChars) {
-        icsDays.push(registrationToICSDays.get(day));
+    for (let i = 0; i < dayChars.length; i++) {
+       icsDays.push(registrationToICSDays.get(dayChars[i]));
     }
     return icsDays.join(",");
 }
 
 // converts from the time on the registration page to ICS format time
 function convertTime(registrationTime) {
-    registrationTime = registrationTime.replace(/ /g, "0"); // replaces missing zeroes
     let startTime = registrationTime.split("-")[0];
     let endTime = registrationTime.split("-")[1];
+    if (startTime.length === 3) {
+        startTime = "0" + startTime;
+    }
+    if (endTime.length === 3) {
+        endTime = "0" + endTime;
+    }
     if (startTime < "0830") { // account for evening and afternoon classes in 12hr time
         startTime = Number(startTime) + 1200;
+    }
+    if (endTime < "0920") {
         endTime = Number(endTime) + 1200;
     }
     startTime = String(startTime) + "00";
@@ -102,22 +111,26 @@ function convertTime(registrationTime) {
 // date must be in ICS style (YYYYMMDD)
 function getFirstDay(ICSDate, dow) {
     let ISODate = ICSDate.substring(0, 4) + "-" + ICSDate.substring(4, 6) + "-" + ICSDate.substring(6, 8);
-    console.log("ISODate: " + ISODate);
     let firstDate = new Date(ISODate); // calculate all dates inside the method in Z
     firstDate.setHours(12);
     firstDate.setMinutes(0);
     firstDate.setSeconds(0);
     firstDate.setMilliseconds(0);
     let firstDOW = firstDate.getDay();
-    console.log("first day of instruction: " + firstDayOfInstruction);
-    console.log("ISODate: " + ISODate);
-    console.log("firstDate: " + firstDate);
     if (dow === firstDOW) {
-        return firstDate;
+        return firstDate.toISOString().substring(0, 10).replaceAll("-", "");
     }
     let classDate = firstDate;
-    console.log("classDate: " + classDate);
-    classDate.setDate(classDate.getDate() + ((dow - firstDate.getDay() + 7) % 7)); // increment to the right day
-    console.log("setDate internal: " + classDate.getDate() + ((dow - firstDate.getDay() + 7) % 7));
+    let millisecondDistance = ((dow - firstDate.getDay() + 7) % 7) * 24 * 60 * 60 * 1000;
+    classDate.setTime(classDate.getTime() + millisecondDistance); // increment to the right day
     return classDate.toISOString().substring(0, 10).replaceAll("-", ""); // convert ISO date to ICS date
+}
+
+function makeUID(event) {
+    let UID = convertTime(event.time)[0];
+    UID += "-";
+    let hash = convertTime(event.time)[0] + (convertTime(event.time)[1] * 32) + event.title.length * 32**2;
+    UID += hash;
+    UID += "@example.com";
+    return UID;
 }
