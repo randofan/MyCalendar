@@ -1,7 +1,7 @@
 # MyCalendar
 MyCalendar is a Google chrome extension that launches on the UW registration page and converts the user's registered courses into an .ics file. 
 
-## Main Goals
+## Use Cases
 1. Exports schedule to an .ics file.
 2. Client is able to change the preferences of the plugin, including which classes the calendar includes and whether to generate directions.
 3. Shows google map directions between classrooms [for back to back courses].
@@ -48,7 +48,7 @@ npm test
 8. Note you must follow the steps in this order exactly. Failure to do so may result in undefined behavior.
 
 ## Operational Use Cases
-### Download basic calendar
+### 1. Exports schedule to an .ics file
 List of Steps (success):
 - Student navigates to the UW registration page
 - MyCalendar plugin shows a popup, offering to download the calendar.
