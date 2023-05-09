@@ -1,16 +1,5 @@
-// TODO Nothing in this file works. Don't write anything here.
-
-const sum = require('./../src/test_example.js');
-const convertDays = require('./../src/popup/ics.js');
-const convertTime = require('./../src/popup/ics.js')
+const {convertDays, convertTime} = require('./src/popup/ics.js');
 const assert = require('assert');
-
-
-describe('My function', () => {
-  it('should return the sum of two numbers', () => {
-    assert.equal(sum(2, 3), 5);
-  });
-});
 
 describe('ICS Unit Tests', () => {
   it('test convertDays', () => {
