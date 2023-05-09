@@ -1,7 +1,7 @@
 // Builds a .ics file from a passed in calendar object
 
 const firstDayOfInstruction = (new Date()).toISOString().substring(0, 10).replaceAll("-", ""); // ICS style, get from content.js
-const lastDayOfInstuction = 20231230; // ICS style, get from content.js
+const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
 const dayToNumber = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]; // used to convert day codes to day numbers
 const holidayArray = [0]; // ICS style, get from content.js
