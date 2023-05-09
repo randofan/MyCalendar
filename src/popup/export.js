@@ -36,7 +36,7 @@ function displayNames(courses) {
         let row_html =  '<tr>' +
                         `    <th>${course}</th>` +
                         `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-                        `    <th><input type="checkbox" id=${id_section} value="section"></th>` +
+                        `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
                         '</tr>'
 
         table.innerHTML += row_html;
@@ -62,15 +62,16 @@ function onDownloadClick() {
         sections: []
     }
 
-    let isSections = document.getElementById("sections").checked
-    let isMap = document.getElementById("map").checked
+    // Stretch goals. Commented out for Alpha Release. 
+    // let isSections = document.getElementById("sections").checked
+    // let isMap = document.getElementById("map").checked
 
-    if (document.getElementById("savestate").checked) {
-        chrome.storage.local.set({state: {
-            "directions": isMap,
-            "fun_facts": isSections
-        }})
-    }
+    // if (document.getElementById("savestate").checked) {
+    //     chrome.storage.local.set({state: {
+    //         "directions": isMap,
+    //         "fun_facts": isSections
+    //     }})
+    // }
 
     // include sections?
     if (isSections) {
@@ -94,7 +95,6 @@ function onDownloadClick() {
         // Push course name to respective arrays based on if user checked the box
         if (export_schedule) { selection.schedule.push(scheduleData[course]); };
         if (export_sections) { selection.sections.push(scheduleData[course]); };
-        console.log(selection);
     }
 
     // TODO icsFile needs to be a string representation of input
