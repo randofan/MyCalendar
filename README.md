@@ -37,7 +37,7 @@ npm test
 
 # Run
 1. Clone the [Github Repository](https://github.com/randofan/MyCalendar)
-1. Navigate to [Extensions](chrome://extensions/)
+1. Navigate to chrome://extensions/ on Chrome
 2. In the upper right corner, enable developer mode
 3. Click "load unpacked" and select MyCalendar/src
 4. Navigate to your [Course Schedule](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=2)
