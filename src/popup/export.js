@@ -7,7 +7,6 @@ var scheduleData = null;
             const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
             const response = await chrome.tabs.sendMessage(tab.id, {});
             displayNames(response.classSchedule);
-            // displayNames(Object.keys(response.classSchedule));
             scheduleData = response.classSchedule;
             fail = false
         }
@@ -48,25 +47,12 @@ function displayNames(courses) {
 
         table.innerHTML += row_html;
     })
-    // for (let i = 0; i < courses.length; i++) {
-    //     let course = courses[i];                        // "CSE 403"
-    //     let course_id = course.replace(/\s+/g, '-') // "CSE-403"
-    //     let id_schedule = course_id + "-schedule";
-    //     let id_section = course_id + "-section"
 
-    //     let row_html =  '<tr>' +
-    //                     `    <th>${course}</th>` +
-    //                     `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-    //                     `    <th><input type="checkbox" id=${id_section} value="section"></th>` +
-    //                     '</tr>'
-
-    //     table.innerHTML += row_html;
-    // }
-
-    chrome.storage.local.get(['state']).then((result) => {
-        document.getElementById("sections").checked = result["directions"]
-        document.getElementById("map").checked = result["fun_facts"]
-    })
+    // Stretch goals. Commented out for Alpha Release. 
+    // chrome.storage.local.get(['state']).then((result) => {
+    //     document.getElementById("sections").checked = result["directions"]
+    //     document.getElementById("map").checked = result["fun_facts"]
+    // })
 
     // Set up button event listener
     document.getElementById("download").addEventListener("click", onDownloadClick);
