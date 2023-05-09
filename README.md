@@ -13,26 +13,42 @@ MyCalendar is a Google chrome extension that launches on the UW registration pag
 3. Allow the user to download an .ics file or open a new calendar/event in common calendar apps (Google calendar, Apple calendar).
 
 ## Repository Layout
-- /popup: frontend code
-- /scripts: backend code
+- src/popup: main execution thread
+- src/scripts: content script
 
-## Set Up
-- cd test
-- pip3 install virtualenv
-- virtualenv .env
-- source .env/bin/activate
-- pip3 install -r requirements.txt
+# Build
 
-## Shut Down
-close with ```deactivate```
+There's no need to build a Chrome extension because it's loaded as unpacked into Chrome.
 
-chromedriver running version 112
-TODO might need to add to PATH
+# Test
+
+### Dependencies
+- install ```npm```
+- install Chrome v112
+
+### Run Tests
+```
+cd test
+rm -rd src
+npm i
+./setup.sh
+npm test
+```
+
+# Run
+1. Clone the [Github Repository](https://github.com/randofan/MyCalendar)
+1. Navigate to [Extensions](chrome://extensions/)
+2. In the upper right corner, enable developer mode
+3. Click "load unpacked" and select MyCalendar/src
+4. Navigate to your [Course Schedule](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=2)
+5. In the upper right corner, click on the extension
+6. Make your selection on what data you wish to include
+7. Click download
 
 ## Operational Use Cases
 ### Download basic calendar
 List of Steps (success):
-    - Student navigates to the UW registration page
-    - MyCalendar plugin shows a popup, offering to download the calendar.
-    - Student clicks a button telling MyCalendar to download the calendar.
-    - MyCalendar converts their schedule into an iCalendar file and downloads it to their machine.
+- Student navigates to the UW registration page
+- MyCalendar plugin shows a popup, offering to download the calendar.
+- Student clicks a button telling MyCalendar to download the calendar.
+- MyCalendar converts their schedule into an iCalendar file and downloads it to their machine.

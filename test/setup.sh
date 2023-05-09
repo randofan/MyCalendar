@@ -7,9 +7,5 @@ do
     path=${line%% *}
     func=${line#* }
     echo "" >> "$path"
-    echo "module.exports = $func" >> "$path"
+    echo "exports.$func = $func" >> "$path"
 done < "$input"
-
-npm test
-rm -rd src
-
