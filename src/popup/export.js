@@ -79,15 +79,14 @@ function onDownloadClick() {
     //         "fun_facts": isSections
     //     }})
     // }
-
     // include sections?
-    if (isSections) {
+    // if (isSections) {
 
-    }
-    // include map?
-    if (isMap) {
+    // }
+    // // include map?
+    // if (isMap) {
 
-    }
+    // }
 
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
