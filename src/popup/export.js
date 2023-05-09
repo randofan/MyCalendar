@@ -121,6 +121,11 @@ function onDownloadClick() {
 
     }
 
+    if (selection.schedule.length == 0 && selection.sections.length == 0) {
+        alert("No courses selected");
+        return;
+    }
+
     var icsFile = buildICS(selection);
     let ics = new Blob([icsFile], {type: "text/calendar"})
     chrome.downloads.download({
