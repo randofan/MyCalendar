@@ -1,4 +1,15 @@
+#!/bin/bash
+
 cp -r ../src .
-echo "module.exports = displayNames" >> src/popup/export.js
-echo "module.exports = buildICS" >> src/popup/ics.js
-echo "module.exports = getClassSchedule" >> src/scripts/content.js
+input="test.config"
+while IFS= read -r line || [[ -n "$line" ]]
+do
+    path=${line%% *}
+    func=${line#* }
+    echo "" >> "$path"
+    echo "module.exports = $func" >> "$path"
+done < "$input"
+
+npm test
+rm -rd src
+
