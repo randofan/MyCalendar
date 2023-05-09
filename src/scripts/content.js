@@ -10,7 +10,6 @@ function getClassSchedule() {
     const table = document.getElementsByClassName("sps-data");
     const data = table[0];
     const trs = data.getElementsByTagName("tr");
-    console.log(trs)
 
     let map = {};
     for (let i = 0; i < trs.length; i++) {
@@ -21,6 +20,7 @@ function getClassSchedule() {
 
             let sln = cells[0].getElementsByTagName("a")[0].textContent;    // SLN
             let title =  cells[1].innerHTML                                 // Course Title; CSE 403 A
+            let course = getCourseFromTitle(title);                         // Course; CSE 403
             let type = cells[2].innerHTML                                   // LC = lecture; QZ = section; IS = individual
             let name = cells[4].getElementsByTagName("a")[0].textContent    // Course Name; Software Engineering
             let days = cells[5].innerHTML                                   // Days
@@ -29,7 +29,8 @@ function getClassSchedule() {
             let prof = cells[8].innerHTML.replace(/&nbsp;/g,'');            // Instructor
     
             map[title] = {
-                            "sln": sln, 
+                            "sln": sln,
+                            "course": course,
                             "title": title, 
                             "type": type, 
                             "name": name, 
@@ -47,4 +48,10 @@ function getClassSchedule() {
 // Gets the quarter. In form of "Spring 2023"
 function getQuarter() {
     return document.getElementsByTagName("h1")[0].innerText
+}
+
+// Given "CSE 403 AA", returns "CSE 403"
+function getCourseFromTitle(title) {
+    var lastIndex = title.lastIndexOf(" ");
+    return title.substring(0, lastIndex);
 }

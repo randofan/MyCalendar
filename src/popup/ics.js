@@ -8,7 +8,7 @@ const holidayArray = [0]; // ICS style, get from content.js
 
 function buildICS(scheduleData) {    
     const map = scheduleData;
-    console.log(map);
+
     let file = "";
     file += "BEGIN:VCALENDAR\n"; // start calendar object
     file += "BEGIN:VTIMEZONE\n" +
@@ -33,23 +33,6 @@ function buildICS(scheduleData) {
     let startDates = [firstDayOfInstruction].concat(holidayArray);
     let endDates = holidayArray.concat([lastDayOfInstuction]);
 
-    // Object.keys(map).forEach(course => {
-    //     let en = map[course];
-
-    //     if (selection.schedule.includes(en.title)) { // if the user selected it
-    //         //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
-    //         let times = convertTime(en.time);
-    //         let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
-    //         file += "BEGIN:VEVENT\n";
-    //         file += "SUMMARY:" + en.title + "\n";
-    //         file += "DSTART:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n"; // change for holiday
-    //         file += "DTEND" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[1] + "\n"; // change for holiday
-    //         file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + lastDayOfInstuction + "\n"; // change for holiday
-    //         file += "LOCATION:" + en.location + "\n";
-    //         file += "END:VEVENT\n";
-    //         //}
-    //     }
-    // });
     map.schedule.forEach(en => { // for each class
         //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
         let times = convertTime(en.time);

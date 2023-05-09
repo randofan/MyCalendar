@@ -6,12 +6,13 @@ var scheduleData = null;
         try {
             const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
             const response = await chrome.tabs.sendMessage(tab.id, {});
-            displayNames(Object.keys(response.classSchedule));
+            displayNames(response.classSchedule);
+            // displayNames(Object.keys(response.classSchedule));
             scheduleData = response.classSchedule;
             fail = false
         }
         catch(e) {
-            console.log(e)
+            // console.log(e)
             fail = true
         }
     }
@@ -26,10 +27,16 @@ function displayNames(courses) {
     loading.remove()
 
     let table = document.querySelector('.selection-table');
-    
-    for (let i = 0; i < courses.length; i++) {
-        let course = courses[i];                        // "CSE 403"
-        let course_id = courses[i].replace(/\s+/g, '-') // "CSE-403"
+
+    // Get all the unique courses e.g. "CSE 403" not "CSE 403 A" & "CSE 403 AA"
+    let coursesToDisplay = new Set(); 
+    Object.keys(courses).forEach(courseTitle => {
+        let course = courses[courseTitle];
+        coursesToDisplay.add(course.course); 
+    })
+
+    coursesToDisplay.forEach(course => {            // "CSE 403"
+        let course_id = course.replace(/\s+/g, '-') // "CSE-403"
         let id_schedule = course_id + "-schedule";
         let id_section = course_id + "-section"
 
@@ -40,7 +47,21 @@ function displayNames(courses) {
                         '</tr>'
 
         table.innerHTML += row_html;
-    }
+    })
+    // for (let i = 0; i < courses.length; i++) {
+    //     let course = courses[i];                        // "CSE 403"
+    //     let course_id = course.replace(/\s+/g, '-') // "CSE-403"
+    //     let id_schedule = course_id + "-schedule";
+    //     let id_section = course_id + "-section"
+
+    //     let row_html =  '<tr>' +
+    //                     `    <th>${course}</th>` +
+    //                     `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
+    //                     `    <th><input type="checkbox" id=${id_section} value="section"></th>` +
+    //                     '</tr>'
+
+    //     table.innerHTML += row_html;
+    // }
 
     chrome.storage.local.get(['state']).then((result) => {
         document.getElementById("sections").checked = result["directions"]
@@ -93,11 +114,28 @@ function onDownloadClick() {
         const export_sections = cells[2].getElementsByTagName("input")[0].checked;
 
         // Push course name to respective arrays based on if user checked the box
-        if (export_schedule) { selection.schedule.push(scheduleData[course]); };
-        if (export_sections) { selection.sections.push(scheduleData[course]); };
+        if (export_schedule) {
+            Object.keys(scheduleData).forEach(courseTitle => {
+                let courseMap = scheduleData[courseTitle];
+                if (courseMap.course == course) {
+                    selection.schedule.push(courseMap);
+                }
+            })
+            
+        };
+
+        if (export_sections) {
+            Object.keys(scheduleData).forEach(courseTitle => {
+                let courseMap = scheduleData[courseTitle];
+                if (courseMap.course == course) {
+                    selection.sections.push(courseMap);
+                }
+            })
+            
+        };
+
     }
 
-    // TODO icsFile needs to be a string representation of input
     var icsFile = buildICS(selection);
     let ics = new Blob([icsFile], {type: "text/calendar"})
     chrome.downloads.download({
