@@ -16,15 +16,15 @@ describe('ICS Unit Tests', () => {
   it('test convertDays', () => {
     let registrationDays = "MWF";
     let answer = convertDays(registrationDays);
-    assert.deepEqual(answer, ["MO", "WE", "FR"]);
+    assert.deepEqual(answer, "MO,WE,FR");
 
     registrationDays = "TTh";
     answer = convertDays(registrationDays);
-    assert.deepEqual(answer, ["TU", "TH"]);
+    assert.deepEqual(answer, "TU,TH");
 
     registrationDays = "TThF";
     answer = convertDays(registrationDays);
-    assert.deepEqual(answer, ["TU", "TH", "FR"]);
+    assert.deepEqual(answer, "TU,TH,FR");
   });
 
   it('test convertTime', () => {
