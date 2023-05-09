@@ -44,6 +44,7 @@ npm test
 5. In the upper right corner, click on the extension
 6. Make your selection on what data you wish to include
 7. Click download
+8. Note you must follow the steps in this order exactly. Failure to do so may result in undefined behavior.
 
 ## Operational Use Cases
 ### Download basic calendar
