@@ -29,3 +29,11 @@ close with ```deactivate```
 
 chromedriver running version 112
 TODO might need to add to PATH
+
+## Operational Use Cases
+- Download basic calendar
+- List of Steps (success):
+- Student navigates to the UW registration page
+- MyCalendar plugin shows a popup, offering to download the calendar.
+- Student clicks a button telling MyCalendar to download the calendar.
+- MyCalendar converts their schedule into an iCalendar file and downloads it to their machine.
