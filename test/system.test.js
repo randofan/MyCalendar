@@ -6,7 +6,7 @@ const webdriver = require('selenium-webdriver')
 const path = require('path')
 
 suite(function (env) {
-  describe('First script', function () {
+  describe('User Flow', function () {
     let driver;
 
     before(async function () {
@@ -21,7 +21,7 @@ suite(function (env) {
 
     after(async () => await driver.quit());
 
-    it('Example', async function () {
+    it('Load Extension', async function () {
       // Path to website html
       const absolutePath = path.resolve('ClassSchedule.html');
 
@@ -34,16 +34,6 @@ suite(function (env) {
       // chrome extension.
       let title = await driver.getTitle();
       assert.equal("Class Schedule", title);
-
-      // let textBox = await driver.findElement(By.name('my-text'));
-      // let submitButton = await driver.findElement(By.css('button'));
-
-      // await textBox.sendKeys('Selenium');
-      // await submitButton.click();
-
-      // let message = await driver.findElement(By.id('message'));
-      // let value = await message.getText();
-      // assert.equal("Received!", value);
     });
   });
 }, { browsers: [Browser.CHROME]});
