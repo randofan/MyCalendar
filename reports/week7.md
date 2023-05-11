@@ -30,10 +30,10 @@
 2. continue working on the sections.js module by creating the back end portion and the map for the html scraper.
 3. continue to build test modules to test functionality of the components.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: created a basic module that took a specific section page and parsed it to get the quiz sections and lecture sections
+- What worked: being able to split up the section part into multiple parts, so i first work on the parsing logic, then change the inputs, then remove all constant variables.
+- What you learned: instead of tackling everything at once, break it up to smaller parts and working on it one at a time. 
+- Where you had trouble: getting the logic correct and figuring out what to target to get the information i want
 ### New Goals
 1. continue working on the sections.js module now adding the full html scrapper and connecting to main module.
 2. continue to build test modules to test functionality of the components.
