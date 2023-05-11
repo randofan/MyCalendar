@@ -26,14 +26,18 @@
 
 ## Saket
 ### Old Goals
-1.
+1. continue to review javascript for the programing aspect of the project.
+2. continue working on the sections.js module by creating the back end portion and the map for the html scraper.
+3. continue to build test modules to test functionality of the components.
 ### Issues
 - What you did:
 - What worked:
 - What you learned:
 - Where you had trouble:
 ### New Goals
-1. 
+1. continue working on the sections.js module now adding the full html scrapper and connecting to main module.
+2. continue to build test modules to test functionality of the components.
+3. update documentation.
 
 ## Trinity
 ### Old Goals
