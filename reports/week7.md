@@ -1,13 +1,18 @@
 # Team Report/Agenda
 ## Old Goals
-1. 
+1. Finish backend (Trinity, Gavin, Saket)
+2. Deploy functional extension in Chrome (locally)
+3. Write basic tests for all components
+
 ## Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: Finished the backend of our main use case, wrote tests, updated our README with setup instructions, recorded our presentation for Alpha release!
+- What worked: We did a lot of communicating over Slack this week. Discussed errors and implementation decisions there
+- What you learned: Learned about asyncronous collaboration
+- Where you had trouble: Thinking through testing infrastructure and how we're going to enable unit testing
 ## New Goals
-1. 
+1. Implement sections feature (download calendar file for additional sections of a lecture)
+2. Get unit tests working + write more tests
+3. Look into publishing on the Chrome extension store
 
 # Contributions of Individuals
 
@@ -41,14 +46,20 @@
 
 ## Trinity
 ### Old Goals
-1.
+1. Finish content.js (backend script & html parser)
+2. Work with Gavin to get the entire extension functional in the browser
+
 ### Issues
 - What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+    - Fixed the content script that scrapes the HTML
+    - Worked with David to make a minor update to how we're passing the course data
+    - Updated the code so that only the high level course gets displayed on the popup, but all registered sections (lecture and quiz section) still get downloaded as an ICS file
+- What worked: Asking questions in Slack, work independently then update the team on my progress in Slack
+- What you learned: Learned more about the Chrome API, specifically the listener that we've setup in export.js
+- Where you had trouble: N/A
 ### New Goals
-1.
+1. Write unit tests for backend components
+2. Help implement section.js if needed
 
 ## Gavin
 ### Old Goals
