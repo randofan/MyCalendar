@@ -1,12 +1,11 @@
 // Builds a .ics file from a passed in calendar object
 
-const firstDayOfInstruction = (new Date()).toISOString().substring(0, 10).replaceAll("-", ""); // ICS style, get from content.js
+const firstDayOfInstruction = DateToICS(new Date()); // ICS style, get from content.js
 const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
-const dayToNumber = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]; // used to convert day codes to day numbers
-const holidayArray = [0]; // ICS style, get from content.js
+const holidayArray = []; // ICS style, get from content.js
 
-function buildICS(scheduleData) {    
+function buildICS(scheduleData) {
     const map = scheduleData;
 
     let file = "";
@@ -34,19 +33,19 @@ function buildICS(scheduleData) {
     let endDates = holidayArray.concat([lastDayOfInstuction]);
 
     map.schedule.forEach(en => { // for each class
-        //for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
-        let times = convertTime(en.time);
-        let DOW = dayToNumber.indexOf(convertDays(en.days).slice(0, 2)); // bugged, see line 42. doesn't start on the right next day after a holiday
-        file += "BEGIN:VEVENT\n";
-        file += "UID:" + makeUID(en) + "\n";
-        file += "SUMMARY:" + en.title.replaceAll("&nbsp;", " ") + "\n";
-        file += "DTSTAMP:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n";
-        file += "DTSTART:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[0] + "\n"; // change for holiday
-        file += "DTEND:" + getFirstDay(firstDayOfInstruction, DOW) + "T" + times[1] + "\n"; // change for holiday
-        file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + lastDayOfInstuction + "\n"; // change for holiday
-        file += "LOCATION:" + en.location + "\n";
-        file += "END:VEVENT\n";
-        //}
+        for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
+            let times = convertTime(en.time);
+            let dows = daysToNumbers(en.days);
+            file += "BEGIN:VEVENT\n";
+            file += "UID:" + makeUID(en) + "\n";
+            file += "SUMMARY:" + en.title.replaceAll("&nbsp;", " ") + "\n";
+            file += "DTSTAMP:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[0] + "\n";
+            file += "DTSTART:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[0] + "\n"; // change for holiday
+            file += "DTEND:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[1] + "\n"; // change for holiday
+            file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n"; // change for holiday
+            file += "LOCATION:" + en.location + "\n";
+            file += "END:VEVENT\n";
+        }
     })
     file += "END:VCALENDAR\n";
     return file;
@@ -66,6 +65,18 @@ function convertDays(registrationDays) {
        icsDays.push(registrationToICSDays.get(dayChars[i]));
     }
     return icsDays.join(",");
+}
+
+// takes in registrationDays, gives array of days converted to numbers
+function daysToNumbers(registrationDays) {
+    const dayToNumber = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
+    let ICSDays = convertDays(registrationDays);
+    let daysArray = ICSDays.split(",");
+    let nums = [];
+    for (let i = 0; i < daysArray.length; i++) {
+        nums[i] = dayToNumber.indexOf(daysArray[i]);
+    }
+    return nums;
 }
 
 // converts from the time on the registration page to ICS format time
@@ -93,22 +104,41 @@ function convertTime(registrationTime) {
 // date, that falls on the given day of the week (a number 0-6 inc., where 0 is sunday)
 // date must be in ICS style (YYYYMMDD)
 function getFirstDay(ICSDate, dow) {
-    let ISODate = ICSDate.substring(0, 4) + "-" + ICSDate.substring(4, 6) + "-" + ICSDate.substring(6, 8);
-    let firstDate = new Date(ISODate); // calculate all dates inside the method in Z
+    let firstDate = ICSToDate(ICSDate);// calculate all dates inside the method in Z
     firstDate.setHours(12);
     firstDate.setMinutes(0);
     firstDate.setSeconds(0);
     firstDate.setMilliseconds(0);
     let firstDOW = firstDate.getDay();
     if (dow === firstDOW) {
-        return firstDate.toISOString().substring(0, 10).replaceAll("-", "");
+        return DateToICS(firstDate);
     }
     let classDate = firstDate;
     let millisecondDistance = ((dow - firstDate.getDay() + 7) % 7) * 24 * 60 * 60 * 1000;
     classDate.setTime(classDate.getTime() + millisecondDistance); // increment to the right day
-    return classDate.toISOString().substring(0, 10).replaceAll("-", ""); // convert ISO date to ICS date
+    return DateToICS(classDate); // convert ISO date to ICS date
 }
 
+// gets the first date after the given date that falls on one of the passed days of the week
+// takes a date in ICS style and an array of days of the week as numbers
+function getFirstDayOfMultiple(ICSDate, dows) {
+    let dates = [];
+    for (let i = 0; i < dows.length; i++) {
+        dates[i] = getFirstDay(ICSDate, dows[i]);
+    }
+    dates = dates.sort();
+    return dates[0];
+}
+
+function DateToICS(JSDate) {
+    return JSDate.toISOString().substring(0,10).replaceAll("-", "");
+}
+
+function ICSToDate(ICSDate) {
+    return new Date(ICSDate.substring(0,4) + "-" + ICSDate.substring(4, 6) + "-" + ICSDate.substring(6, 8));
+}
+
+// rudimentary hash function for classes
 function makeUID(event) {
     let UID = convertTime(event.time)[0];
     UID += "-";
