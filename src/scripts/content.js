@@ -26,6 +26,7 @@ function getClassSchedule() {
             let days = cells[5].innerHTML                                   // Days
             let time = cells[6].innerHTML.replace(/&nbsp;/g,'');            // Time
             let location = cells[7].getElementsByTagName("a")[0].textContent // Location
+            let locationLink = cells[7].getElementsByTagName("a")[0].href   // UW map link
             let prof = cells[8].innerHTML.replace(/&nbsp;/g,'');            // Instructor
     
             map[title] = {
@@ -37,7 +38,8 @@ function getClassSchedule() {
                             "days": days, 
                             "time": time, 
                             "location": location, 
-                            "prof": prof
+                            "prof": prof,
+                            "link": locationLink
                         }
 
         }
