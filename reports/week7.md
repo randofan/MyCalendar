@@ -52,12 +52,15 @@
 
 ## Gavin
 ### Old Goals
-1.
+1. Update ics.js to work with holidays and interruptions in the quarter calendar.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: I wrote the framework for ics.js to work with holidays and interruptions in the calendar. I also did a lot
+of bug testing of ics.js using some new unit tests that I wrote, and was able to find and fix multiple bugs in it. 
+- What worked: ics.js is now completely functional and bug-free, thanks to the unit tests.
+- What you learned: I learned a lot about using unit tests in mocha and node.js and how they can help us do our testing
+- Where you had trouble: I had trouble implementing the holidays to work completely, because ics.js still needs to get that raw
+information from the content.js script. Right now, the code to implement holidays is in ics.js but commented out.
 ### New Goals
-1. 
+1. integrate holidays and interruptions with content.js
+2. continue to write tests for ics.js to be really thourough about ironing out all the bugs.
 
