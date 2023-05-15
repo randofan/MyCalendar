@@ -1,8 +1,11 @@
 // Get the content from class schedule.
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        sendResponse({classSchedule: getClassSchedule(), classQuarter: getQuarter()});// this is how you send message to popup
-        return true; // this make sure sendResponse will work asynchronously
+        if (request.page) {
+            console.log('content')
+            sendResponse({classSchedule: getClassSchedule(), classQuarter: getQuarter()});// this is how you send message to popup
+            return true; // this make sure sendResponse will work asynchronously
+        }
     }
 );
 

@@ -1,21 +1,21 @@
 var scheduleData = null;
 
 (async () => {
-    let fail = true
-    while (fail) {
-        try {
-            const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-            const response = await chrome.tabs.sendMessage(tab.id, {});
-            displayNames(response.classSchedule);
-            scheduleData = response.classSchedule;
-            fail = false
-        }
-        catch(e) {
-            // console.log(e)
-            fail = true
-        }
-    }
+    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+    const page = await chrome.tabs.sendMessage(tab.id, {page: "temp"});
+    displayNames(page.classSchedule);
+    scheduleData = page.classSchedule;
 })();
+
+const getRequest = (url) => {
+    let res = {}
+    const urls = [url]
+    urls.forEach(async (url) => {
+        const r = await chrome.runtime.sendMessage({url: url})
+        res['body'] = r.page
+    });
+    return res
+}
 
 // Get course names from data scraped by content.js and populate selection
 // populate HTML with courses + input checkbox elements
@@ -70,8 +70,7 @@ function onDownloadClick() {
     }
 
     // Stretch goals. Commented out for Alpha Release. 
-    // let isSections = document.getElementById("sections").checked
-    // let isMap = document.getElementById("map").checked
+    let isMap = document.getElementById("map").checked
 
     // if (document.getElementById("savestate").checked) {
     //     chrome.storage.local.set({state: {
@@ -83,10 +82,10 @@ function onDownloadClick() {
     // if (isSections) {
 
     // }
-    // // include map?
-    // if (isMap) {
+    // include map?
+    if (isMap) {
 
-    // }
+    }
 
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
@@ -99,24 +98,10 @@ function onDownloadClick() {
         const export_sections = cells[2].getElementsByTagName("input")[0].checked;
 
         // Push course name to respective arrays based on if user checked the box
-        if (export_schedule) {
-            Object.keys(scheduleData).forEach(courseTitle => {
-                let courseMap = scheduleData[courseTitle];
-                if (courseMap.course == course) {
-                    selection.schedule.push(courseMap);
-                }
-            })
-            
-        };
+        if (export_schedule) selection.schedule = Object.values(scheduleData).filter((map) => (map["course"] == course))
 
         if (export_sections) {
-            Object.keys(scheduleData).forEach(courseTitle => {
-                let courseMap = scheduleData[courseTitle];
-                if (courseMap.course == course) {
-                    selection.sections.push(courseMap);
-                }
-            })
-            
+            // TODO additional sections.
         };
 
     }

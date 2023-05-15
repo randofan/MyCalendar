@@ -117,3 +117,23 @@ function makeUID(event) {
     UID += "@example.com";
     return UID;
 }
+
+// // year: format as follows. ex. 2022-2023 = 2233
+// async function getDatesAndHolidays(year, quarter) {
+//     const response = await fetch(`https://www.washington.edu/students/reg/${year}cal.html`);
+//     console.log(response)
+//     // const body = response.body;
+//     // const col = getCol(quarter)
+
+//     // body.getDocumentById("SUMFE")
+
+// }
+
+function getCol(quarter) {
+    if (quarter == 'Autumn') return 0;
+    else if (quarter == 'Winter') return 1;
+    else if (quarter == 'Summer') return 2;
+    else if (quarter == "Full-term") return 3;
+    else if (quarter == "A-term") return 4; // TODO what is right format for this?
+    else if (quarter == "B-term") return 5;
+}
