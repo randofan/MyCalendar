@@ -21,7 +21,7 @@
   "host_permissions": [
     "https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=*",
     "https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx",
-    "https://www.washington.edu/students/reg/2223cal.html/*"
+    "https://www.washington.edu/students/reg/*cal.html/*"
 
   ],
   "permissions": [

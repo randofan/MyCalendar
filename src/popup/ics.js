@@ -148,16 +148,18 @@ function makeUID(event) {
     return UID;
 }
 
-// // year: format as follows. ex. 2022-2023 = 2233
-// async function getDatesAndHolidays(year, quarter) {
-//     const response = await fetch(`https://www.washington.edu/students/reg/${year}cal.html`);
-//     console.log(response)
-//     // const body = response.body;
-//     // const col = getCol(quarter)
+// year: format as follows. ex. 2022-2023 = 2233
+function getDatesAndHolidays(year, quarter) {
+    let ret = {}
+    const dom = getRequest("https://www.washington.edu/students/reg/2223cal.html/*")["body"]
 
-//     // body.getDocumentById("SUMFE")
+    // Get Dates
+    let col = getCol(quarter)
 
-// }
+    // Get Holidays
+
+    return ret
+}
 
 function getCol(quarter) {
     if (quarter == 'Autumn') return 0;
