@@ -1,16 +1,22 @@
-// Get the content from class schedule.
-chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
+/**
+ * Get the content from class schedule.
+ * Unable to unit test.
+ */
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.page) {
             console.log('content')
-            sendResponse({classSchedule: getClassSchedule(), classQuarter: getQuarter()});// this is how you send message to popup
-            return true; // this make sure sendResponse will work asynchronously
+            sendResponse({classSchedule: getClassSchedule(document), classQuarter: getQuarter(document)});// this is how you send message to popup
+            return true;
         }
     }
 );
 
-function getClassSchedule() {
-    const table = document.getElementsByClassName("sps-data");
+//
+// Pass in document as a parameter to the two function below. This allows unit testing.
+//
+
+function getClassSchedule(doc) {
+    const table = doc.getElementsByClassName("sps-data");
     const data = table[0];
     const trs = data.getElementsByTagName("tr");
 
@@ -23,7 +29,7 @@ function getClassSchedule() {
 
             let sln = cells[0].getElementsByTagName("a")[0].textContent;    // SLN
             let title =  cells[1].innerHTML                                 // Course Title; CSE 403 A
-            let course = getCourseFromTitle(title);                         // Course; CSE 403
+            let course = title.substring(0, title.lastIndexOf(" "));        // Course; CSE 403
             let type = cells[2].innerHTML                                   // LC = lecture; QZ = section; IS = individual
             let name = cells[4].getElementsByTagName("a")[0].textContent    // Course Name; Software Engineering
             let days = cells[5].innerHTML                                   // Days
@@ -50,13 +56,9 @@ function getClassSchedule() {
     return map;
 }
 
-// Gets the quarter. In form of "Spring 2023"
-function getQuarter() {
-    return document.getElementsByTagName("h1")[0].innerText
-}
-
-// Given "CSE 403 AA", returns "CSE 403"
-function getCourseFromTitle(title) {
-    var lastIndex = title.lastIndexOf(" ");
-    return title.substring(0, lastIndex);
+/**
+ * Gets the quarter. In form of "Spring 2023"
+ */
+function getQuarter(doc) {
+    return doc.getElementsByTagName("h1")[0].innerText
 }

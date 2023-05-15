@@ -1,3 +1,7 @@
+/**
+ * Get request to another webpage.
+ * Unable to unit test.
+ */
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.url) {
         console.log("request")
