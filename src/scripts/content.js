@@ -15,6 +15,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // Pass in document as a parameter to the two function below. This allows unit testing.
 //
 
+/**
+ * Get the class schedule from the doc.
+ * 
+ * @param {*} doc 
+ * @returns 
+ */
 function getClassSchedule(doc) {
     const table = doc.getElementsByClassName("sps-data");
     const data = table[0];
@@ -57,7 +63,7 @@ function getClassSchedule(doc) {
 }
 
 /**
- * Gets the quarter. In form of "Spring 2023"
+ * Gets the quarter. In form of "Spring 2023".
  */
 function getQuarter(doc) {
     return doc.getElementsByTagName("h1")[0].innerText

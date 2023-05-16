@@ -1,4 +1,5 @@
 var scheduleData = null;
+var quarterYear = null
 
 /**
  * Get the class schedule from the content script.
@@ -9,6 +10,7 @@ var scheduleData = null;
     const page = await chrome.tabs.sendMessage(tab.id, {page: "temp"});
     displayNames(page.classSchedule);
     scheduleData = page.classSchedule;
+    quarterYear = page.classQuarter
 })();
 
 /**
@@ -36,11 +38,6 @@ function displayNames(courses) {
 
     // Add table rows.
     coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course))
-
-    chrome.storage.local.get(['state']).then((result) => {
-        document.getElementById("sections").checked = result["directions"]
-        document.getElementById("map").checked = result["fun_facts"]
-    })
 
     chrome.storage.local.get(['state']).then((result) => {
         document.getElementById("map").checked = result["directions"]
@@ -75,12 +72,6 @@ function onDownloadClick() {
         }})
     }
 
-    // include map?
-    if (isMap) {
-        // TODO Get link for each course.
-        Object.values(scheduleData).forEach(course => course["link"])
-    }
-
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
     for (let i = 1; i < inputs.length; i++) { // omit the table header (first element)
@@ -105,7 +96,7 @@ function onDownloadClick() {
         return;
     }
 
-    var icsFile = buildICS(selection);
+    var icsFile = buildICS(selection, quarterYear, isMap);
     let ics = new Blob([icsFile], {type: "text/calendar"})
     chrome.downloads.download({
         url: URL.createObjectURL(ics),

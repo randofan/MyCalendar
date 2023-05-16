@@ -1,10 +1,14 @@
-// Builds a .ics file from a passed in calendar object
-
 const firstDayOfInstruction = DateToICS(new Date()); // ICS style, get from content.js
 const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
 const holidayArray = []; // ICS style, get from content.js
 
+/**
+ * Builds a .ics file from a passed in calendar object.
+ * 
+ * @param {*} scheduleData 
+ * @returns 
+ */
 function buildICS(scheduleData) {
     const map = scheduleData;
 
@@ -51,7 +55,12 @@ function buildICS(scheduleData) {
     return file;
 }
 
-// converts from the days on the registration page to ICS days
+/**
+ * Convert from the days on the registration page to ICS days.
+ * 
+ * @param {*} registrationDays 
+ * @returns 
+ */
 function convertDays(registrationDays) {
     let dayChars = registrationDays.split("");
     for (let i = 0; i < dayChars.length - 1; i++) { // consolidate Th
@@ -67,7 +76,9 @@ function convertDays(registrationDays) {
     return icsDays.join(",");
 }
 
-// takes in registrationDays, gives array of days converted to numbers
+/**
+ * Takes in registrationDays, gives array of days converted to numbers.
+ */
 function daysToNumbers(registrationDays) {
     const dayToNumber = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
     let ICSDays = convertDays(registrationDays);
@@ -79,7 +90,12 @@ function daysToNumbers(registrationDays) {
     return nums;
 }
 
-// converts from the time on the registration page to ICS format time
+/**
+ * Converts from the time on the registration page to ICS format time.
+ * 
+ * @param {*} registrationTime 
+ * @returns 
+ */
 function convertTime(registrationTime) {
     let startTime = registrationTime.split("-")[0];
     let endTime = registrationTime.split("-")[1];
@@ -100,9 +116,15 @@ function convertTime(registrationTime) {
     return [startTime, endTime];
 }
 
-// returns the first date, in ICS style (YYYYMMDD), on or after the given
-// date, that falls on the given day of the week (a number 0-6 inc., where 0 is sunday)
-// date must be in ICS style (YYYYMMDD)
+/**
+ * Returns the first date, in ICS style (YYYYMMDD), on or after the given
+ * date, that falls on the given day of the week (a number 0-6 inc., where 0 is sunday)
+ * date must be in ICS style (YYYYMMDD)
+ * 
+ * @param {*} ICSDate 
+ * @param {*} dow 
+ * @returns 
+ */
 function getFirstDay(ICSDate, dow) {
     let firstDate = ICSToDate(ICSDate);// calculate all dates inside the method in Z
     firstDate.setHours(12);
