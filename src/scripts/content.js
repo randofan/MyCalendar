@@ -34,7 +34,7 @@ function getClassSchedule(doc) {
             let name = cells[4].getElementsByTagName("a")[0].textContent    // Course Name; Software Engineering
             let days = cells[5].innerHTML                                   // Days
             let time = cells[6].innerHTML.replace(/&nbsp;/g,'');            // Time
-            let location = cells[7].getElementsByTagName("a")[0].textContent // Location
+            let location = cells[7].textContent                             // Location
             let locationLink = cells[7].getElementsByTagName("a")[0].href   // UW map link
             let prof = cells[8].innerHTML.replace(/&nbsp;/g,'');            // Instructor
     
