@@ -23,12 +23,12 @@ There's no need to build the Chrome extension because it's loaded as unpacked in
 
 ## Test
 
-### Dependencies
+#### Dependencies
 - install ```npm```
 - install Chrome v112
 - use MacOS/Linux OS
 
-### Run Tests
+#### Run Tests
 ```
 cd test
 rm -rd src
