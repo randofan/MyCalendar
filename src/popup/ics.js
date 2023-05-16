@@ -3,12 +3,6 @@ const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
 const holidayArray = []; // ICS style, get from content.js
 
-/**
- * Builds a .ics file from a passed in calendar object.
- * 
- * @param {*} scheduleData 
- * @returns 
- */
 function buildICS(scheduleData) {
     const map = scheduleData;
 
@@ -48,6 +42,9 @@ function buildICS(scheduleData) {
             file += "DTEND:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[1] + "\n"; // change for holiday
             file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n"; // change for holiday
             file += "LOCATION:" + en.location + "\n";
+            if (includeLink) {
+                file += "DESCRIPTION:" + en.link + "\n";
+            }
             file += "END:VEVENT\n";
         }
     })
@@ -55,12 +52,7 @@ function buildICS(scheduleData) {
     return file;
 }
 
-/**
- * Convert from the days on the registration page to ICS days.
- * 
- * @param {*} registrationDays 
- * @returns 
- */
+// converts from the days on the registration page to ICS days
 function convertDays(registrationDays) {
     let dayChars = registrationDays.split("");
     for (let i = 0; i < dayChars.length - 1; i++) { // consolidate Th
@@ -76,9 +68,7 @@ function convertDays(registrationDays) {
     return icsDays.join(",");
 }
 
-/**
- * Takes in registrationDays, gives array of days converted to numbers.
- */
+// takes in registrationDays, gives array of days converted to numbers
 function daysToNumbers(registrationDays) {
     const dayToNumber = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
     let ICSDays = convertDays(registrationDays);
@@ -90,12 +80,7 @@ function daysToNumbers(registrationDays) {
     return nums;
 }
 
-/**
- * Converts from the time on the registration page to ICS format time.
- * 
- * @param {*} registrationTime 
- * @returns 
- */
+// converts from the time on the registration page to ICS format time
 function convertTime(registrationTime) {
     let startTime = registrationTime.split("-")[0];
     let endTime = registrationTime.split("-")[1];
@@ -116,15 +101,9 @@ function convertTime(registrationTime) {
     return [startTime, endTime];
 }
 
-/**
- * Returns the first date, in ICS style (YYYYMMDD), on or after the given
- * date, that falls on the given day of the week (a number 0-6 inc., where 0 is sunday)
- * date must be in ICS style (YYYYMMDD)
- * 
- * @param {*} ICSDate 
- * @param {*} dow 
- * @returns 
- */
+// returns the first date, in ICS style (YYYYMMDD), on or after the given
+// date, that falls on the given day of the week (a number 0-6 inc., where 0 is sunday)
+// date must be in ICS style (YYYYMMDD)
 function getFirstDay(ICSDate, dow) {
     let firstDate = ICSToDate(ICSDate);// calculate all dates inside the method in Z
     firstDate.setHours(12);
@@ -141,8 +120,14 @@ function getFirstDay(ICSDate, dow) {
     return DateToICS(classDate); // convert ISO date to ICS date
 }
 
-// gets the first date after the given date that falls on one of the passed days of the week
-// takes a date in ICS style and an array of days of the week as numbers
+/**
+ * returns the first date that:
+ * 1. falls on or after the passed in date and
+ * 2. happens on one of the passed days of the week
+ * @param ICSDate the start day, as a string in ICS format
+ * @param dows an array of days of the week, represented as numbers 0-6, where 0 is sunday
+ * @returns {*} an string representing a date in ICS format
+ */
 function getFirstDayOfMultiple(ICSDate, dows) {
     let dates = [];
     for (let i = 0; i < dows.length; i++) {
@@ -152,16 +137,31 @@ function getFirstDayOfMultiple(ICSDate, dows) {
     return dates[0];
 }
 
+/**
+ * Converts from a JavaScript Date object to a string representing the date in ICS format
+ * @param JSDate the passed in JS Date
+ * @returns {string} the returned ICS Date
+ */
 function DateToICS(JSDate) {
     return JSDate.toISOString().substring(0,10).replaceAll("-", "");
 }
 
+/**
+ * Converts from a string representing a date in ICS format to a JavaScript Date object
+ * @param ICSDate the passed in date in ICS format
+ * @returns {Date} the returned Date object
+ */
 function ICSToDate(ICSDate) {
     return new Date(ICSDate.substring(0,4) + "-" + ICSDate.substring(4, 6) + "-" + ICSDate.substring(6, 8));
 }
 
-// rudimentary hash function for classes
+/**
+ * Rudimentary hash function for making UIDs for the file
+ * @param event
+ * @returns {string}
+ */
 function makeUID(event) {
+    //TODO: improve hash function
     let UID = convertTime(event.time)[0];
     UID += "-";
     let hash = convertTime(event.time)[0] + (convertTime(event.time)[1] * 32) + event.title.length * 32**2;
@@ -180,10 +180,11 @@ function makeUID(event) {
  * @returns 
  */
 function getDatesAndHolidays(year, quarter) {
-    let ret = {}
+    let ret = {} // check slack for format
     let formatYear = formatYear(year)
     const dom = getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"]
-
+    // cast to html collection
+    //
     // Get Dates
     let col = getCol(quarter)
 
