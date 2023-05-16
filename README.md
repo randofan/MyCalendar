@@ -12,15 +12,16 @@ MyCalendar is a Google chrome extension that launches on the UW registration pag
 2. Implement the extension for multiple browsers, not just Chrome.
 3. Allow the user to download an .ics file or open a new calendar/event in common calendar apps (Google calendar, Apple calendar).
 
+# Developer Guidelines
+
 ## Repository Layout
 - src/popup: main execution thread
 - src/scripts: content script
 
-# Build
+## Build
+There's no need to build the Chrome extension because it's loaded as unpacked into Chrome.
 
-There's no need to build a Chrome extension because it's loaded as unpacked into Chrome.
-
-# Test
+## Test
 
 ### Dependencies
 - install ```npm```
@@ -39,7 +40,7 @@ npm test
 #### Add New Tests
 For each function you wish to unit test, add the ```[relative path] [function name]``` to ```test.config```. Note you may only add unit tests for functions which don't reference ```chrome``` or ```document``` directly.
 
-# Run
+## Run
 1. Clone the [Github Repository](https://github.com/randofan/MyCalendar)
 1. Navigate to chrome://extensions/ on Chrome
 2. In the upper right corner, enable developer mode
