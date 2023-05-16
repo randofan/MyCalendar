@@ -8,7 +8,7 @@ MyCalendar is a Google chrome extension that launches on the UW course registrat
 4. Include a link to each course location on the UW map.
 
 ## Setup
-Install Chrome v112
+- install Chrome v112
 
 ## Run
 1. Clone the [Github Repository](https://github.com/randofan/MyCalendar)
@@ -22,7 +22,7 @@ Install Chrome v112
 8. Note you must follow the steps in this order exactly. Failure to do so may result in undefined behavior.
 
 ## Report Bugs
-To report a bug, create a new issue in the repository with the label ```bug```. Follow the template provided. Known bugs will be reported under [issues](https://github.com/randofan/MyCalendar/issues?q=is%3Aopen+is%3Aissue+label%3Abug).
+Known bugs will be reported as [issues](https://github.com/randofan/MyCalendar/issues?q=is%3Aopen+is%3Aissue+label%3Abug). To report a bug, create a new issue in the repository with the label ```bug```. Follow the template provided. 
 
 
 # Developer Guidelines
