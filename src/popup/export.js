@@ -143,7 +143,7 @@ function generateTableRow(course) {
     let id_section = course_id + "-section"
 
     let row_html =  '<tr>' +
-                    `    <th>${course}</th>` +
+                    `    <th class="course-name">${course}</th>` +
                     `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
                     `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
                     '</tr>'
