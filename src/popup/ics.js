@@ -1,5 +1,3 @@
-// Builds a .ics file from a passed in calendar object
-
 const firstDayOfInstruction = DateToICS(new Date()); // ICS style, get from content.js
 const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
@@ -44,6 +42,9 @@ function buildICS(scheduleData) {
             file += "DTEND:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[1] + "\n"; // change for holiday
             file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n"; // change for holiday
             file += "LOCATION:" + en.location + "\n";
+            if (includeLink) {
+                file += "DESCRIPTION:" + en.link + "\n";
+            }
             file += "END:VEVENT\n";
         }
     })
@@ -119,8 +120,14 @@ function getFirstDay(ICSDate, dow) {
     return DateToICS(classDate); // convert ISO date to ICS date
 }
 
-// gets the first date after the given date that falls on one of the passed days of the week
-// takes a date in ICS style and an array of days of the week as numbers
+/**
+ * returns the first date that:
+ * 1. falls on or after the passed in date and
+ * 2. happens on one of the passed days of the week
+ * @param ICSDate the start day, as a string in ICS format
+ * @param dows an array of days of the week, represented as numbers 0-6, where 0 is sunday
+ * @returns {*} an string representing a date in ICS format
+ */
 function getFirstDayOfMultiple(ICSDate, dows) {
     let dates = [];
     for (let i = 0; i < dows.length; i++) {
@@ -130,16 +137,31 @@ function getFirstDayOfMultiple(ICSDate, dows) {
     return dates[0];
 }
 
+/**
+ * Converts from a JavaScript Date object to a string representing the date in ICS format
+ * @param JSDate the passed in JS Date
+ * @returns {string} the returned ICS Date
+ */
 function DateToICS(JSDate) {
     return JSDate.toISOString().substring(0,10).replaceAll("-", "");
 }
 
+/**
+ * Converts from a string representing a date in ICS format to a JavaScript Date object
+ * @param ICSDate the passed in date in ICS format
+ * @returns {Date} the returned Date object
+ */
 function ICSToDate(ICSDate) {
     return new Date(ICSDate.substring(0,4) + "-" + ICSDate.substring(4, 6) + "-" + ICSDate.substring(6, 8));
 }
 
-// rudimentary hash function for classes
+/**
+ * Rudimentary hash function for making UIDs for the file
+ * @param event
+ * @returns {string}
+ */
 function makeUID(event) {
+    //TODO: improve hash function
     let UID = convertTime(event.time)[0];
     UID += "-";
     let hash = convertTime(event.time)[0] + (convertTime(event.time)[1] * 32) + event.title.length * 32**2;
@@ -158,10 +180,11 @@ function makeUID(event) {
  * @returns 
  */
 function getDatesAndHolidays(year, quarter) {
-    let ret = {}
+    let ret = {} // check slack for format
     let formatYear = formatYear(year)
     const dom = getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"]
-
+    // cast to html collection
+    //
     // Get Dates
     let col = getCol(quarter)
 
