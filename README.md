@@ -59,4 +59,4 @@ Complete the following before opening a pull request:
     - First Number: Tracks major changes
     - Second Number: Tracks minor changes
     - Third Number: Tracks patches or bug fixes
-- Conduct functional testing in the browser to ensure no errors return upon launch
+- Conduct functional testing in the browser to ensure no errors return upon opening the extension.
