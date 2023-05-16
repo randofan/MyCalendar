@@ -1,24 +1,42 @@
 var scheduleData = null;
 
+/**
+ * Get the class schedule from the content script.
+ * Unable to unit test.
+ */
 (async () => {
-    let fail = true
-    while (fail) {
-        try {
-            const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-            const response = await chrome.tabs.sendMessage(tab.id, {});
-            displayNames(response.classSchedule);
-            scheduleData = response.classSchedule;
-            fail = false
-        }
-        catch(e) {
-            // console.log(e)
-            fail = true
-        }
-    }
+    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+    const page = await chrome.tabs.sendMessage(tab.id, {page: "temp"});
+    displayNames(page.classSchedule);
+    scheduleData = page.classSchedule;
 })();
 
-// Get course names from data scraped by content.js and populate selection
-// populate HTML with courses + input checkbox elements
+/**
+ * Wrapper to GET a webpage. Note, you must add every url you GET from
+ * to manifest.json -> "host_permissions".
+ * Unable to unit test.
+ * 
+ * @param {*} url 
+ * @returns 
+ */
+const getRequest = (url) => {
+    let res = {}
+    const urls = [url]
+    urls.forEach(async (url) => {
+        const r = await chrome.runtime.sendMessage({url: url})
+        res['body'] = r.page
+    });
+    return res
+}
+
+/**
+ * Get course names from data scraped by content.js and populate selection
+ * populate HTML with courses + input checkbox elements.
+ * Unable to unit test.
+ * 
+ * @param {*} courses 
+ * @returns 
+ */
 function displayNames(courses) {
 
     // Get rid of the loading text oncce we've generated the table of courses.
@@ -34,25 +52,17 @@ function displayNames(courses) {
         coursesToDisplay.add(course.course); 
     })
 
-    coursesToDisplay.forEach(course => {            // "CSE 403"
-        let course_id = course.replace(/\s+/g, '-') // "CSE-403"
-        let id_schedule = course_id + "-schedule";
-        let id_section = course_id + "-section"
+    // Add table rows.
+    coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course))
 
-        let row_html =  '<tr>' +
-                        `    <th>${course}</th>` +
-                        `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-                        `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
-                        '</tr>'
-
-        table.innerHTML += row_html;
+    chrome.storage.local.get(['state']).then((result) => {
+        document.getElementById("sections").checked = result["directions"]
+        document.getElementById("map").checked = result["fun_facts"]
     })
 
-    // Stretch goals. Commented out for Alpha Release. 
-    // chrome.storage.local.get(['state']).then((result) => {
-    //     document.getElementById("sections").checked = result["directions"]
-    //     document.getElementById("map").checked = result["fun_facts"]
-    // })
+    chrome.storage.local.get(['state']).then((result) => {
+        document.getElementById("map").checked = result["directions"]
+    })
 
     // Set up button event listener
     document.getElementById("download").addEventListener("click", onDownloadClick);
@@ -60,8 +70,14 @@ function displayNames(courses) {
     return table
 }
 
-// Travserse HTML checkbox input elements and populate selection accordingly
-// to send to ics.js
+
+/**
+ * Traverse HTML checkbox input elements and populate selection accordingly
+ * to send to buildICS().
+ * Unable to unit test.
+ * 
+ * @returns 
+ */
 function onDownloadClick() {
     // stores the courses the user has selected
     var selection = {
@@ -69,24 +85,19 @@ function onDownloadClick() {
         sections: []
     }
 
-    // Stretch goals. Commented out for Alpha Release. 
-    // let isSections = document.getElementById("sections").checked
-    // let isMap = document.getElementById("map").checked
+    let isMap = document.getElementById("map").checked
 
-    // if (document.getElementById("savestate").checked) {
-    //     chrome.storage.local.set({state: {
-    //         "directions": isMap,
-    //         "fun_facts": isSections
-    //     }})
-    // }
-    // include sections?
-    // if (isSections) {
+    if (document.getElementById("savestate").checked) {
+        chrome.storage.local.set({state: {
+            "directions": isMap,
+        }})
+    }
 
-    // }
-    // // include map?
-    // if (isMap) {
-
-    // }
+    // include map?
+    if (isMap) {
+        // TODO Get link for each course.
+        Object.values(scheduleData).forEach(course => course["link"])
+    }
 
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
@@ -99,24 +110,10 @@ function onDownloadClick() {
         const export_sections = cells[2].getElementsByTagName("input")[0].checked;
 
         // Push course name to respective arrays based on if user checked the box
-        if (export_schedule) {
-            Object.keys(scheduleData).forEach(courseTitle => {
-                let courseMap = scheduleData[courseTitle];
-                if (courseMap.course == course) {
-                    selection.schedule.push(courseMap);
-                }
-            })
-            
-        };
+        if (export_schedule) selection.schedule = Object.values(scheduleData).filter((map) => (map["course"] == course))
 
         if (export_sections) {
-            Object.keys(scheduleData).forEach(courseTitle => {
-                let courseMap = scheduleData[courseTitle];
-                if (courseMap.course == course) {
-                    selection.sections.push(courseMap);
-                }
-            })
-            
+            // TODO additional sections.
         };
 
     }
@@ -130,6 +127,26 @@ function onDownloadClick() {
     let ics = new Blob([icsFile], {type: "text/calendar"})
     chrome.downloads.download({
         url: URL.createObjectURL(ics),
-        filename: "schedule.ics" // Optional
+        filename: "schedule.ics"
     });
+}
+
+/**
+ * Helper function to generate table rows.
+ * 
+ * @param {*} course 
+ * @returns 
+ */
+function generateTableRow(course) {
+    let course_id = course.replace(/\s+/g, '-') // "CSE-403"
+    let id_schedule = course_id + "-schedule";
+    let id_section = course_id + "-section"
+
+    let row_html =  '<tr>' +
+                    `    <th>${course}</th>` +
+                    `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
+                    `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
+                    '</tr>'
+        
+    return row_html
 }

@@ -147,3 +147,40 @@ function makeUID(event) {
     UID += "@example.com";
     return UID;
 }
+
+
+/**
+ * Get the start/end dates and holidays for the academic quarter.
+ * Unable to unit test.
+ * 
+ * @param {*} year formatted as "2022-2023"
+ * @param {*} quarter formatted as "Spring", "Winter", "Autumn" // TODO idk what summer quarter looks like
+ * @returns 
+ */
+function getDatesAndHolidays(year, quarter) {
+    let ret = {}
+    let formatYear = formatYear(year)
+    const dom = getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"]
+
+    // Get Dates
+    let col = getCol(quarter)
+
+    // Get Holidays
+
+    return ret
+}
+
+/**
+ * Get the column associated with the quarter.
+ * 
+ * @param {*} quarter 
+ * @returns 
+ */
+function getCol(quarter) {
+    if (quarter == 'Autumn') return 0;
+    else if (quarter == 'Winter') return 1;
+    else if (quarter == 'Summer') return 2;
+    else if (quarter == "Full-term") return 3;
+    else if (quarter == "A-term") return 4; // TODO what is right format for this?
+    else if (quarter == "B-term") return 5;
+}

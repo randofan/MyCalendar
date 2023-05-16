@@ -36,6 +36,9 @@ npm i
 npm test
 ```
 
+#### Add New Tests
+For each function you wish to unit test, add the ```[relative path] [function name]``` to ```test.config```. Note you may only add unit tests for functions which don't reference ```chrome``` or ```document``` directly.
+
 # Run
 1. Clone the [Github Repository](https://github.com/randofan/MyCalendar)
 1. Navigate to chrome://extensions/ on Chrome
