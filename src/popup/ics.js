@@ -183,7 +183,14 @@ function makeUID(event) {
  * 
  * @param {*} year formatted as "2022-2023"
  * @param {*} quarter formatted as "Spring", "Winter", "Autumn" // TODO idk what summer quarter looks like
- * @returns 
+ * @returns return type is below:
+ * {
+  "dates": {
+     "start": "Sep 23, 2022",
+     "end": "Dec 23, 2022"
+   }
+   "holidays": ["Dec 25, 2022", "Mar 15, 2022"]
+   }
  */
 function getDatesAndHolidays(year, quarter) {
     let ret = {} // check slack for format
@@ -191,18 +198,35 @@ function getDatesAndHolidays(year, quarter) {
     const doc = new DOMParser().parseFromString(getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"])
 
     const col = getCol(quarter)
-
-    const dates = doc.getElementById("SUMFE").getElementsByTagName("tr")
-    const qStart = dates[0].getElementsByTagName("td")[col]
-    const qEnd = dates[1].getElementsByTagName("td")[col]
-
-
-
+    
     // Get Dates
     
+    const dates = doc.getElementById("SUMFE").getElementsByTagName("tr")
+    const qStart = dates[0].getElementsByTagName("td")[col].innerHTML
+    const qEnd = dates[1].getElementsByTagName("td")[col].innerHTML
+
+    ret["dates"] = {
+        "start": qStart,
+        "end": qEnd
+    }
+
 
     // Get Holidays
+    ret["holidays"] = []
 
+    const table = doc.getElementsByClassName("table table-striped")[1].getElementsByTagName("tr")
+    for (let i = 0; i < trs.length; i++) {
+        let row = trs[i];
+        const cells = row.getElementsByTagName("td");
+
+        const holiday = cells[col]
+        if (holiday.innerHTML != "") {
+
+            const day = holiday.split('<br>')[1].trim()
+            ret["holidays"].push(day)
+        }        
+    }
+    
     return ret
 }
 
@@ -213,10 +237,8 @@ function getDatesAndHolidays(year, quarter) {
  * @returns 
  */
 function getCol(quarter) {
-    if (quarter == 'Autumn') return 0;
-    else if (quarter == 'Winter') return 1;
-    else if (quarter == 'Summer') return 2;
-    else if (quarter == "Full-term") return 3;
-    else if (quarter == "A-term") return 4; // TODO what is right format for this?
-    else if (quarter == "B-term") return 5;
+    if (quarter == 'Autumn') return 1;
+    else if (quarter == 'Winter') return 2;
+    else if (quarter == 'Spring') return 3;
+    else if (quarter == "Summer") return 4;
 }
