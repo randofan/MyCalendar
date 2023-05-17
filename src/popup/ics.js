@@ -3,7 +3,7 @@ const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
 const holidayArray = []; // ICS style, get from content.js
 
-function buildICS(scheduleData) {
+function buildICS(scheduleData, quarterYear, includeLink) {
     const map = scheduleData;
 
     let file = "";
@@ -124,6 +124,7 @@ function getFirstDay(ICSDate, dow) {
  * returns the first date that:
  * 1. falls on or after the passed in date and
  * 2. happens on one of the passed days of the week
+ * 
  * @param ICSDate the start day, as a string in ICS format
  * @param dows an array of days of the week, represented as numbers 0-6, where 0 is sunday
  * @returns {*} an string representing a date in ICS format
@@ -138,7 +139,8 @@ function getFirstDayOfMultiple(ICSDate, dows) {
 }
 
 /**
- * Converts from a JavaScript Date object to a string representing the date in ICS format
+ * Converts from a JavaScript Date object to a string representing the date in ICS format.
+ * 
  * @param JSDate the passed in JS Date
  * @returns {string} the returned ICS Date
  */
@@ -147,7 +149,8 @@ function DateToICS(JSDate) {
 }
 
 /**
- * Converts from a string representing a date in ICS format to a JavaScript Date object
+ * Converts from a string representing a date in ICS format to a JavaScript Date object.
+ * 
  * @param ICSDate the passed in date in ICS format
  * @returns {Date} the returned Date object
  */
@@ -156,7 +159,8 @@ function ICSToDate(ICSDate) {
 }
 
 /**
- * Rudimentary hash function for making UIDs for the file
+ * Rudimentary hash function for making UIDs for the file.
+ * 
  * @param event
  * @returns {string}
  */
@@ -182,11 +186,18 @@ function makeUID(event) {
 function getDatesAndHolidays(year, quarter) {
     let ret = {} // check slack for format
     let formatYear = formatYear(year)
-    const dom = getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"]
-    // cast to html collection
-    //
+    const doc = new DOMParser().parseFromString(getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"])
+
+    const col = getCol(quarter)
+
+    const dates = doc.getElementById("SUMFE").getElementsByTagName("tr")
+    const qStart = dates[0].getElementsByTagName("td")[col]
+    const qEnd = dates[1].getElementsByTagName("td")[col]
+
+
+
     // Get Dates
-    let col = getCol(quarter)
+    
 
     // Get Holidays
 
