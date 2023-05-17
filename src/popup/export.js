@@ -47,9 +47,11 @@ function displayNames(courses) {
     // Add table rows.
     coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course))
 
-    // chrome.storage.local.get(['state']).then((result) => {
-    //     document.getElementById("map").checked = result["directions"]
-    // })
+    chrome.storage.local.get('directions', result => {
+        document.getElementById("map").checked = result.directions
+        document.getElementById("savestate").checked = result.directions
+
+    })
 
     // Set up button event listener
     document.getElementById("download").addEventListener("click", onDownloadClick);
@@ -74,11 +76,9 @@ function onDownloadClick() {
 
     let isMap = document.getElementById("map").checked
 
-    // if (document.getElementById("savestate").checked) {
-    //     chrome.storage.local.set({state: {
-    //         "directions": isMap,
-    //     }})
-    // }
+    if (document.getElementById("savestate").checked) {
+        chrome.storage.local.set({directions: isMap})
+    }
 
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
@@ -90,8 +90,17 @@ function onDownloadClick() {
         const export_schedule = cells[1].getElementsByTagName("input")[0].checked;
         const export_sections = cells[2].getElementsByTagName("input")[0].checked;
 
+
         // Push course name to respective arrays based on if user checked the box
-        if (export_schedule) selection.schedule = Object.values(scheduleData).filter((map) => (map["course"] == course))
+        if (export_schedule) {
+            Object.keys(scheduleData).forEach(courseTitle => {
+                let courseMap = scheduleData[courseTitle];
+                if (courseMap.course == course) {
+                    selection.schedule.push(courseMap);
+                }
+            })
+            
+        };
 
         if (export_sections) {
             // TODO additional sections.

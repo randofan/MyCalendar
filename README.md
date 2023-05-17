@@ -22,7 +22,10 @@ MyCalendar is a Google chrome extension that launches on the UW course registrat
 8. Note you must follow the steps in this order exactly. Failure to do so may result in undefined behavior.
 
 ## Report Bugs
-Known bugs will be reported as [issues](https://github.com/randofan/MyCalendar/issues?q=is%3Aopen+is%3Aissue+label%3Abug). To report a bug, create a new issue in the repository with the label ```bug```. Follow the template provided. 
+Known bugs will be reported as [issues](https://github.com/randofan/MyCalendar/issues?q=is%3Aopen+is%3Aissue+label%3Abug). To report a bug, create a new issue in the repository with the label ```bug```. Follow the template provided.
+
+## Current Issues - Beta Release
+Section impelemntation is not ready for release. AN error was made when developing the module and thrying to access the registration page. Forgot that we are not able to access uw pages that required login information, so when parsing we needed to use open pages. In order to accomidate that change we need to refactor our code and add a new method and change the parsing algorithm. Estimated time of completion Friday May 19. 
 
 
 # Developer Guidelines
@@ -51,7 +54,7 @@ npm test
 ```
 
 #### Add New Tests
-For each function you wish to unit test, add the ```[relative path] [function name]``` to ```test.config```. Note you may only add unit tests for functions which don't reference ```chrome``` or ```document``` directly.
+For each function you wish to unit test, add the ```[relative path] [function name]``` to ```test.config```. Note you may only add unit tests for functions which don't reference ```chrome``` or ```document``` directly. Afterwards, open unit.test.js and import the function name using ```require()```. Finally, follow Mocha's documentation with ```describe()``` and ```it()``` to add new unit tests using ```assert()```.
 
 #### Building a Release
 Complete the following before opening a pull request:
