@@ -182,7 +182,7 @@ function makeUID(event) {
  * Unable to unit test.
  * 
  * @param {*} year formatted as "2022-2023"
- * @param {*} quarter formatted as "Spring", "Winter", "Autumn" // TODO idk what summer quarter looks like
+ * @param {*} quarter formatted as "Spring", "Winter", "Autumn"
  * @returns return type is below:
  * {
   "dates": {

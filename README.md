@@ -54,7 +54,7 @@ npm test
 ```
 
 #### Add New Tests
-For each function you wish to unit test, add the ```[relative path] [function name]``` to ```test.config```. Note you may only add unit tests for functions which don't reference ```chrome``` or ```document``` directly.
+For each function you wish to unit test, add the ```[relative path] [function name]``` to ```test.config```. Note you may only add unit tests for functions which don't reference ```chrome``` or ```document``` directly. Afterwards, open unit.test.js and import the function name using ```require()```. Finally, follow Mocha's documentation with ```describe()``` and ```it()``` to add new unit tests using ```assert()```.
 
 #### Building a Release
 Complete the following before opening a pull request:
