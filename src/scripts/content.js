@@ -17,6 +17,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 /**
  * Get the class schedule from the doc.
+ * Unable to unit test.
  * 
  */
 function getClassSchedule() {
@@ -62,6 +63,7 @@ function getClassSchedule() {
 
 /**
  * Gets the quarter. In form of "Spring 2023".
+ * Unable to unit test.
  * 
  */
 function getQuarter() {

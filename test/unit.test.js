@@ -1,7 +1,8 @@
+const {convertDays, convertTime} = require('./src/popup/ics.js');
+const { generateTableRow } = require('./src/popup/util.js');
 const assert = require('assert');
 
 describe('ICS Unit Tests', () => {
-  const {convertDays, convertTime} = require('./src/popup/ics.js');
   it('test convertDays', () => {
     let registrationDays = "MWF";
     let answer = convertDays(registrationDays);
@@ -39,20 +40,20 @@ describe('ICS Unit Tests', () => {
   });
 });
 
-// describe('Export Unit Tests', () => {
-//   const {generateTableRow} = require('./src/popup/export.js');
-//   it('tests HTML for table row generator', () => {
-//     let course = "CSE 403";
-//     let id_schedule = "CSE-403-schedule";
-//     let id_section = "CSE-403-section";
 
-//     let expected_html = '<tr>' +
-//                         `    <th class="course-name">${course}</th>` +
-//                         `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-//                         `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
-//                         '</tr>'
+describe('Export Unit Tests', () => {
+  it('tests HTML for table row generator', () => {
+    let course = "CSE 403";
+    let id_schedule = "CSE-403-schedule";
+    let id_section = "CSE-403-section";
 
-//     let html = generateTableRow(course);
-//     assert.deepEqual(html, expected_html);
-//   });
-// });
+    let expected_html = '<tr>' +
+                        `    <th class="course-name">${course}</th>` +
+                        `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
+                        `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
+                        '</tr>'
+
+    let html = generateTableRow(course);
+    assert.deepEqual(html, expected_html);
+  });
+});
