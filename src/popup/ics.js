@@ -43,7 +43,7 @@ function buildICS(scheduleData, quarterYear, includeLink) {
             file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n"; // change for holiday
             file += "LOCATION:" + en.location + "\n";
             if (includeLink) {
-                file += "DESCRIPTION:" + en.link + "\n";
+                file += `DESCRIPTION:<HTML><BODY><a href=${en.link}>Building directions</a></BODY></HTML>` + "\n";
             }
             file += "END:VEVENT\n";
         }
