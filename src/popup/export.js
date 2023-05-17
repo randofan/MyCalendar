@@ -47,9 +47,11 @@ function displayNames(courses) {
     // Add table rows.
     coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course))
 
-    // chrome.storage.local.get(['state']).then((result) => {
-    //     document.getElementById("map").checked = result["directions"]
-    // })
+    chrome.storage.local.get('directions', result => {
+        document.getElementById("map").checked = result.directions
+        document.getElementById("savestate").checked = result.directions
+
+    })
 
     // Set up button event listener
     document.getElementById("download").addEventListener("click", onDownloadClick);
@@ -74,11 +76,9 @@ function onDownloadClick() {
 
     let isMap = document.getElementById("map").checked
 
-    // if (document.getElementById("savestate").checked) {
-    //     chrome.storage.local.set({state: {
-    //         "directions": isMap,
-    //     }})
-    // }
+    if (document.getElementById("savestate").checked) {
+        chrome.storage.local.set({directions: isMap})
+    }
 
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
 
