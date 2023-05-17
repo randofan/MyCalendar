@@ -1,6 +1,6 @@
 // Builds a .ics file from a passed in calendar object
 
-const firstDayOfInstruction = DateToICS(new Date()); // ICS style, get from content.js
+const firstDayOfInstruction = dateToICS(new Date()); // ICS style, get from content.js
 const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
 const holidayArray = []; // ICS style, get from content.js
@@ -134,18 +134,16 @@ function convertTime(registrationTime) {
  */
 function getFirstDay(ICSDate, dow) {
     let firstDate = ICSToDate(ICSDate);// calculate all dates inside the method in Z
-    firstDate.setHours(12);
-    firstDate.setMinutes(0);
-    firstDate.setSeconds(0);
-    firstDate.setMilliseconds(0);
     let firstDOW = firstDate.getDay();
     if (dow === firstDOW) {
-        return DateToICS(firstDate);
+        return dateToICS(firstDate);
     }
     let classDate = firstDate;
+    console.error("dow: " + dow);
+    console.error("firstDate: " + firstDate.toDateString() + "dow: " + firstDate.getDay());
     let millisecondDistance = ((dow - firstDate.getDay() + 7) % 7) * 24 * 60 * 60 * 1000;
     classDate.setTime(classDate.getTime() + millisecondDistance); // increment to the right day
-    return DateToICS(classDate); // convert ISO date to ICS date
+    return dateToICS(classDate); // convert ISO date to ICS date
 }
 
 /**
@@ -170,7 +168,7 @@ function getFirstDayOfMultiple(ICSDate, dows) {
  * @param JSDate the passed in JS Date
  * @returns {string} the returned ICS Date
  */
-function DateToICS(JSDate) {
+function dateToICS(JSDate) {
     return JSDate.toISOString().substring(0,10).replaceAll("-", "");
 }
 
@@ -180,7 +178,7 @@ function DateToICS(JSDate) {
  * @returns {Date} the returned Date object
  */
 function ICSToDate(ICSDate) {
-    return new Date(ICSDate.substring(0,4) + "-" + ICSDate.substring(4, 6) + "-" + ICSDate.substring(6, 8));
+    return new Date(Number(ICSDate.substring(0, 4)), Number(ICSDate.substring(4, 6)) - 1, Number(ICSDate.substring(6, 8)));
 }
 
 /**
