@@ -6,6 +6,8 @@ const holidayArray = []; // ICS style, get from content.js
 function buildICS(scheduleData, quarterYear, includeLink) {
     const map = scheduleData;
 
+    console.log(map)
+
     let file = "";
     file += "BEGIN:VCALENDAR\n"; // start calendar object
     file += "BEGIN:VTIMEZONE\n" +
