@@ -1,3 +1,3 @@
 #!/bin/bash
 
-zip -r prod.zip src
+zip -r prod.crx src

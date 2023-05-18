@@ -1,11 +1,23 @@
-// Builds a .ics file from a passed in calendar object
-
-const firstDayOfInstruction = dateToICS(new Date()); // ICS style, get from content.js
-const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
-const holidayArray = []; // ICS style, get from content.js
 
+/**
+ * Builds a .ics file from a passed in calendar object.
+ * 
+ * @param {*} scheduleData course data from content.js
+ * @param {*} quarterYear quarter + year from content.js
+ * @param {*} includeLink boolean to include directions link
+ * @returns 
+ */
 function buildICS(scheduleData, quarterYear, includeLink) {
+
+    const split = quarterYear.split(" ")
+    const info = getDatesAndHolidays(formatYear(quarterYear), split[0])
+
+    const firstDayOfInstruction = convertDate(info["dates"]["start"])
+    const lastDayOfInstuction = convertDate(info["dates"]["end"])
+    const holidayArray = info["holidays"]
+
+
     const map = scheduleData;
 
     console.log(map)
@@ -194,13 +206,15 @@ function makeUID(event) {
  */
 function getDatesAndHolidays(year, quarter) {
     let ret = {} // check slack for format
-    let formatYear = formatYear(year)
-    const doc = new DOMParser().parseFromString(getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"])
+    let formatYr = year.split('-').map(str => str.slice(2)).join('');
+    const body = wait(getRequest(`https://www.washington.edu/students/reg/${2223}cal.html`))
+
+    const doc = new DOMParser().parseFromString(body, 'text/html')
 
     const col = getCol(quarter)
     
     // Get Dates
-    
+    console.log(doc)
     const dates = doc.getElementById("SUMFE").getElementsByTagName("tr")
     const qStart = dates[0].getElementsByTagName("td")[col].innerHTML
     const qEnd = dates[1].getElementsByTagName("td")[col].innerHTML
@@ -241,4 +255,44 @@ function getCol(quarter) {
     else if (quarter == 'Winter') return 2;
     else if (quarter == 'Spring') return 3;
     else if (quarter == "Summer") return 4;
+}
+
+/**
+ * Turns "Spring 2023" into "2022-2023"
+ * 
+ * @param {*} quarterYear 
+ * @returns 
+ */
+function formatYear(quarterYear) {
+    const info = quarterYear.split(' ')
+    if (info[0] == "Autumn") {
+        return `${info[1]}-${parseInt(info[1]) + 1}`
+    }
+    else {
+        return `${parseInt(info[1]) - 1}-${info[1]}`
+    }
+}
+
+/**
+ * Convert "June 3, 2023" into 20230603.
+ * 
+ * @param {*} date 
+ */
+function convertDate(writtenDate) {
+    const date = new Date(writtenDate)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}${month}${day}`
+}
+
+function wait(obj) {
+    console.log(obj)
+    let count = 0
+    let promise = obj["body"]
+    while (count < 10 && !(promise instanceof String)) {
+        count++;
+        setTimeout(wait, 250)
+    }
+    return promise
 }

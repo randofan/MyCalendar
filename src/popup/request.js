@@ -10,8 +10,9 @@ const getRequest = (url) => {
     let res = {}
     const urls = [url]
     urls.forEach(async (url) => {
-        const r = await chrome.runtime.sendMessage({url: url})
+        let r = await chrome.runtime.sendMessage({url: url})
         res['body'] = r.page
     });
+    console.log(res)
     return res
 }

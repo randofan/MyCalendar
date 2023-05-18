@@ -13,6 +13,7 @@ var quarterYear = null;
             const response = await chrome.tabs.sendMessage(tab.id, {page: "temp"});
             displayNames(response.classSchedule);
             scheduleData = response.classSchedule;
+            quarterYear = response.classQuarter;
             fail = false
         }
         catch(e) {
