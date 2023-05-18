@@ -61,12 +61,12 @@
 
 ## Gavin
 ### Old Goals
-1.
+1.integrate holidays and interruptions with content.js
+2. continue to write tests for ics.js to be really thourough about ironing out all the bugs.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: I updated ics.js to fully support holidays and interruptions in the schedule, as well as google maps links for directions in the event descriptions. I also wrote a slew of unit tests to more completely test ics.js.
+- What worked: The unit tests were very effective. They exposed several bugs in ics.js which I then fixed. It's unlikely that I would have caught the bugs without the testing.
+- What you learned: I learned first hand the importance of testing, and I also learned more about how to write unit tests for JavaScript.
+- Where you had trouble: Writing the tests was pretty new for me, so I ran into several issues with the config files and similar things that I had to iron out. 
 ### New Goals
-1. 
-
+1. Work on building out support for including sections wherever I can.
