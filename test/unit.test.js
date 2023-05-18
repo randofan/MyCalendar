@@ -128,6 +128,7 @@ describe('ICS Unit Tests', () => {
     date = "20231231";
     answer = ICSToDate(date);
     assert.deepEqual(answer, new Date(2023, 11, 31, 0));
+  });
 });
 
 
