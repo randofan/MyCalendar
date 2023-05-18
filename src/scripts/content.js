@@ -5,7 +5,7 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.page) {
             console.log('content')
-            sendResponse({classSchedule: getClassSchedule(document), classQuarter: getQuarter(document)});// this is how you send message to popup
+            sendResponse({classSchedule: getClassSchedule(), classQuarter: getQuarter()});// this is how you send message to popup
             return true;
         }
     }
@@ -15,8 +15,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // Pass in document as a parameter to the two function below. This allows unit testing.
 //
 
-function getClassSchedule(doc) {
-    const table = doc.getElementsByClassName("sps-data");
+/**
+ * Get the class schedule from the doc.
+ * Unable to unit test.
+ * 
+ */
+function getClassSchedule() {
+    const table = document.getElementsByClassName("sps-data");
     const data = table[0];
     const trs = data.getElementsByTagName("tr");
 
@@ -57,8 +62,10 @@ function getClassSchedule(doc) {
 }
 
 /**
- * Gets the quarter. In form of "Spring 2023"
+ * Gets the quarter. In form of "Spring 2023".
+ * Unable to unit test.
+ * 
  */
-function getQuarter(doc) {
-    return doc.getElementsByTagName("h1")[0].innerText
+function getQuarter() {
+    return document.getElementsByTagName("h1")[0].innerText
 }

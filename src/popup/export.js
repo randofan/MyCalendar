@@ -1,14 +1,24 @@
 var scheduleData = null;
+var quarterYear = null;
 
 /**
  * Get the class schedule from the content script.
  * Unable to unit test.
  */
 (async () => {
-    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-    const page = await chrome.tabs.sendMessage(tab.id, {page: "temp"});
-    displayNames(page.classSchedule);
-    scheduleData = page.classSchedule;
+    let fail = true
+    while (fail) {
+        try {
+            const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+            const response = await chrome.tabs.sendMessage(tab.id, {page: "temp"});
+            displayNames(response.classSchedule);
+            scheduleData = response.classSchedule;
+            fail = false
+        }
+        catch(e) {
+            fail = true
+        }
+    }
 })();
 
 /**
@@ -37,13 +47,10 @@ function displayNames(courses) {
     // Add table rows.
     coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course))
 
-    chrome.storage.local.get(['state']).then((result) => {
-        document.getElementById("sections").checked = result["directions"]
-        document.getElementById("map").checked = result["fun_facts"]
-    })
+    chrome.storage.local.get('directions', result => {
+        document.getElementById("map").checked = result.directions
+        document.getElementById("savestate").checked = result.directions
 
-    chrome.storage.local.get(['state']).then((result) => {
-        document.getElementById("map").checked = result["directions"]
     })
 
     // Set up button event listener
@@ -70,15 +77,7 @@ function onDownloadClick() {
     let isMap = document.getElementById("map").checked
 
     if (document.getElementById("savestate").checked) {
-        chrome.storage.local.set({state: {
-            "directions": isMap,
-        }})
-    }
-
-    // include map?
-    if (isMap) {
-        // TODO Get link for each course.
-        Object.values(scheduleData).forEach(course => course["link"])
+        chrome.storage.local.set({directions: isMap})
     }
 
     const inputs = document.getElementsByTagName("tr"); // returns an HTMLCollection, NOT an array
@@ -91,8 +90,17 @@ function onDownloadClick() {
         const export_schedule = cells[1].getElementsByTagName("input")[0].checked;
         const export_sections = cells[2].getElementsByTagName("input")[0].checked;
 
+
         // Push course name to respective arrays based on if user checked the box
-        if (export_schedule) selection.schedule = Object.values(scheduleData).filter((map) => (map["course"] == course))
+        if (export_schedule) {
+            Object.keys(scheduleData).forEach(courseTitle => {
+                let courseMap = scheduleData[courseTitle];
+                if (courseMap.course == course) {
+                    selection.schedule.push(courseMap);
+                }
+            })
+            
+        };
 
         if (export_sections) {
             // TODO additional sections.
@@ -105,30 +113,10 @@ function onDownloadClick() {
         return;
     }
 
-    var icsFile = buildICS(selection);
+    var icsFile = buildICS(selection, quarterYear, isMap);
     let ics = new Blob([icsFile], {type: "text/calendar"})
     chrome.downloads.download({
         url: URL.createObjectURL(ics),
         filename: "schedule.ics"
     });
-}
-
-/**
- * Helper function to generate table rows.
- * 
- * @param {*} course 
- * @returns 
- */
-function generateTableRow(course) {
-    let course_id = course.replace(/\s+/g, '-') // "CSE-403"
-    let id_schedule = course_id + "-schedule";
-    let id_section = course_id + "-section"
-
-    let row_html =  '<tr>' +
-                    `    <th class="course-name">${course}</th>` +
-                    `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-                    `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
-                    '</tr>'
-        
-    return row_html
 }

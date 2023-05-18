@@ -5,15 +5,10 @@ const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
 const holidayArray = []; // ICS style, get from content.js
 
-/**
- * builds an ICS file using the passed class data and yearQuarter
- * @param scheduleData an array of class objects
- * @param yearQuarter a string indicating what quarter and year it is
- * @param includeLink a boolean indicating whether or not to include directions to class
- * @returns {string} a string containing an entire ICS file, built using the options above
- */
-function buildICS(scheduleData, yearQuarter, includeLink) { // yearQuarter is in the form of "Spring 2023"
+function buildICS(scheduleData, quarterYear, includeLink) {
     const map = scheduleData;
+
+    console.log(map)
 
     let file = "";
     file += "BEGIN:VCALENDAR\n"; // start calendar object
@@ -52,7 +47,7 @@ function buildICS(scheduleData, yearQuarter, includeLink) { // yearQuarter is in
             file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n"; // change for holiday
             file += "LOCATION:" + en.location + "\n";
             if (includeLink) {
-                file += "DESCRIPTION:" + en.link + "\n";
+                file += `DESCRIPTION:<HTML><BODY><a href=${en.link}>Building directions</a></BODY></HTML>` + "\n";
             }
             file += "END:VEVENT\n";
         }
@@ -61,11 +56,7 @@ function buildICS(scheduleData, yearQuarter, includeLink) { // yearQuarter is in
     return file;
 }
 
-/**
- * converts from registration days to ICS style days
- * @param registrationDays the string taken from the registration page
- * @returns {string} the string of the same days in ICS format
- */
+// converts from the days on the registration page to ICS days
 function convertDays(registrationDays) {
     let dayChars = registrationDays.split("");
     for (let i = 0; i < dayChars.length - 1; i++) { // consolidate Th
@@ -81,11 +72,7 @@ function convertDays(registrationDays) {
     return icsDays.join(",");
 }
 
-/**
- * converts from registration-style days to numbers 0-6, where 0 is sunday
- * @param registrationDays the array of registration days
- * @returns {*[]} the array of days as numbers
- */
+// takes in registrationDays, gives array of days converted to numbers
 function daysToNumbers(registrationDays) {
     const dayToNumber = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
     let ICSDays = convertDays(registrationDays);
@@ -97,13 +84,7 @@ function daysToNumbers(registrationDays) {
     return nums;
 }
 
-/**
- * converts from time formatted on the registration page to ICS style time
- * NOTE: assumes all times happen between 0830 and 2030. The registration page
- * does not include am/pm, so we have to restrict ourselves to a 12-hr block of the day
- * @param registrationTime a string representing the contents of the time block on the registration page
- * @returns {string[]} an array of two elements containing the converted start and end time of the class
- */
+// converts from the time on the registration page to ICS format time
 function convertTime(registrationTime) {
     let startTime = registrationTime.split("-")[0];
     let endTime = registrationTime.split("-")[1];
@@ -124,14 +105,9 @@ function convertTime(registrationTime) {
     return [startTime, endTime];
 }
 
-/**
- * returns the first date that:
- * 1. falls on or after the passed in date and
- * 2. happens on the passed day of the week
- * @param ICSDate the passed in date, a string in ICS format
- * @param dow the day of the week, a number 0-6, where 0 is sunday
- * @returns {string} the date
- */
+// returns the first date, in ICS style (YYYYMMDD), on or after the given
+// date, that falls on the given day of the week (a number 0-6 inc., where 0 is sunday)
+// date must be in ICS style (YYYYMMDD)
 function getFirstDay(ICSDate, dow) {
     let firstDate = ICSToDate(ICSDate);// calculate all dates inside the method in Z
     let firstDOW = firstDate.getDay();
@@ -150,6 +126,7 @@ function getFirstDay(ICSDate, dow) {
  * returns the first date that:
  * 1. falls on or after the passed in date and
  * 2. happens on one of the passed days of the week
+ * 
  * @param ICSDate the start day, as a string in ICS format
  * @param dows an array of days of the week, represented as numbers 0-6, where 0 is sunday
  * @returns {*} an string representing a date in ICS format
@@ -164,7 +141,8 @@ function getFirstDayOfMultiple(ICSDate, dows) {
 }
 
 /**
- * Converts from a JavaScript Date object to a string representing the date in ICS format
+ * Converts from a JavaScript Date object to a string representing the date in ICS format.
+ * 
  * @param JSDate the passed in JS Date
  * @returns {string} the returned ICS Date
  */
@@ -173,7 +151,8 @@ function dateToICS(JSDate) {
 }
 
 /**
- * Converts from a string representing a date in ICS format to a JavaScript Date object
+ * Converts from a string representing a date in ICS format to a JavaScript Date object.
+ * 
  * @param ICSDate the passed in date in ICS format
  * @returns {Date} the returned Date object
  */
@@ -182,7 +161,8 @@ function ICSToDate(ICSDate) {
 }
 
 /**
- * Rudimentary hash function for making UIDs for the file
+ * Rudimentary hash function for making UIDs for the file.
+ * 
  * @param event
  * @returns {string}
  */
@@ -202,20 +182,51 @@ function makeUID(event) {
  * Unable to unit test.
  * 
  * @param {*} year formatted as "2022-2023"
- * @param {*} quarter formatted as "Spring", "Winter", "Autumn" // TODO idk what summer quarter looks like
- * @returns 
+ * @param {*} quarter formatted as "Spring", "Winter", "Autumn"
+ * @returns return type is below:
+ * {
+  "dates": {
+     "start": "Sep 23, 2022",
+     "end": "Dec 23, 2022"
+   }
+   "holidays": ["Dec 25, 2022", "Mar 15, 2022"]
+   }
  */
 function getDatesAndHolidays(year, quarter) {
     let ret = {} // check slack for format
     let formatYear = formatYear(year)
-    const dom = getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"]
-    // cast to html collection
-    //
+    const doc = new DOMParser().parseFromString(getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"])
+
+    const col = getCol(quarter)
+    
     // Get Dates
-    let col = getCol(quarter)
+    
+    const dates = doc.getElementById("SUMFE").getElementsByTagName("tr")
+    const qStart = dates[0].getElementsByTagName("td")[col].innerHTML
+    const qEnd = dates[1].getElementsByTagName("td")[col].innerHTML
+
+    ret["dates"] = {
+        "start": qStart,
+        "end": qEnd
+    }
+
 
     // Get Holidays
+    ret["holidays"] = []
 
+    const table = doc.getElementsByClassName("table table-striped")[1].getElementsByTagName("tr")
+    for (let i = 0; i < trs.length; i++) {
+        let row = trs[i];
+        const cells = row.getElementsByTagName("td");
+
+        const holiday = cells[col]
+        if (holiday.innerHTML != "") {
+
+            const day = holiday.split('<br>')[1].trim()
+            ret["holidays"].push(day)
+        }        
+    }
+    
     return ret
 }
 
@@ -226,10 +237,8 @@ function getDatesAndHolidays(year, quarter) {
  * @returns 
  */
 function getCol(quarter) {
-    if (quarter == 'Autumn') return 0;
-    else if (quarter == 'Winter') return 1;
-    else if (quarter == 'Summer') return 2;
-    else if (quarter == "Full-term") return 3;
-    else if (quarter == "A-term") return 4; // TODO what is right format for this?
-    else if (quarter == "B-term") return 5;
+    if (quarter == 'Autumn') return 1;
+    else if (quarter == 'Winter') return 2;
+    else if (quarter == 'Spring') return 3;
+    else if (quarter == "Summer") return 4;
 }
