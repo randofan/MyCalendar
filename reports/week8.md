@@ -47,14 +47,17 @@
 
 ## Trinity
 ### Old Goals
-1.
+1. Write unit tests for backend components
+2. Help implement section.js if needed
+
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: Styled the popup, added the logo into the manifest, wrote unit tests, worked on adding the building map link in the .ics file, update the README with user manual and developer guidelines. 
+- What worked: As usual, touching base in Slack and on Tuesdays.
+- What you learned: Learned about the limitations of testing in Mocha with testing files that reference Chrome or the document
+- Where you had trouble: Had trouble with testing. David & I couldn't figure out at first why the builds were failing prior to Beta, but he figured out that we couldn't test 2 files in unittest.js
 ### New Goals
-1.
+1. Continue to help implement section.js
+2. Iron out any edge cases and what the popup should look like
 
 ## Gavin
 ### Old Goals
