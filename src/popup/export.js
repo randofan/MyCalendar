@@ -13,6 +13,7 @@ var quarterYear = null;
             const response = await chrome.tabs.sendMessage(tab.id, {page: "temp"});
             displayNames(response.classSchedule);
             scheduleData = response.classSchedule;
+            quarterYear = response.classQuarter;
             fail = false
         }
         catch(e) {
@@ -98,12 +99,16 @@ function onDownloadClick() {
                 if (courseMap.course == course) {
                     selection.schedule.push(courseMap);
                 }
-            })
-            
+            })          
         };
 
         if (export_sections) {
-            // TODO additional sections.
+            Object.keys(scheduleData).forEach(courseTitle => {
+                let courseMap = scheduleData[courseTitle];
+                if (courseMap.course == course) {
+                    selection.sections.push(courseMap);
+                }
+            })
         };
 
     }
@@ -113,10 +118,124 @@ function onDownloadClick() {
         return;
     }
 
-    var icsFile = buildICS(selection, quarterYear, isMap);
-    let ics = new Blob([icsFile], {type: "text/calendar"})
+    downloadFile(selection, quarterYear, isMap)
+}
+
+/**
+ * Download the file for the schedule and sections.
+ * 
+ * @param {*} selection 
+ * @param {*} quarterYear 
+ * @param {*} isMap 
+ */
+async function downloadFile(selection, quarterYear, isMap) {
+    const split = quarterYear.split(" ")
+    const info = await getDatesAndHolidays(formatYear(quarterYear), split[3])
+
+    const mainFile = buildICS(selection.schedule, info, isMap);
+    let main = new Blob([mainFile], {type: "text/calendar"})
     chrome.downloads.download({
-        url: URL.createObjectURL(ics),
+        url: URL.createObjectURL(main),
         filename: "schedule.ics"
     });
+    
+    if (Object.keys(selection.sections).length != 0) {
+        const sections = await getSections(selection.sections, quarterYear)
+        const sectionFile = buildICS(sections, info, isMap)
+        let section = new Blob([sectionFile], {type: "text/calendar"})
+        chrome.downloads.download({
+            url: URL.createObjectURL(section),
+            filename: "schedule.ics"
+        });
+    }
 }
+
+/**
+ * Get a list of sections formatted. See buildICS for the required format of sections.
+ * 
+ * @param {*} selection 
+ * @param {*} quarterYear 
+ */
+async function getSections(selection, quarterYear) {
+    // TODO
+}
+
+/**
+ * Get the start/end dates and holidays for the academic quarter.
+ * Unable to unit test.
+ * 
+ * @param {*} year formatted as "2022-2023"
+ * @param {*} quarter formatted as "Spring", "Winter", "Autumn"
+ * @returns return type is below:
+ * {
+    "dates": {
+        "start": "Sep 23, 2022",
+        "end": "Dec 23, 2022"
+    }
+    "holidays": ["Dec 25, 2022", "Mar 15, 2022"]
+    }
+*/
+async function getDatesAndHolidays(year, quarter) {
+    let ret = {}
+    let formatYr = year.split('-').map(str => str.slice(2)).join('');
+    const body = await chrome.runtime.sendMessage({url: `https://www.washington.edu/students/reg/${2223}cal.html`});
+    const doc = new DOMParser().parseFromString(body.page, 'text/html')
+    const col = getCol(quarter)
+
+    // Get Dates
+    const dates = doc.getElementById("SUMFE").getElementsByTagName("tr")
+    const qStart = dates[2].getElementsByTagName("td")[col].innerHTML
+    const qEnd = dates[3].getElementsByTagName("td")[col].innerHTML
+
+    ret["dates"] = {
+        "start": qStart,
+        "end": qEnd
+    }
+
+    // Get Holidays
+    ret["holidays"] = []
+
+    const trs = doc.getElementsByTagName("table")[1].getElementsByTagName("tr")
+    for (let i = 2; i < trs.length; i++) {
+        let row = trs[i];
+        const cells = row.getElementsByTagName("td");
+        const holiday = cells[col]
+        if (holiday.innerHTML != "") {
+
+            const day = holiday.innerHTML.split('<br>')[1].trim()
+            ret["holidays"].push(day)
+        }        
+    }
+
+    return ret
+}
+
+/**
+ * Get the column associated with the quarter.
+ * 
+ * @param {*} quarter 
+ * @returns 
+ */
+function getCol(quarter) {
+    if (quarter == 'Autumn') return 1;
+    else if (quarter == 'Winter') return 2;
+    else if (quarter == 'Spring') return 3;
+    else if (quarter == "Summer") return 4;
+}
+
+/**
+ * Turns "Spring 2023" into "2022-2023"
+ * 
+ * @param {*} quarterYear 
+ * @returns 
+ */
+function formatYear(quarterYear) {
+    const info = quarterYear.split(' ')
+    if (info[0] == "Autumn") {
+        return `${info[1]}-${parseInt(info[1]) + 1}`
+    }
+    else {
+        return `${parseInt(info[1]) - 1}-${info[1]}`
+    }
+}
+

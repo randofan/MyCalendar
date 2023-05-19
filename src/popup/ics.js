@@ -1,14 +1,35 @@
-// Builds a .ics file from a passed in calendar object
-
-const firstDayOfInstruction = dateToICS(new Date()); // ICS style, get from content.js
-const lastDayOfInstuction = 20230603; // ICS style, get from content.js
 const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["Th", "TH"], ["F", "FR"]]);
-const holidayArray = []; // ICS style, get from content.js
 
-function buildICS(scheduleData, quarterYear, includeLink) {
+/**
+ * Builds a .ics file from a passed in calendar object.
+ * 
+ * Input is formatted as follows.
+   scheduleData[Course Title] = {
+                                SLN,
+                                Course Title; CSE 403 A,
+                                Course; CSE 403,
+                                LC = lecture; QZ = section; IS = individual,
+                                Course Name; Software Engineering,
+                                Days,
+                                Time,
+                                Location,
+                                UW map link,
+                                Instructor
+                                }
+ * 
+ * @param {*} scheduleData course data from content.js
+ * @param {*} quarterYear quarter + year from content.js
+ * @param {*} includeLink boolean to include directions link
+ * @returns 
+ */
+function buildICS(scheduleData, info, includeLink) {
+
+    const firstDayOfInstruction = convertDate(info["dates"]["start"])
+    const lastDayOfInstuction = convertDate(info["dates"]["end"])
+    const holidayArray = info["holidays"]
+
+
     const map = scheduleData;
-
-    console.log(map)
 
     let file = "";
     file += "BEGIN:VCALENDAR\n"; // start calendar object
@@ -34,7 +55,7 @@ function buildICS(scheduleData, quarterYear, includeLink) {
     let startDates = [firstDayOfInstruction].concat(holidayArray);
     let endDates = holidayArray.concat([lastDayOfInstuction]);
 
-    map.schedule.forEach(en => { // for each class
+    map.forEach(en => { // for each class
         for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
             let times = convertTime(en.time);
             let dows = daysToNumbers(en.days);
@@ -176,69 +197,15 @@ function makeUID(event) {
     return UID;
 }
 
-
 /**
- * Get the start/end dates and holidays for the academic quarter.
- * Unable to unit test.
+ * Convert "June 3, 2023" into 20230603.
  * 
- * @param {*} year formatted as "2022-2023"
- * @param {*} quarter formatted as "Spring", "Winter", "Autumn"
- * @returns return type is below:
- * {
-  "dates": {
-     "start": "Sep 23, 2022",
-     "end": "Dec 23, 2022"
-   }
-   "holidays": ["Dec 25, 2022", "Mar 15, 2022"]
-   }
+ * @param {*} date 
  */
-function getDatesAndHolidays(year, quarter) {
-    let ret = {} // check slack for format
-    let formatYear = formatYear(year)
-    const doc = new DOMParser().parseFromString(getRequest(`https://www.washington.edu/students/reg/${year}cal.html`)["body"])
-
-    const col = getCol(quarter)
-    
-    // Get Dates
-    
-    const dates = doc.getElementById("SUMFE").getElementsByTagName("tr")
-    const qStart = dates[0].getElementsByTagName("td")[col].innerHTML
-    const qEnd = dates[1].getElementsByTagName("td")[col].innerHTML
-
-    ret["dates"] = {
-        "start": qStart,
-        "end": qEnd
-    }
-
-
-    // Get Holidays
-    ret["holidays"] = []
-
-    const table = doc.getElementsByClassName("table table-striped")[1].getElementsByTagName("tr")
-    for (let i = 0; i < trs.length; i++) {
-        let row = trs[i];
-        const cells = row.getElementsByTagName("td");
-
-        const holiday = cells[col]
-        if (holiday.innerHTML != "") {
-
-            const day = holiday.split('<br>')[1].trim()
-            ret["holidays"].push(day)
-        }        
-    }
-    
-    return ret
-}
-
-/**
- * Get the column associated with the quarter.
- * 
- * @param {*} quarter 
- * @returns 
- */
-function getCol(quarter) {
-    if (quarter == 'Autumn') return 1;
-    else if (quarter == 'Winter') return 2;
-    else if (quarter == 'Spring') return 3;
-    else if (quarter == "Summer") return 4;
+function convertDate(writtenDate) {
+    const date = new Date(writtenDate)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}${month}${day}`
 }
