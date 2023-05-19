@@ -23,7 +23,7 @@ function getsln(sln, course) {
           const x = pr.querySelector('a').innerText;
           if(ind === false){
               // find sln of course passed in
-            if(x == '12822'){
+            if(x == sln){
               ind = true;
             }
           }else{
