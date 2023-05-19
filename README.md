@@ -11,21 +11,23 @@ MyCalendar is a Google chrome extension that launches on the UW course registrat
 - install Chrome v112
 
 ## Run
-1. Clone the [Github Repository](https://github.com/randofan/MyCalendar)
-1. Navigate to chrome://extensions/ on Chrome
-2. In the upper right corner, enable developer mode
-3. Click "load unpacked" and select MyCalendar/src
-4. Navigate to your [Course Schedule](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=2)
-5. In the upper right corner, click on the extension
-6. Select the courses you would like to include
-7. Click the download button
-8. Note you must follow the steps in this order exactly. Failure to do so may result in undefined behavior.
+1. Open the [Github Repository](https://github.com/randofan/MyCalendar) and click on <> Code
+2. Select "Download ZIP" and download the .zip
+3. Unzip the file and place MyCalendar/ into your desired location; DO NOT REMOVE OR MOVE THE FOLDER
+4. Navigate to chrome://extensions/ on Chrome
+5. In the upper right corner, enable developer mode
+6. Click "load unpacked" and select MyCalendar/src
+7. Navigate to your [Course Schedule](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=2)
+8. In the upper right corner, click on the extension
+9. Select the courses you would like to include
+10. Click the download button
+11. Note you must follow the steps in this order exactly. Failure to do so may result in undefined behavior
 
 ## Report Bugs
 Known bugs will be reported as [issues](https://github.com/randofan/MyCalendar/issues?q=is%3Aopen+is%3Aissue+label%3Abug). To report a bug, create a new issue in the repository with the label ```bug```. Follow the template provided.
 
 ## Current Issues - Beta Release
-Section impelemntation is not ready for release. AN error was made when developing the module and thrying to access the registration page. Forgot that we are not able to access uw pages that required login information, so when parsing we needed to use open pages. In order to accomidate that change we need to refactor our code and add a new method and change the parsing algorithm. Estimated time of completion Friday May 19. 
+Section implementation is not ready for release. AN error was made when developing the module and thrying to access the registration page. Forgot that we are not able to access uw pages that required login information, so when parsing we needed to use open pages. In order to accomidate that change we need to refactor our code and add a new method and change the parsing algorithm. Estimated time of completion Friday May 19. 
 
 
 # Developer Guidelines
