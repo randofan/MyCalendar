@@ -118,7 +118,7 @@ function onDownloadClick() {
         return;
     }
 
-    downloadFile(selection, quarterYear, isMap)
+    downloadFile(selection, quarterYear, isMap) // TODO try move this into this function and make it async
 }
 
 /**
@@ -178,8 +178,7 @@ async function getSections(selection, quarterYear) {
 async function getDatesAndHolidays(year, quarter) {
     let ret = {}
     let formatYr = year.split('-').map(str => str.slice(2)).join('');
-    const body = await chrome.runtime.sendMessage({url: `https://www.washington.edu/students/reg/${2223}cal.html`});
-    const doc = new DOMParser().parseFromString(body.page, 'text/html')
+    const doc = await getRequest(`https://www.washington.edu/students/reg/${2223}cal.html`);
     const col = getCol(quarter)
 
     // Get Dates
@@ -209,33 +208,3 @@ async function getDatesAndHolidays(year, quarter) {
 
     return ret
 }
-
-/**
- * Get the column associated with the quarter.
- * 
- * @param {*} quarter 
- * @returns 
- */
-function getCol(quarter) {
-    if (quarter == 'Autumn') return 1;
-    else if (quarter == 'Winter') return 2;
-    else if (quarter == 'Spring') return 3;
-    else if (quarter == "Summer") return 4;
-}
-
-/**
- * Turns "Spring 2023" into "2022-2023"
- * 
- * @param {*} quarterYear 
- * @returns 
- */
-function formatYear(quarterYear) {
-    const info = quarterYear.split(' ')
-    if (info[0] == "Autumn") {
-        return `${info[1]}-${parseInt(info[1]) + 1}`
-    }
-    else {
-        return `${parseInt(info[1]) - 1}-${info[1]}`
-    }
-}
-

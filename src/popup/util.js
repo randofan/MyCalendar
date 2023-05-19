@@ -17,3 +17,32 @@ function generateTableRow(course) {
         
     return row_html
 }
+
+/**
+ * Get the column associated with the quarter.
+ * 
+ * @param {*} quarter 
+ * @returns 
+ */
+function getCol(quarter) {
+    if (quarter == 'Autumn') return 1;
+    else if (quarter == 'Winter') return 2;
+    else if (quarter == 'Spring') return 3;
+    else if (quarter == "Summer") return 4;
+}
+
+/**
+ * Turns "Spring 2023" into "2022-2023"
+ * 
+ * @param {*} quarterYear 
+ * @returns 
+ */
+function formatYear(quarterYear) {
+    const info = quarterYear.split(' ')
+    if (info[0] == "Autumn") {
+        return `${info[1]}-${parseInt(info[1]) + 1}`
+    }
+    else {
+        return `${parseInt(info[1]) - 1}-${info[1]}`
+    }
+}
