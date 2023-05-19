@@ -1,5 +1,5 @@
 // function to parse the sln numbers for the section
-function getsln(sln, course) {
+function getsln(sln, document) {
   // get's all the sln tables
   const tbls = document.getElementsByTagName('table');
   const results = [];
