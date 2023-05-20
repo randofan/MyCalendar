@@ -1,5 +1,8 @@
 # MyCalendar
 MyCalendar is a Google chrome extension that launches on the UW course registration page and converts the user's registered courses into an .ics file. With MyCalendar, students don't have to manually enter the details of a course (time, recurrence, location, etc.) for all their courses every quarter.
+## For peer review
+please download the files needed from this version of the repo while we fix current bugs we have with the code:
+https://github.com/randofan/MyCalendar/tree/e951c956130e98ef747c838e0f97394a83adff00
 
 ## Features
 1. Download your course schedule as an .ics file, which can be imported into any calendar app.
