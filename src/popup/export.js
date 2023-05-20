@@ -26,9 +26,9 @@ var quarterYear = null;
  * Get course names from data scraped by content.js and populate selection
  * populate HTML with courses + input checkbox elements.
  * Unable to unit test.
- * 
- * @param {*} courses 
- * @returns 
+ *
+ * @param {*} courses
+ * @returns
  */
 function displayNames(courses) {
 
@@ -39,10 +39,10 @@ function displayNames(courses) {
     let table = document.querySelector('.selection-table');
 
     // Get all the unique courses e.g. "CSE 403" not "CSE 403 A" & "CSE 403 AA"
-    let coursesToDisplay = new Set(); 
+    let coursesToDisplay = new Set();
     Object.keys(courses).forEach(courseTitle => {
         let course = courses[courseTitle];
-        coursesToDisplay.add(course.course); 
+        coursesToDisplay.add(course.course);
     })
 
     // Add table rows.
@@ -65,8 +65,8 @@ function displayNames(courses) {
  * Traverse HTML checkbox input elements and populate selection accordingly
  * to send to buildICS().
  * Unable to unit test.
- * 
- * @returns 
+ *
+ * @returns
  */
 function onDownloadClick() {
     // stores the courses the user has selected
@@ -99,7 +99,7 @@ function onDownloadClick() {
                 if (courseMap.course == course) {
                     selection.schedule.push(courseMap);
                 }
-            })          
+            })
         };
 
         if (export_sections) {
@@ -123,10 +123,10 @@ function onDownloadClick() {
 
 /**
  * Download the file for the schedule and sections.
- * 
- * @param {*} selection 
- * @param {*} quarterYear 
- * @param {*} isMap 
+ *
+ * @param {*} selection
+ * @param {*} quarterYear
+ * @param {*} isMap
  */
 async function downloadFile(selection, quarterYear, isMap) {
     const split = quarterYear.split(" ")
@@ -138,7 +138,7 @@ async function downloadFile(selection, quarterYear, isMap) {
         url: URL.createObjectURL(main),
         filename: "schedule.ics"
     });
-    
+
     if (Object.keys(selection.sections).length != 0) {
         const sections = await getSections(selection.sections, quarterYear)
         const sectionFile = buildICS(sections, info, isMap)
@@ -152,18 +152,37 @@ async function downloadFile(selection, quarterYear, isMap) {
 
 /**
  * Get a list of sections formatted. See buildICS for the required format of sections.
- * 
- * @param {*} selection 
- * @param {*} quarterYear 
+ *
+ * @param {*} selection
+ * @param {*} quarterYear
  */
 async function getSections(selection, quarterYear) {
-    // TODO
+    let sects = {};
+    // get all the different courses
+    let names = Object.keys(selection);
+    for (const i = 0; i< names.length(); i++){
+        // get the specific course
+        let course = selection[names[i]];
+        let name = course["title"].trim();
+        name = name.substring(0, name.lastIndexOf(" "));
+        // get the url link given department
+        let ur = mapListTest(name);
+
+        const body = await chrome.runtime.sendMessage({url: ur});
+        const doc = new DOMParser().parseFromString(body.page, 'text/html')
+
+        // get section object
+        let sect = getsln(course, doc);
+        sects[sect["title"]] = sect;
+    }
+    // return list of seciton objects
+    return sects;
 }
 
 /**
  * Get the start/end dates and holidays for the academic quarter.
  * Unable to unit test.
- * 
+ *
  * @param {*} year formatted as "2022-2023"
  * @param {*} quarter formatted as "Spring", "Winter", "Autumn"
  * @returns return type is below:
@@ -204,7 +223,7 @@ async function getDatesAndHolidays(year, quarter) {
 
             const day = holiday.innerHTML.split('<br>')[1].trim()
             ret["holidays"].push(day)
-        }        
+        }
     }
 
     return ret
@@ -212,9 +231,9 @@ async function getDatesAndHolidays(year, quarter) {
 
 /**
  * Get the column associated with the quarter.
- * 
- * @param {*} quarter 
- * @returns 
+ *
+ * @param {*} quarter
+ * @returns
  */
 function getCol(quarter) {
     if (quarter == 'Autumn') return 1;
@@ -225,9 +244,9 @@ function getCol(quarter) {
 
 /**
  * Turns "Spring 2023" into "2022-2023"
- * 
- * @param {*} quarterYear 
- * @returns 
+ *
+ * @param {*} quarterYear
+ * @returns
  */
 function formatYear(quarterYear) {
     const info = quarterYear.split(' ')

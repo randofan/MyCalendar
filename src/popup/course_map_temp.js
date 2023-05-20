@@ -1,4 +1,4 @@
-function mapList(id){
+function mapListTest(id){
   const course = new Map([
     ["ARCTIC", "https://www.washington.edu/students/timeschd/SPR2023/arctic.html"],
     ["HONORS", "https://www.washington.edu/students/timeschd/SPR2023/hnrs.html"],
