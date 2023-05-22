@@ -11,8 +11,8 @@ MyCalendar is a Google chrome extension that launches on the UW course registrat
 - install Chrome v112
 
 ## Run
-1. Open the [Github Repository](https://github.com/randofan/MyCalendar) and click on <> Code
-2. Select "Download ZIP" and download the .zip
+1. Open the [Github Repository](https://github.com/randofan/MyCalendar) and navigate to Releases; click on Beta Release
+2. Select "Source Code" and download the .zip
 3. Unzip the file and place MyCalendar/ into your desired location; DO NOT REMOVE OR MOVE THE FOLDER
 4. Navigate to chrome://extensions/ on Chrome
 5. In the upper right corner, enable developer mode

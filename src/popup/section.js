@@ -1,5 +1,5 @@
 // function to parse the sln numbers for the section
-function getsln(sln, document) {
+function getsln(course, document) {
   // get's all the sln tables
   const tbls = document.getElementsByTagName('table');
   const results = [];
@@ -23,12 +23,12 @@ function getsln(sln, document) {
           const x = pr.querySelector('a').innerText;
           if(ind === false){
               // find sln of course passed in
-            if(x == sln){
+            if(x == course["sln"]){
               ind = true;
             }
           }else{
             if (pr.innerHTML.includes("LB") || pr.innerHTML.includes("QZ")){
-              results.push(getSched(pr));
+              results.push(getSched(pr, course));
             }else{
               fin = true;
             }
@@ -39,18 +39,18 @@ function getsln(sln, document) {
     }
 
   }
-  console.log(results);
+  return results;
 }
 
-function getSched(pr) {
+function getSched(pr, fields) {
   let st = pr.innerText;
   st = st.replace(/\s+/g," ");
   const arr = st.split(" ");
   let sln = arr[1];
-  let title = arr[2];
-  let course = " tbd ";
+  let title = fields["course"].concat(" ",arr[2]);
+  let course = fields["course"];
   let type = arr[3];
-  let name = "tbd";
+  let name = fields["name"];
   let days = arr[4];
   let time = arr[5];
   let loc  = arr[6].concat(" ", arr[7]);
