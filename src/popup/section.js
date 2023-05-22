@@ -39,7 +39,7 @@ function getsln(course, document) {
     }
 
   }
-  console.log(results);
+  return results;
 }
 
 function getSched(pr, fields) {
