@@ -52,7 +52,6 @@ function mapListTest(id){
     ["COMMLD", "https://www.washington.edu/students/timeschd/SPR2023/commld.html"],
     ["CHID", "https://www.washington.edu/students/timeschd/SPR2023/chid.html"],
     ["RELIG", "https://www.washington.edu/students/timeschd/SPR2023/religion.html"],
-    ["CSE", "https://www.washington.edu/students/timeschd/SPR2023/cse.html"],
     ["DANCE", "https://www.washington.edu/students/timeschd/SPR2023/dance.html"],
     ["DXARTS", "https://www.washington.edu/students/timeschd/SPR2023/dxarts.html"],
     ["DIS ST", "https://www.washington.edu/students/timeschd/SPR2023/disst.html"],
