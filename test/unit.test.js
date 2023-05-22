@@ -106,7 +106,6 @@ describe('ICS Unit Tests', () => {
 
   it('test DateToICS', () => {
     let date = new Date(2023, 4, 16);
-    console.log(date.toISOString());
     let answer = dateToICS(date);
     assert.deepEqual(answer, "20230516");
 
@@ -143,7 +142,7 @@ describe('Export Unit Tests', () => {
     let expected_html = '<tr>' +
                         `    <th class="course-name">${course}</th>` +
                         `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-                        `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
+                        `    <th><input type="checkbox" id=${id_section} value="section"></th>` +
                         '</tr>'
 
     let html = generateTableRow(course);
