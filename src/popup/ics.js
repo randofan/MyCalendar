@@ -28,6 +28,9 @@ function buildICS(scheduleData, info, includeLink) {
     const lastDayOfInstuction = convertDate(info["dates"]["end"])
     const holidayArray = info["holidays"]
 
+    for (let i = 0; i < holidayArray.length; i++) {
+        holidayArray[i] = convertDate(new Date(holidayArray[i]));
+    }
 
     const map = scheduleData;
 
@@ -55,12 +58,24 @@ function buildICS(scheduleData, info, includeLink) {
     let startDates = [firstDayOfInstruction].concat(holidayArray);
     let endDates = holidayArray.concat([lastDayOfInstuction]);
 
+    for (let i = 1; i < startDates.length; i++) {
+        let date = ICSToDate(startDates[i]);
+        date.setDate(date.getDate() + 1);
+        startDates[i] = dateToICS(date);
+    }
+
+    for (let i = 0; i < endDates.length - 1; i++) {
+        let date = ICSToDate(endDates[i]);
+        date.setDate(date.getDate() - 1);
+        endDates[i] = dateToICS(date);
+    }
+
     map.forEach(en => { // for each class
         for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
             let times = convertTime(en.time);
             let dows = daysToNumbers(en.days);
             file += "BEGIN:VEVENT\n";
-            file += "UID:" + makeUID(en) + "\n";
+            file += "UID:" + makeUID(en, startDates[i], endDates[i]) + "\n";
             file += "SUMMARY:" + en.title.replaceAll("&nbsp;", " ") + "\n";
             file += "DTSTAMP:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[0] + "\n";
             file += "DTSTART:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[0] + "\n"; // change for holiday
@@ -136,8 +151,6 @@ function getFirstDay(ICSDate, dow) {
         return dateToICS(firstDate);
     }
     let classDate = firstDate;
-    console.error("dow: " + dow);
-    console.error("firstDate: " + firstDate.toDateString() + "dow: " + firstDate.getDay());
     let millisecondDistance = ((dow - firstDate.getDay() + 7) % 7) * 24 * 60 * 60 * 1000;
     classDate.setTime(classDate.getTime() + millisecondDistance); // increment to the right day
     return dateToICS(classDate); // convert ISO date to ICS date
@@ -187,12 +200,13 @@ function ICSToDate(ICSDate) {
  * @param event
  * @returns {string}
  */
-function makeUID(event) {
-    //TODO: improve hash function
-    let UID = convertTime(event.time)[0];
-    UID += "-";
-    let hash = convertTime(event.time)[0] + (convertTime(event.time)[1] * 32) + event.title.length * 32**2;
-    UID += hash;
+function makeUID(event, start, end) {
+
+    let UID = convertTime(event.time)[0].substring(0,2);
+    UID += convertTime(event.time)[1].substring(0,1);
+    UID += start;
+    UID += end;
+    UID += event.title.replaceAll(" ", "");
     UID += "@example.com";
     return UID;
 }
@@ -204,8 +218,5 @@ function makeUID(event) {
  */
 function convertDate(writtenDate) {
     const date = new Date(writtenDate)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}${month}${day}`
+    return dateToICS(date);
 }
