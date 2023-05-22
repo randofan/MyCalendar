@@ -64,7 +64,6 @@ function mapList(id){
     ["COMMLD","commld.html"],
     ["CHID","chid.html"],
     ["RELIG","religion.html"],
-    ["CSE","cse.html"],
     ["DANCE","dance.html"],
     ["DXARTS","dxarts.html"],
     ["DIS ST","disst.html"],
