@@ -11,29 +11,29 @@ describe('ICS Unit Tests', () => {
     registrationDays = "TTh";
     answer = convertDays(registrationDays);
     assert.deepEqual(answer, "TU,TH");
-    
+
     registrationDays = "TThF";
     answer = convertDays(registrationDays);
     assert.deepEqual(answer, "TU,TH,FR");
   });
-  
+
   it('test convertTime', () => {
     let registrationTime = "1030-1120";
     let answer = convertTime(registrationTime);
     assert.deepEqual(answer, ["103000", "112000"]);
-    
+
     registrationTime = "1130-1220";
     answer = convertTime(registrationTime);
     assert.deepEqual(answer, ["113000", "122000"]);
-    
+
     registrationTime = "1230- 120";
     answer = convertTime(registrationTime);
     assert.deepEqual(answer, ["123000", "132000"]);
-    
+
     registrationTime = " 230- 320";
     answer = convertTime(registrationTime);
     assert.deepEqual(answer, ["143000", "152000"]);
-    
+
     registrationTime = " 630- 720";
     answer = convertTime(registrationTime);
     assert.deepEqual(answer, ["183000", "192000"]);
@@ -146,5 +146,19 @@ describe('Export Unit Tests', () => {
 
     let html = generateTableRow(course);
     assert.deepEqual(html, expected_html);
+  });
+});
+
+describe('Section Map Unit Tests', () => {
+  it('tests to see correct URl is returned', () => {
+    let course = "CSE";
+    let year = "SP23";
+
+    let expected_url = "https://www.washington.edu/students/timeschd/SPR2023/cse.html";
+
+    let urla = getLink(course, year);
+    let urlb = mapListTest(course)
+    assert.deepEqual(urla, expected_url);
+    assert.deepEqual(urb, expected_url);
   });
 });
