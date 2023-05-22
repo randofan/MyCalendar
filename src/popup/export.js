@@ -117,7 +117,6 @@ function onDownloadClick() {
         alert("No courses selected");
         return;
     }
-
     downloadFile(selection, quarterYear, isMap) // TODO try move this into this function and make it async
 }
 
@@ -130,7 +129,7 @@ function onDownloadClick() {
  */
 async function downloadFile(selection, quarterYear, isMap) {
     const split = quarterYear.split(" ")
-    const info = await getDatesAndHolidays(formatYear(quarterYear), split[3])
+    const info = await getDatesAndHolidays(formatYear(quarterYear), split[0])
 
     const mainFile = buildICS(selection.schedule, info, isMap);
     let main = new Blob([mainFile], {type: "text/calendar"})
@@ -197,7 +196,8 @@ async function getSections(selection, quarterYear) {
 async function getDatesAndHolidays(year, quarter) {
     let ret = {}
     let formatYr = year.split('-').map(str => str.slice(2)).join('');
-    const doc = await getRequest(`https://www.washington.edu/students/reg/${2223}cal.html`);
+    const body = await chrome.runtime.sendMessage({url: `https://www.washington.edu/students/reg/${formatYr}cal.html`});
+    const doc = new DOMParser().parseFromString(body.page, 'text/html')
     const col = getCol(quarter)
 
     // Get Dates

@@ -151,8 +151,6 @@ function getFirstDay(ICSDate, dow) {
         return dateToICS(firstDate);
     }
     let classDate = firstDate;
-    console.error("dow: " + dow);
-    console.error("firstDate: " + firstDate.toDateString() + "dow: " + firstDate.getDay());
     let millisecondDistance = ((dow - firstDate.getDay() + 7) % 7) * 24 * 60 * 60 * 1000;
     classDate.setTime(classDate.getTime() + millisecondDistance); // increment to the right day
     return dateToICS(classDate); // convert ISO date to ICS date
