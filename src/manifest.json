@@ -15,7 +15,7 @@
   },
   "content_scripts": [
     {
-      "js": ["scripts/content.js"],
+      "js": ["scripts/dom_scraper.js", "scripts/content.js"],
       "matches": [
         "https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=*",
         "https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx"
