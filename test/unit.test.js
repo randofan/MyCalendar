@@ -1,6 +1,8 @@
 const { convertDays, convertTime, getFirstDay, getFirstDayOfMultiple, dateToICS, ICSToDate, daysToNumbers } = require('./src/popup/ics.js');
 const { generateTableRow } = require('./src/popup/util.js');
 const { getClassSchedule, getQuarter } = require('./src/scripts/dom_scraper.js');
+const { getLink } = require('./src/popup/course_map.js')
+const { mapListTest } = require('./src/popup/course_map_temp.js')
 const assert = require('assert');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -153,14 +155,14 @@ describe('Export Unit Tests', () => {
 describe('Section Map Unit Tests', () => {
   it('tests to see correct URl is returned', () => {
     let course = "CSE";
-    let year = "SP23";
+    let year = "SPR2023";
 
     let expected_url = "https://www.washington.edu/students/timeschd/SPR2023/cse.html";
 
     let urla = getLink(course, year);
     let urlb = mapListTest(course)
     assert.deepEqual(urla, expected_url);
-    assert.deepEqual(urb, expected_url);
+    assert.deepEqual(urlb, expected_url);
   });
 });
   describe('Content Script Tests', () => {
@@ -234,5 +236,4 @@ describe('Section Map Unit Tests', () => {
 
       assert.deepEqual(courseMap, expected);
     });
-  })
-});
+  });

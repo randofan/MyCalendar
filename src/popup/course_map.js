@@ -1,5 +1,5 @@
 function getLink(id, quarter){
-  const conn = "https://www.washington.edu/students/timeschd/";
+  let conn = "https://www.washington.edu/students/timeschd/";
   conn = conn.concat(quarter);
   const x = mapList(id);
   if (x == "-1"){
