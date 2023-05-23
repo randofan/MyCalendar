@@ -71,21 +71,26 @@ function buildICS(scheduleData, info, includeLink) {
     }
 
     map.forEach(en => { // for each class
-        for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
-            let times = convertTime(en.time);
-            let dows = daysToNumbers(en.days);
-            file += "BEGIN:VEVENT\n";
-            file += "UID:" + makeUID(en, startDates[i], endDates[i]) + "\n";
-            file += "SUMMARY:" + en.title.replaceAll("&nbsp;", " ") + "\n";
-            file += "DTSTAMP:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[0] + "\n";
-            file += "DTSTART:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[0] + "\n"; // change for holiday
-            file += "DTEND:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[1] + "\n"; // change for holiday
-            file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n"; // change for holiday
-            file += "LOCATION:" + en.location + "\n";
-            if (includeLink) {
-                file += `DESCRIPTION:<HTML><BODY><a href=${en.link}>Building directions</a></BODY></HTML>` + "\n";
+        try {
+            for (let i = 0; i < startDates.length; i++) { // for each block of classes between holidays and start/end of quarter
+                let times = convertTime(en.time);
+                let dows = daysToNumbers(en.days);
+                file += "BEGIN:VEVENT\n";
+                file += "UID:" + makeUID(en, startDates[i], endDates[i]) + "\n";
+                file += "SUMMARY:" + en.title.replaceAll("&nbsp;", " ") + "\n";
+                file += "DTSTAMP:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[0] + "\n";
+                file += "DTSTART:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[0] + "\n"; // change for holiday
+                file += "DTEND:" + getFirstDayOfMultiple(startDates[i], dows) + "T" + times[1] + "\n"; // change for holiday
+                file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n"; // change for holiday
+                file += "LOCATION:" + en.location + "\n";
+                if (includeLink) {
+                    file += "DESCRIPTION:" + en.link + "\n";
+                    // file += `DESCRIPTION:<HTML><BODY><a href=${en.link}>Building directions</a></BODY></HTML>` + "\n";
+                }
+                file += "END:VEVENT\n";
             }
-            file += "END:VEVENT\n";
+        } catch (e) {
+            alert("Cannot create calendar file for " + en.title);
         }
     })
     file += "END:VCALENDAR\n";
