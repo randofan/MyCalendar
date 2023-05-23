@@ -155,24 +155,25 @@ async function downloadFile(selection, quarterYear, isMap) {
  * @param {*} selection
  * @param {*} quarterYear
  */
-async function getSections(selection, quarterYear) {
-    let sects = {};
+async function getSections(val, quarterYear) {
+    let sects = [];
     // get all the different courses
-    let names = Object.keys(selection);
-    for (const i = 0; i< names.length(); i++){
+    for (var i = 0; i< val.length; i++){
         // get the specific course
-        let course = selection[names[i]];
-        let name = course["title"].trim();
-        name = name.substring(0, name.lastIndexOf(" "));
+        let course = val[i];
+        let name = course["course"].trim();
+        name = name.substring(0, name.lastIndexOf(" ")).replace(/&nbsp;/g, ' ');
         // get the url link given department
         let ur = mapListTest(name);
-
         const body = await chrome.runtime.sendMessage({url: ur});
         const doc = new DOMParser().parseFromString(body.page, 'text/html')
 
         // get section object
         let sect = getsln(course, doc);
-        sects[sect["title"]] = sect;
+
+        for(var j = 0; j< sect.length;j++ ){
+            sects.push(sect[j]);
+        }
     }
     // return list of section objects
     return sects;
