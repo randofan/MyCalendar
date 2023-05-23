@@ -162,7 +162,7 @@ describe('Section Map Unit Tests', () => {
     assert.deepEqual(urla, expected_url);
     assert.deepEqual(urb, expected_url);
   });
-
+});
   describe('Content Script Tests', () => {
 
     before(async function () {
