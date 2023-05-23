@@ -26,10 +26,12 @@ function buildICS(scheduleData, info, includeLink) {
 
     const firstDayOfInstruction = convertDate(info["dates"]["start"])
     const lastDayOfInstuction = convertDate(info["dates"]["end"])
-    const holidayArray = info["holidays"]
+    const givenHolidayArray = info["holidays"]
+    let holidayArray = [];
 
     for (let i = 0; i < holidayArray.length; i++) {
-        holidayArray[i] = convertDate(new Date(holidayArray[i]));
+        console.log(`holidayArray[${i}] = ${holidayArray[i]}`);
+        holidayArray[i] = convertDate(new Date(givenHolidayArray[i]));
     }
 
     const map = scheduleData;
