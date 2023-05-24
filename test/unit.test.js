@@ -1,5 +1,5 @@
 const { convertDays, convertTime, getFirstDay, getFirstDayOfMultiple, dateToICS, ICSToDate, daysToNumbers } = require('./src/popup/ics.js');
-const { generateTableRow } = require('./src/popup/util.js');
+const { generateTableRow, getCol, formatYear } = require('./src/popup/util.js');
 const { getClassSchedule, getQuarter } = require('./src/scripts/dom_scraper.js');
 const { getLink } = require('./src/popup/course_map.js')
 const { mapListTest } = require('./src/popup/course_map_temp.js')
@@ -165,75 +165,120 @@ describe('Section Map Unit Tests', () => {
     assert.deepEqual(urlb, expected_url);
   });
 });
-  describe('Content Script Tests', () => {
 
-    before(async function () {
-      let dom = await JSDOM.fromFile('ClassSchedule.html');
-      global.window = dom.window;
-      global.document = dom.window.document;
-    });
+describe('Content Script Tests', () => {
 
-    it('tests getQuarter', () => {
-      const quarter = getQuarter();
-      const expected = "Spring 2023"
-
-      assert.strictEqual(quarter, expected);
-    });
-
-    it('tests getClassSchedule scrapes the DOM correctly', () => {
-      let courseMap = getClassSchedule();
-
-      const expected = {
-        'CSE 403 A': {
-          sln: '12892',
-          course: 'CSE 403',
-          title: 'CSE 403 A',
-          type: 'LC',
-          name: 'SOFTWARE ENGINEERING',
-          days: 'MWF',
-          time: '1230-120',
-          location: 'CSE2 G10',
-          prof: 'Oliveira,Nigini',
-          link: 'http://www.washington.edu/students/maps/map.cgi?CSE2'
-        },
-        'CSE 403 AA': {
-          sln: '12893',
-          course: 'CSE 403',
-          title: 'CSE 403 AA',
-          type: 'QZ',
-          name: 'SOFTWARE ENGINEERING',
-          days: 'TTh',
-          time: '130-220',
-          location: 'CSE2 G10',
-          prof: '',
-          link: 'http://www.washington.edu/students/maps/map.cgi?CSE2'
-        },
-        'CSE 452 A': {
-          sln: '12962',
-          course: 'CSE 452',
-          title: 'CSE 452 A',
-          type: 'LC',
-          name: 'DISTRIBUTED SYSTEMS',
-          days: 'MWF',
-          time: '1130-1220',
-          location: 'KNE 220',
-          prof: 'Anderson,Thomas',
-          link: 'http://www.washington.edu/students/maps/map.cgi?KNE'
-        },
-        'CSE 452 AF': {
-          sln: '12968',
-          course: 'CSE 452',
-          title: 'CSE 452 AF',
-          type: 'QZ',
-          name: 'DISTRIBUTED SYSTEMS',
-          days: 'Th',
-          time: '930-1020',
-          location: 'MLR 316',
-          prof: 'Goncharenko,Anna Dmitrievna',
-          link: 'http://www.washington.edu/students/maps/map.cgi?MLR'
-        }
-      }
-
-      assert.deepEqual(courseMap, expected);
-    });
+  before(async function () {
+    let dom = await JSDOM.fromFile('ClassSchedule.html');
+    global.window = dom.window;
+    global.document = dom.window.document;
   });
+
+  it('tests getQuarter', () => {
+    const quarter = getQuarter();
+    const expected = "Spring 2023"
+
+    assert.strictEqual(quarter, expected);
+  });
+
+  it('tests getClassSchedule scrapes the DOM correctly', () => {
+    let courseMap = getClassSchedule();
+
+    const expected = {
+      'CSE 403 A': {
+        sln: '12892',
+        course: 'CSE 403',
+        title: 'CSE 403 A',
+        type: 'LC',
+        name: 'SOFTWARE ENGINEERING',
+        days: 'MWF',
+        time: '1230-120',
+        location: 'CSE2 G10',
+        prof: 'Oliveira,Nigini',
+        link: 'http://www.washington.edu/students/maps/map.cgi?CSE2'
+      },
+      'CSE 403 AA': {
+        sln: '12893',
+        course: 'CSE 403',
+        title: 'CSE 403 AA',
+        type: 'QZ',
+        name: 'SOFTWARE ENGINEERING',
+        days: 'TTh',
+        time: '130-220',
+        location: 'CSE2 G10',
+        prof: '',
+        link: 'http://www.washington.edu/students/maps/map.cgi?CSE2'
+      },
+      'CSE 452 A': {
+        sln: '12962',
+        course: 'CSE 452',
+        title: 'CSE 452 A',
+        type: 'LC',
+        name: 'DISTRIBUTED SYSTEMS',
+        days: 'MWF',
+        time: '1130-1220',
+        location: 'KNE 220',
+        prof: 'Anderson,Thomas',
+        link: 'http://www.washington.edu/students/maps/map.cgi?KNE'
+      },
+      'CSE 452 AF': {
+        sln: '12968',
+        course: 'CSE 452',
+        title: 'CSE 452 AF',
+        type: 'QZ',
+        name: 'DISTRIBUTED SYSTEMS',
+        days: 'Th',
+        time: '930-1020',
+        location: 'MLR 316',
+        prof: 'Goncharenko,Anna Dmitrievna',
+        link: 'http://www.washington.edu/students/maps/map.cgi?MLR'
+      }
+    }
+
+    assert.deepEqual(courseMap, expected);
+  });
+});
+
+describe('getCol', () => {
+  it('should return 1 for Autumn', () => {
+    const result = getCol('Autumn');
+    assert.strictEqual(result, 1);
+  });
+
+  it('should return 2 for Winter', () => {
+    const result = getCol('Winter');
+    assert.strictEqual(result, 2);
+  });
+
+  it('should return 3 for Spring', () => {
+    const result = getCol('Spring');
+    assert.strictEqual(result, 3);
+  });
+
+  it('should return 4 for Summer', () => {
+    const result = getCol('Summer');
+    assert.strictEqual(result, 4);
+  });
+});
+
+describe('formatYear', () => {
+  it('should return "2022-2023" for "Spring 2023"', () => {
+    const result = formatYear('Spring 2023');
+    assert.strictEqual(result, '2022-2023');
+  });
+
+  it('should return "2022-2023" for "Autumn 2022"', () => {
+    const result = formatYear('Autumn 2022');
+    assert.strictEqual(result, '2022-2023');
+  });
+
+  it('should return "2020-2021" for "Winter 2021"', () => {
+    const result = formatYear('Winter 2021');
+    assert.strictEqual(result, '2020-2021');
+  });
+
+  it('should return "2019-2020" for "Summer 2020"', () => {
+    const result = formatYear('Summer 2020');
+    assert.strictEqual(result, '2019-2020');
+  });
+});
