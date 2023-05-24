@@ -4,6 +4,10 @@ cp -r ../src .
 input="test.config"
 while IFS= read -r line || [[ -n "$line" ]]
 do
+    if [[ -z "$line" ]]; then
+        continue
+    fi
+
     path=${line%% *}
     func=${line#* }
     echo "" >> "$path"

@@ -1,6 +1,8 @@
-const {convertDays, convertTime, getFirstDay, getFirstDayOfMultiple, dateToICS, ICSToDate, daysToNumbers} = require('./src/popup/ics.js');
+const { convertDays, convertTime, getFirstDay, getFirstDayOfMultiple, dateToICS, ICSToDate, daysToNumbers } = require('./src/popup/ics.js');
 const { generateTableRow } = require('./src/popup/util.js');
-const {getClassSchedule, getQuarter} = require('./src/scripts/dom_scraper.js');
+const { getClassSchedule, getQuarter } = require('./src/scripts/dom_scraper.js');
+const { getLink } = require('./src/popup/course_map.js')
+const { mapListTest } = require('./src/popup/course_map_temp.js')
 const assert = require('assert');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -106,7 +108,6 @@ describe('ICS Unit Tests', () => {
 
   it('test DateToICS', () => {
     let date = new Date(2023, 4, 16);
-    console.log(date.toISOString());
     let answer = dateToICS(date);
     assert.deepEqual(answer, "20230516");
 
@@ -141,10 +142,10 @@ describe('Export Unit Tests', () => {
     let id_section = "CSE-403-section";
 
     let expected_html = '<tr>' +
-                        `    <th class="course-name">${course}</th>` +
-                        `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-                        `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
-                        '</tr>'
+      `    <th class="course-name">${course}</th>` +
+      `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
+      `    <th><input type="checkbox" id=${id_section} value="section"></th>` +
+      '</tr>'
 
     let html = generateTableRow(course);
     assert.deepEqual(html, expected_html);
@@ -165,75 +166,75 @@ describe('Section Map Unit Tests', () => {
     assert.deepEqual(urlb, expected_url);
   });
 });
-describe('Content Script Tests', () => {
+  describe('Content Script Tests', () => {
 
-  before(async function () {
-    let dom = await JSDOM.fromFile('ClassSchedule.html');
-    global.window = dom.window;
-    global.document = dom.window.document;
-  });
+    before(async function () {
+      let dom = await JSDOM.fromFile('ClassSchedule.html');
+      global.window = dom.window;
+      global.document = dom.window.document;
+    });
 
-  it('tests getQuarter', () => {
-    const quarter = getQuarter();
-    const expected = "Spring 2023"
+    it('tests getQuarter', () => {
+      const quarter = getQuarter();
+      const expected = "Spring 2023"
 
-    assert.strictEqual(quarter, expected);
-  });
+      assert.strictEqual(quarter, expected);
+    });
 
-  it('tests getClassSchedule scrapes the DOM correctly', () => {
-    let courseMap = getClassSchedule();
+    it('tests getClassSchedule scrapes the DOM correctly', () => {
+      let courseMap = getClassSchedule();
 
-    const expected = {
-      'CSE 403 A': {
-        sln: '12892',
-        course: 'CSE 403',
-        title: 'CSE 403 A',
-        type: 'LC',
-        name: 'SOFTWARE ENGINEERING',
-        days: 'MWF',
-        time: '1230-120',
-        location: 'CSE2 G10',
-        prof: 'Oliveira,Nigini',
-        link: 'http://www.washington.edu/students/maps/map.cgi?CSE2'
-      },
-      'CSE 403 AA': {
-        sln: '12893',
-        course: 'CSE 403',
-        title: 'CSE 403 AA',
-        type: 'QZ',
-        name: 'SOFTWARE ENGINEERING',
-        days: 'TTh',
-        time: '130-220',
-        location: 'CSE2 G10',
-        prof: '',
-        link: 'http://www.washington.edu/students/maps/map.cgi?CSE2'
-      },
-      'CSE 452 A': {
-        sln: '12962',
-        course: 'CSE 452',
-        title: 'CSE 452 A',
-        type: 'LC',
-        name: 'DISTRIBUTED SYSTEMS',
-        days: 'MWF',
-        time: '1130-1220',
-        location: 'KNE 220',
-        prof: 'Anderson,Thomas',
-        link: 'http://www.washington.edu/students/maps/map.cgi?KNE'
-      },
-      'CSE 452 AF': {
-        sln: '12968',
-        course: 'CSE 452',
-        title: 'CSE 452 AF',
-        type: 'QZ',
-        name: 'DISTRIBUTED SYSTEMS',
-        days: 'Th',
-        time: '930-1020',
-        location: 'MLR 316',
-        prof: 'Goncharenko,Anna Dmitrievna',
-        link: 'http://www.washington.edu/students/maps/map.cgi?MLR'
+      const expected = {
+        'CSE 403 A': {
+          sln: '12892',
+          course: 'CSE 403',
+          title: 'CSE 403 A',
+          type: 'LC',
+          name: 'SOFTWARE ENGINEERING',
+          days: 'MWF',
+          time: '1230-120',
+          location: 'CSE2 G10',
+          prof: 'Oliveira,Nigini',
+          link: 'http://www.washington.edu/students/maps/map.cgi?CSE2'
+        },
+        'CSE 403 AA': {
+          sln: '12893',
+          course: 'CSE 403',
+          title: 'CSE 403 AA',
+          type: 'QZ',
+          name: 'SOFTWARE ENGINEERING',
+          days: 'TTh',
+          time: '130-220',
+          location: 'CSE2 G10',
+          prof: '',
+          link: 'http://www.washington.edu/students/maps/map.cgi?CSE2'
+        },
+        'CSE 452 A': {
+          sln: '12962',
+          course: 'CSE 452',
+          title: 'CSE 452 A',
+          type: 'LC',
+          name: 'DISTRIBUTED SYSTEMS',
+          days: 'MWF',
+          time: '1130-1220',
+          location: 'KNE 220',
+          prof: 'Anderson,Thomas',
+          link: 'http://www.washington.edu/students/maps/map.cgi?KNE'
+        },
+        'CSE 452 AF': {
+          sln: '12968',
+          course: 'CSE 452',
+          title: 'CSE 452 AF',
+          type: 'QZ',
+          name: 'DISTRIBUTED SYSTEMS',
+          days: 'Th',
+          time: '930-1020',
+          location: 'MLR 316',
+          prof: 'Goncharenko,Anna Dmitrievna',
+          link: 'http://www.washington.edu/students/maps/map.cgi?MLR'
+        }
       }
-    }
 
-    assert.deepEqual(courseMap, expected);
+      assert.deepEqual(courseMap, expected);
+    });
   });
-});

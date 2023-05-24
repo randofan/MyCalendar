@@ -26,10 +26,12 @@ function buildICS(scheduleData, info, includeLink) {
 
     const firstDayOfInstruction = convertDate(info["dates"]["start"])
     const lastDayOfInstuction = convertDate(info["dates"]["end"])
-    const holidayArray = info["holidays"]
+    const givenHolidayArray = info["holidays"]
+    let holidayArray = [];
 
     for (let i = 0; i < holidayArray.length; i++) {
-        holidayArray[i] = convertDate(new Date(holidayArray[i]));
+        console.log(`holidayArray[${i}] = ${holidayArray[i]}`);
+        holidayArray[i] = convertDate(new Date(givenHolidayArray[i]));
     }
 
     const map = scheduleData;
@@ -92,7 +94,11 @@ function buildICS(scheduleData, info, includeLink) {
     return file;
 }
 
-// converts from the days on the registration page to ICS days
+/**
+ * converts from the days on the registration page to ICS days
+ * @param registrationDays the days on the registration page
+ * @returns {string} a string containing the same days in ICS style
+ */
 function convertDays(registrationDays) {
     let dayChars = registrationDays.split("");
     for (let i = 0; i < dayChars.length - 1; i++) { // consolidate Th
@@ -108,7 +114,12 @@ function convertDays(registrationDays) {
     return icsDays.join(",");
 }
 
-// takes in registrationDays, gives array of days converted to numbers
+/**
+ * Takes in days from the registration page and converts them to an array of numbers
+ * representing the same days
+ * @param registrationDays a string of days from the registration page
+ * @returns {*[]} an array of numbers 0-6, where 0 is sunday
+ */
 function daysToNumbers(registrationDays) {
     const dayToNumber = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
     let ICSDays = convertDays(registrationDays);
@@ -120,7 +131,11 @@ function daysToNumbers(registrationDays) {
     return nums;
 }
 
-// converts from the time on the registration page to ICS format time
+/**
+ * converts from the time on the registration page to ICS format time
+ * @param registrationTime a string of the time taken from the registration page
+ * @returns {string[]} an array of two elements, the start and the end time
+ */
 function convertTime(registrationTime) {
     let startTime = registrationTime.split("-")[0];
     let endTime = registrationTime.split("-")[1];
@@ -141,9 +156,14 @@ function convertTime(registrationTime) {
     return [startTime, endTime];
 }
 
-// returns the first date, in ICS style (YYYYMMDD), on or after the given
-// date, that falls on the given day of the week (a number 0-6 inc., where 0 is sunday)
-// date must be in ICS style (YYYYMMDD)
+/**
+ * returns the first date, in ICS style, that:
+ * 1. occurs on or after the given date, and
+ * 2. falls on the given day of the week
+ * @param ICSDate the starting day, in ICS style
+ * @param dow the day of the week as a number 0-6, with 0 as Sunday
+ * @returns {string} the day in ICS style that meets the criteria
+ */
 function getFirstDay(ICSDate, dow) {
     let firstDate = ICSToDate(ICSDate);// calculate all dates inside the method in Z
     let firstDOW = firstDate.getDay();
