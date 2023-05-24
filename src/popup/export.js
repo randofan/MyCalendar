@@ -158,13 +158,16 @@ async function downloadFile(selection, quarterYear, isMap) {
 async function getSections(val, quarterYear) {
     let sects = [];
     // get all the different courses
+    let quart = quarterYear.split(" ")[0];
+    let year = quarterYear.split(" ")[1];
+
     for (var i = 0; i< val.length; i++){
         // get the specific course
         let course = val[i];
         let name = course["course"].trim();
         name = name.substring(0, name.lastIndexOf(" ")).replace(/&nbsp;/g, ' ');
         // get the url link given department
-        let ur = mapListTest(name);
+        let ur = getLink(name, quart, year);
         const body = await chrome.runtime.sendMessage({url: ur});
         const doc = new DOMParser().parseFromString(body.page, 'text/html')
 
@@ -175,6 +178,7 @@ async function getSections(val, quarterYear) {
             sects.push(sect[j]);
         }
     }
+    console.log(sects);
     // return list of section objects
     return sects;
 }

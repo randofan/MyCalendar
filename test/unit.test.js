@@ -154,16 +154,17 @@ describe('Export Unit Tests', () => {
 describe('Section Map Unit Tests', () => {
   it('tests to see correct URl is returned', () => {
     let course = "CSE";
-    let year = "SP23";
+    let quart = "Spring"
+    let year = "2023";
 
     let expected_url = "https://www.washington.edu/students/timeschd/SPR2023/cse.html";
 
-    let urla = getLink(course, year);
+    let urla = getLink(course,quart, year);
     let urlb = mapListTest(course)
     assert.deepEqual(urla, expected_url);
-    assert.deepEqual(urb, expected_url);
+    assert.deepEqual(urlb, expected_url);
   });
-  
+});
 describe('Content Script Tests', () => {
 
   before(async function () {
