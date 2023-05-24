@@ -1,7 +1,8 @@
-function getLink(id, quarter){
+function getLink(id, quarter, year){
   let conn = "https://www.washington.edu/students/timeschd/";
-  conn = conn.concat(quarter);
-  const x = mapList(id);
+  let tag = getQuart(quarter, year);
+  conn = conn.concat(tag);
+  let x = mapList(id);
   if (x == "-1"){
     return "fail";
   }
@@ -10,6 +11,11 @@ function getLink(id, quarter){
   return conn;
 }
 
+function getQuart(quart, yr) {
+  const vals = new Map([["Spring", "SPR"],["Summer", "SUM"],["Autumn", "AUT"],["Winter", "WIN"],])
+  let q = vals.get(quart);
+  return q.concat(yr);
+}
 function mapList(id){
   const course = new Map([
     ["ARCTIC","arctic.html"],
