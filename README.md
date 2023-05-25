@@ -13,9 +13,9 @@ MyCalendar is a Google chrome extension that launches on the UW course registrat
 2. Open the [Github Repository](https://github.com/randofan/MyCalendar) and navigate to Releases; click on Beta Release
 3. Select "Source Code" and download the .zip
 4. Unzip the file and place MyCalendar/ into your desired location; DO NOT REMOVE OR MOVE THE FOLDER
-5. Navigate to chrome://extensions/ on Chrome
+5. Open Chrome and navigate to [chrome://extensions/](chrome://extensions/)
 6. In the upper right corner, enable developer mode
-7. Click "load unpacked" and select MyCalendar/src
+7. Click "load unpacked" and select `MyCalendar/src`
 
 ## Run
 1. Navigate to your [Course Schedule](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=2)
@@ -26,9 +26,6 @@ MyCalendar is a Google chrome extension that launches on the UW course registrat
 
 ## Report Bugs
 Known bugs will be reported as [issues](https://github.com/randofan/MyCalendar/issues?q=is%3Aopen+is%3Aissue+label%3Abug). To report a bug, create a new issue in the repository with the label ```bug```. Follow the template provided.
-
-## Current Issues - Beta Release
-Section implementation is not ready for release. An error was made when developing the module and thrying to access the registration page. Forgot that we are not able to access UW pages that required login information, so when parsing we needed to use open pages. In order to accomidate that change we need to refactor our code and add a new method and change the parsing algorithm. Estimated time of completion Friday May 19. 
 
 
 # Developer Guidelines
@@ -43,21 +40,20 @@ There's no need to build the Chrome extension because it's loaded as unpacked in
 ## Test
 
 #### Dependencies
-- install ```npm```
+- install [Node.js](https://nodejs.dev/en/) and ensure ```npm``` is also installed
 - install Chrome v112
 - use MacOS/Linux OS
 
 #### Run Tests
 ```
 cd test
-rm -rd src
 npm i
 ./setup.sh
 npm test
 ```
 
 #### Add New Tests
-For each function you wish to unit test, add the `[relative path] [function name]` to `test.config`. Note you may only add unit tests for functions which don't reference `chrome` or `document` directly. Afterwards, open unit.test.js and import the function name using `require()`. Finally, follow Mocha's documentation with `describe()` and `it()` to add new unit tests using `assert()`.
+For each function you wish to unit test, add the `[relative path] [function name]` to `test.config`. Note you may only add unit tests for functions which don't reference `chrome` or `document` directly. Afterwards, open `unit.test.js` and import the function name using `require()`. Finally, follow Mocha's documentation with `describe()` and `it()` to add new unit tests using `assert()`. Note, we don't offer support for any other types of tests.
 
 #### Building a Release
 Complete the following before opening a pull request:
