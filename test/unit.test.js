@@ -136,18 +136,36 @@ describe('ICS Unit Tests', () => {
 });
 
 describe('Export Unit Tests', () => {
-  it('tests HTML for table row generator', () => {
+  it('tests HTML table row generator', () => {
     let course = "CSE 403";
     let id_schedule = "CSE-403-schedule";
     let id_section = "CSE-403-section";
 
     let expected_html = '<tr>' +
       `    <th class="course-name">${course}</th>` +
-      `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-      `    <th><input type="checkbox" id=${id_section} value="section"></th>` +
+      `    <th><input type="checkbox" id=${id_schedule} value="schedule" ></th>` +
+      `    <th><input type="checkbox" id=${id_section} value="section" ></th>` +
       '</tr>'
 
-    let html = generateTableRow(course);
+    let html = generateTableRow(course, new Set());
+    assert.deepEqual(html, expected_html);
+  });
+
+  it('tests HTML table row generator disables course', () => {
+    let course = "CSE 403";
+    let coursesToDisable = new Set();
+    coursesToDisable.add(course);
+
+    let id_schedule = "CSE-403-schedule";
+    let id_section = "CSE-403-section";
+
+    let expected_html = '<tr>' +
+      `    <th class="course-name">${course}</th>` +
+      `    <th><input type="checkbox" id=${id_schedule} value="schedule" disabled></th>` +
+      `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
+      '</tr>'
+
+    let html = generateTableRow(course, coursesToDisable);
     assert.deepEqual(html, expected_html);
   });
 });
@@ -232,6 +250,18 @@ describe('Section Map Unit Tests', () => {
           location: 'MLR 316',
           prof: 'Goncharenko,Anna Dmitrievna',
           link: 'http://www.washington.edu/students/maps/map.cgi?MLR'
+        },
+        'CSE 498 A': {
+          sln: '13017',
+          course: 'CSE 498',
+          title: 'CSE 498 A',
+          type: 'IS',
+          name: 'UNDERGRAD RESEARCH',
+          days: 'To be arranged',
+          time: null,
+          location: null,
+          prof: null,
+          link: null
         }
       }
 

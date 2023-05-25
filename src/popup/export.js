@@ -31,27 +31,28 @@ var quarterYear = null;
  * @returns
  */
 function displayNames(courses) {
-
     // Get rid of the loading text oncce we've generated the table of courses.
     const loading = document.getElementById("loading")
     loading.remove()
 
     let table = document.querySelector('.selection-table');
 
-    // Get all the unique courses e.g. "CSE 403" not "CSE 403 A" & "CSE 403 AA"
-    let coursesToDisplay = new Set();
+    let coursesToDisplay = new Set(); // Get all the unique courses e.g. "CSE 403" not "CSE 403 A" & "CSE 403 AA"
+    let coursesToDisable = new Set();  // Disable the checkbox if a course is still "to be arranged"
     Object.keys(courses).forEach(courseTitle => {
         let course = courses[courseTitle];
-        coursesToDisplay.add(course.course);
+        let courseName = course.course;
+
+        coursesToDisplay.add(courseName);
+        if (course.days == "To be arranged") { coursesToDisable.add(courseName) }
     })
 
     // Add table rows.
-    coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course))
+    coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course, coursesToDisable))
 
     chrome.storage.local.get('directions', result => {
         document.getElementById("map").checked = result.directions
         document.getElementById("savestate").checked = result.directions
-
     })
 
     // Set up button event listener
