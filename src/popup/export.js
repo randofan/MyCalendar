@@ -144,7 +144,7 @@ async function downloadFile(selection, quarterYear, isMap) {
         let section = new Blob([sectionFile], {type: "text/calendar"})
         chrome.downloads.download({
             url: URL.createObjectURL(section),
-            filename: "schedule.ics"
+            filename: "sections.ics"
         });
     }
 }
