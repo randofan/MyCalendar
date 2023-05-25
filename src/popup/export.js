@@ -31,27 +31,29 @@ var quarterYear = null;
  * @returns
  */
 function displayNames(courses) {
-
     // Get rid of the loading text oncce we've generated the table of courses.
     const loading = document.getElementById("loading")
     loading.remove()
 
     let table = document.querySelector('.selection-table');
 
-    // Get all the unique courses e.g. "CSE 403" not "CSE 403 A" & "CSE 403 AA"
-    let coursesToDisplay = new Set();
+    let coursesToDisplay = new Set(); // Get all the unique courses e.g. "CSE 403" not "CSE 403 A" & "CSE 403 AA"
+    let coursesToDisable = new Set();  // Disable the checkbox if a course is still "to be arranged"
     Object.keys(courses).forEach(courseTitle => {
         let course = courses[courseTitle];
-        coursesToDisplay.add(course.course);
+        let courseName = course.course;
+
+        coursesToDisplay.add(courseName);
+        if (course.days == "To be arranged") { coursesToDisable.add(courseName) }
     })
 
     // Add table rows.
-    coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course))
+    coursesToDisplay.forEach(course => table.innerHTML += generateTableRow(course, coursesToDisable))
 
+    // Save if the client wants to save directions.
     chrome.storage.local.get('directions', result => {
         document.getElementById("map").checked = result.directions
         document.getElementById("savestate").checked = result.directions
-
     })
 
     // Set up button event listener
@@ -68,7 +70,7 @@ function displayNames(courses) {
  *
  * @returns
  */
-function onDownloadClick() {
+async function onDownloadClick() {
     // stores the courses the user has selected
     var selection = {
         schedule: [],
@@ -117,35 +119,29 @@ function onDownloadClick() {
         alert("No courses selected");
         return;
     }
-    downloadFile(selection, quarterYear, isMap) // TODO try move this into this function and make it async
-}
-
-/**
- * Download the file for the schedule and sections.
- *
- * @param {*} selection
- * @param {*} quarterYear
- * @param {*} isMap
- */
-async function downloadFile(selection, quarterYear, isMap) {
+    
     const split = quarterYear.split(" ")
     const info = await getDatesAndHolidays(formatYear(quarterYear), split[0])
 
-    const mainFile = buildICS(selection.schedule, info, isMap);
-    let main = new Blob([mainFile], {type: "text/calendar"})
-    chrome.downloads.download({
-        url: URL.createObjectURL(main),
-        filename: "schedule.ics"
-    });
-
-    if (Object.keys(selection.sections).length != 0) {
-        const sections = await getSections(selection.sections, quarterYear)
-        const sectionFile = buildICS(sections, info, isMap)
-        let section = new Blob([sectionFile], {type: "text/calendar"})
+    if (selection.schedule.length != 0) {
+        const mainFile = buildICS(selection.schedule, info, isMap);
+        let main = new Blob([mainFile], {type: "text/calendar"})
         chrome.downloads.download({
-            url: URL.createObjectURL(section),
-            filename: "sections.ics"
+            url: URL.createObjectURL(main),
+            filename: "schedule.ics"
         });
+    }
+
+    if (selection.sections.length != 0) {
+        if (Object.keys(selection.sections).length != 0) {
+            const sections = await getSections(selection.sections, quarterYear)
+            const sectionFile = buildICS(sections, info, isMap)
+            let section = new Blob([sectionFile], {type: "text/calendar"})
+            chrome.downloads.download({
+                url: URL.createObjectURL(section),
+                filename: "sections.ics"
+            });
+        }
     }
 }
 

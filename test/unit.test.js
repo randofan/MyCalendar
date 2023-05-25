@@ -136,18 +136,36 @@ describe('ICS Unit Tests', () => {
 });
 
 describe('Export Unit Tests', () => {
-  it('tests HTML for table row generator', () => {
+  it('tests HTML table row generator', () => {
     let course = "CSE 403";
     let id_schedule = "CSE-403-schedule";
     let id_section = "CSE-403-section";
 
     let expected_html = '<tr>' +
       `    <th class="course-name">${course}</th>` +
-      `    <th><input type="checkbox" id=${id_schedule} value="schedule"></th>` +
-      `    <th><input type="checkbox" id=${id_section} value="section"></th>` +
+      `    <th><input type="checkbox" id=${id_schedule} value="schedule" ></th>` +
+      `    <th><input type="checkbox" id=${id_section} value="section" ></th>` +
       '</tr>'
 
-    let html = generateTableRow(course);
+    let html = generateTableRow(course, new Set());
+    assert.deepEqual(html, expected_html);
+  });
+
+  it('tests HTML table row generator disables course', () => {
+    let course = "CSE 403";
+    let coursesToDisable = new Set();
+    coursesToDisable.add(course);
+
+    let id_schedule = "CSE-403-schedule";
+    let id_section = "CSE-403-section";
+
+    let expected_html = '<tr>' +
+      `    <th class="course-name">${course}</th>` +
+      `    <th><input type="checkbox" id=${id_schedule} value="schedule" disabled></th>` +
+      `    <th><input type="checkbox" id=${id_section} value="section" disabled></th>` +
+      '</tr>'
+
+    let html = generateTableRow(course, coursesToDisable);
     assert.deepEqual(html, expected_html);
   });
 });
@@ -160,7 +178,7 @@ describe('Section Map Unit Tests', () => {
 
     let expected_url = "https://www.washington.edu/students/timeschd/SPR2023/cse.html";
 
-    let urla = getLink(course,quart, year);
+    let urla = getLink(course, quart, year);
     let urlb = mapListTest(course)
     assert.deepEqual(urla, expected_url);
     assert.deepEqual(urlb, expected_url);
