@@ -40,14 +40,16 @@
 
 ## Trinity
 ### Old Goals
-1.
+1. Continue to help implement section.js
+2. Iron out any edge cases and what the popup should look like
 ### Issues
 - What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+    - Made minor adjustments to architecture to enable testing of our DOM scraper functions that were in content.js. Wrote tests.
+- What worked: Communicating async in Slack, working on separate branches 
+- What you learned: Limitations of testing when we interact with external sources like the Chrome API for example. Limitations of interacting with the DOM in a Nodejs testing environment
+- Where you had trouble: N/A
 ### New Goals
-1.
+1. Work on edge case of if a course can not be made into an ICS file
 
 ## Gavin
 ### Old Goals
