@@ -24,9 +24,9 @@
 
 ## Saket
 ### Old Goals
-1.finish the sections.js module now adding the full html scrapper and connecting to main module.
-2.continue to build test modules to test functionality of the components.
-3.finalize documentation.
+1. finish the sections.js module now adding the full html scrapper and connecting to main module.
+2. continue to build test modules to test functionality of the components.
+3. finalize documentation.
 ### Issues
 - What you did: fix the errors that was causing section parsing to fail and fix the psrsing logic and making sure all the connections worked together.
 - What worked: being able to code small parts of the logic at a time and testing it once at a time was helpful. Making sure that every module worked correctly was also helpful. Also clear communication with the TA helped
