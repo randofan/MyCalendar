@@ -1,11 +1,13 @@
 # Team Report/Agenda
 ## Old Goals
-1. 
+1. finish sections support.
+2. improve test coverage.
+3. flesh out documentation.
 ## Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: finished section support; addedd unit tests to helper function and used JSDom to mimic a DOM for testing; added user documentation & developer documentation
+- What worked: able to finish the project and accomplish all the major deliverables
+- What you learned: how the use JSDom to unit test; how to work with async functions in js
+- Where you had trouble: n/a
 ## New Goals
 1. 
 
@@ -13,14 +15,17 @@
 
 ## David
 ### Old Goals
-1. 
+1. finish the sections.js module now adding the full html scrapper and connecting to main module.
+2. continue to build test modules to test functionality of the components.
+3. finalize documentation.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: redesigned application to handle async message handling; able to send HTTP requests with service worker; finished adding unit tests to helper functions; helped integating additional sections into application; 
+- What worked: able to send HTTP requests to get required data; entire application now works
+- What you learned: understand how asynchronous calls work
+- Where you had trouble: n/a
 ### New Goals
-1.
+1. Finalize project codebase
+2. Improve documentation
 
 ## Saket
 ### Old Goals
