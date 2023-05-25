@@ -55,7 +55,7 @@ function getSched(pr, fields) {
   let time = arr[5];
   let loc  = arr[6].concat(" ", arr[7]);
   let prof = arr[8];
-  let loclink = pr.getElementsByTagName("a")[1].href;
+  let loclink = temp.concat(pr.getElementsByTagName("a")[1].href.replace("chrome-extension://kkdmeedjkmnjdojlojoppflofaiinkca", ""));
   const obj = { "sln": sln, "course": course, "title": title, "type": type, "name": name, "days": days, "time": time, "location": loc, "prof": prof, "link": loclink}
 
   return obj;
