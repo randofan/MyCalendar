@@ -53,11 +53,12 @@
 
 ## Gavin
 ### Old Goals
-1.
+1. Work on building out support for including sections wherever I can.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: I worked a lot on small adjustments to ics.js for supporting sections. I also added support for the map links.
+- What worked: Working closely with my teammates to diagnose the issues that we ran into with sections and how to fix them.
+- What you learned: I (re)learned that modifying passed-by-reference data is only okay if you're not going to use it again.
+- Where you had trouble: I honestly didn't have much trouble. The bugs were pretty straightforward.
 ### New Goals
-1. 
+1. write more unit tests
+2. help my teammates wherever I can preparing for final release.
