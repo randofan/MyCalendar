@@ -251,6 +251,18 @@ describe('Content Script Tests', () => {
         location: 'MLR 316',
         prof: 'Goncharenko,Anna Dmitrievna',
         link: 'http://www.washington.edu/students/maps/map.cgi?MLR'
+      },
+      "CSE 498 A": {
+        sln: "13017",
+        course: "CSE 498",
+        title: "CSE 498 A",
+        type: "IS",
+        name: "UNDERGRAD RESEARCH",
+        days: "To be arranged",
+        time: null,
+        location: null,
+        prof: null,
+        link: null
       }
     }
 
