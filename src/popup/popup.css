@@ -4,12 +4,13 @@ body {
 
 table {
     border-collapse: separate;
-    border-spacing: 20px 16px; /* horizontal <length> | vertical <length> */
+    border-spacing: 20px 16px;
+    /* horizontal <length> | vertical <length> */
     font-weight: 500;
     color: #414141;
     margin-bottom: 16px;
 }
-  
+
 th {
     font-weight: 500;
 }
