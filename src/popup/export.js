@@ -22,6 +22,12 @@ var quarterYear = null;
     }
 })();
 
+document.getElementById("classSchedule").addEventListener("click", openClassSchedule);
+
+function openClassSchedule() {
+    chrome.tabs.create({ url: "https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx"});
+}
+
 /**
  * Get course names from data scraped by content.js and populate selection
  * populate HTML with courses + input checkbox elements.
