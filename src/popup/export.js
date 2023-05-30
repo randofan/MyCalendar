@@ -22,8 +22,8 @@ var quarterYear = null;
     }
 })();
 
+// Open the class schedule
 document.getElementById("classSchedule").addEventListener("click", openClassSchedule);
-
 function openClassSchedule() {
     chrome.tabs.create({ url: "https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx"});
 }
