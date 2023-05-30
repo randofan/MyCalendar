@@ -1,5 +1,5 @@
 # MyCalendar
-MyCalendar is a Google chrome extension that launches on the UW course registration page and converts the user's registered courses into a calendar (.ics) file. With MyCalendar, students don't have to manually create a calendar event with the details of a course (time, recurrence, location, etc.) for all their courses every quarter.
+MyCalendar is a Google chrome extension that launches on the [UW class schedule page](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx) and converts a user's registered courses into a calendar (.ics) file. With MyCalendar, students don't have to manually create a calendar event with the details of a course (time, recurrence, location, etc.) for all their courses every quarter.
 
 ## Features
 1. Download your course schedule as an .ics file, which can be imported into any calendar app.
@@ -7,7 +7,7 @@ MyCalendar is a Google chrome extension that launches on the UW course registrat
     - Calendar events are removed on holidays
 2. Download a separate .ics file with all the available sections for a class you’re registered for. 
 3. Change your preferences of the plugin, including which courses the .ics files include.
-    - Note: if a course appears as "To be arranged" for their time and date on your schedule, its checkboxes will be disabled on the plugin.
+    - Note: if a course appears as "To be arranged" for its time and date on your schedule, its checkboxes will be disabled on the plugin.
 4. Include a link to each course location on the UW map.
 
 &nbsp; 
@@ -23,18 +23,18 @@ MyCalendar is a Google chrome extension that launches on the UW course registrat
 7. In the upper left corner, click "load unpacked" and select `MyCalendar/src`
 
 ## How to Use
-1. Navigate to your [Course Schedule](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=2)
-2. In the upper right corner of your Chrome, click on the extension
+1. Navigate to your [Class Schedule](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=2)
+2. In the upper right corner of your browser, click on the extension
 3. Select the courses you would like to include in your .ics file(s)
     - **Schedule**: Checking this box will include the scheduled meeting times for this course in a calendar file titled "schedule.ics"
     - **Additional Sections**: Checking this box will include all the available sections (regardless if you are registered for it) for this course in a calendar file titled "sections.ics"
-4. To include a [UW campus map](https://www.washington.edu/maps/) link for the building of each calendar event, check "Include building directions" and "Save"
-    - If you check "Save", your preferece will be saved for any time you use MyCalendar
+4. To include a [UW campus map](https://www.washington.edu/maps/) link for the building of each calendar event, check "Include UW Map link"
+    - If you check "Save Changes", your preferece will be saved for any time you use MyCalendar
 5. Click the download button
 6. Import your .ics file(s) to the calendar application of your choice
 7. Note you must follow the steps in this order exactly. Failure to do so may result in undefined behavior
 
-![A test image](/src/images/popup.png)
+![A test image](/src/images/popup_visual.png)
 
 ## Report Bugs
 Known bugs will be reported as [issues](https://github.com/randofan/MyCalendar/issues?q=is%3Aopen+is%3Aissue+label%3Abug). To report a bug, create a new issue in the repository with the label ```bug```. Follow the template provided.
