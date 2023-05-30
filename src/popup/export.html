@@ -8,7 +8,11 @@
     <title>Pop Up</title>
 </head>
 <body>
-    <p id="loading">Loading...</p>
+    <div id="loading">
+        <p>Loading...</p>
+        <br>
+        <p>Please ensure you've navigated to your <a id="classSchedule" href="">Class Schedule</a></p>
+    </div>
     <table class="selection-table">
         <tr>
             <th></th>
@@ -16,11 +20,14 @@
             <th>Additional Sections</th>
         </tr>
     </table>
+    <section class="settings">
+        <h3>Preferences</h3>
+        <div>
+            <input type="checkbox" id="map" value="map">Include UW Map link</input>
+            <input id="savestate" type="checkbox" value="save preferences">Save Changes</input>    
+        </div>
+    </section>
     <section class="buttons">
-        <section class="settings">
-            <input type="checkbox" id="map" value="map">Include building directions</input>
-            <input id="savestate" type="checkbox" value="save preferences">Save</input>
-        </section>
         <button class=download-button id="download" type="button">
             <span><img class="icon" src="../images/download.svg" alt="Download"></img></span>
             ICS file

@@ -85,7 +85,7 @@ function buildICS(scheduleData, info, includeLink) {
             file += "RRULE:FREQ=WEEKLY;BYDAY=" + convertDays(en.days) + ";UNTIL=" + endDates[i] + "\n"; // change for holiday
             file += "LOCATION:" + en.location + "\n";
             if (includeLink) {
-                file += `DESCRIPTION:<HTML><BODY><a href=${en.link}>Building directions</a></BODY></HTML>` + "\n";
+                file += `DESCRIPTION:${en.link}` + "\n";
             }
             file += "END:VEVENT\n";
         }
@@ -109,7 +109,7 @@ function convertDays(registrationDays) {
     }
     let icsDays = [];
     for (let i = 0; i < dayChars.length; i++) {
-       icsDays.push(registrationToICSDays.get(dayChars[i]));
+        icsDays.push(registrationToICSDays.get(dayChars[i]));
     }
     return icsDays.join(",");
 }
@@ -201,7 +201,7 @@ function getFirstDayOfMultiple(ICSDate, dows) {
  * @returns {string} the returned ICS Date
  */
 function dateToICS(JSDate) {
-    return JSDate.toISOString().substring(0,10).replaceAll("-", "");
+    return JSDate.toISOString().substring(0, 10).replaceAll("-", "");
 }
 
 /**
@@ -222,8 +222,8 @@ function ICSToDate(ICSDate) {
  */
 function makeUID(event, start, end) {
 
-    let UID = convertTime(event.time)[0].substring(0,2);
-    UID += convertTime(event.time)[1].substring(0,1);
+    let UID = convertTime(event.time)[0].substring(0, 2);
+    UID += convertTime(event.time)[1].substring(0, 1);
     UID += start;
     UID += end;
     UID += event.title.replaceAll(" ", "");
