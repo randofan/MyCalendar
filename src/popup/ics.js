@@ -24,14 +24,15 @@ const registrationToICSDays = new Map([["M", "MO"], ["T", "TU"], ["W", "WE"], ["
  */
 function buildICS(scheduleData, info, includeLink) {
 
-    const firstDayOfInstruction = convertDate(info["dates"]["start"])
-    const lastDayOfInstuction = convertDate(info["dates"]["end"])
-    const givenHolidayArray = info["holidays"]
+    const firstDayOfInstruction = convertDate(info["dates"]["start"]);
+    const lastDayOfInstuction = convertDate(info["dates"]["end"]);
+    const givenHolidayArray = info["holidays"];
     let holidayArray = [];
 
     for (let i = 0; i < givenHolidayArray.length; i++) {
-        console.log(`holidayArray[${i}] = ${holidayArray[i]}`);
-        holidayArray[i] = convertDate(new Date(givenHolidayArray[i]));
+        if (new Date(givenHolidayArray[i]) < new Date(info["dates"]["end"])) {
+            holidayArray[i] = convertDate(new Date(givenHolidayArray[i]));
+        }
     }
 
     const map = scheduleData;
