@@ -125,7 +125,7 @@ async function onDownloadClick() {
         alert("No courses selected");
         return;
     }
-    
+
     const split = quarterYear.split(" ")
     const info = await getDatesAndHolidays(formatYear(quarterYear), split[0])
 
@@ -159,28 +159,29 @@ async function onDownloadClick() {
  */
 async function getSections(val, quarterYear) {
     let sects = [];
-    // get all the different courses
+    // get the quarter and year of the schedule we are parsing
     let quart = quarterYear.split(" ")[0];
     let year = quarterYear.split(" ")[1];
 
     for (var i = 0; i< val.length; i++){
-        // get the specific course
+        // extract the specific course we want sections for
         let course = val[i];
         let name = course["course"].trim();
         name = name.substring(0, name.lastIndexOf(" ")).replace(/&nbsp;/g, ' ');
-        // get the url link given department
+
+        // get the url link given department for the sections/time schedule
+        // and access the page to parse information
         let ur = getLink(name, quart, year);
         const body = await chrome.runtime.sendMessage({url: ur});
         const doc = new DOMParser().parseFromString(body.page, 'text/html')
 
-        // get section object
+        // get sections object for all the different sections of a given class
         let sect = getsln(course, doc);
 
         for(var j = 0; j< sect.length;j++ ){
             sects.push(sect[j]);
         }
     }
-    console.log(sects);
     // return list of section objects
     return sects;
 }

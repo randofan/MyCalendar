@@ -1,4 +1,5 @@
 // function to parse the sln numbers for the section
+// will return an array of course objects for all the sections it finds
 function getsln(course, document) {
   // get's all the sln tables
   const tbls = document.getElementsByTagName('table');
@@ -42,10 +43,13 @@ function getsln(course, document) {
   return results;
 }
 
+// helper function that gets all the fields of a pr object and places it into
+// a course section object.
 function getSched(pr, fields) {
   let st = pr.innerText;
   st = st.replace(/\s+/g, " ");
   const arr = st.split(" ");
+  // sets all the fields of course object.
   let sln = arr[1];
   let title = fields["course"].concat(" ", arr[2]);
   let course = fields["course"];
