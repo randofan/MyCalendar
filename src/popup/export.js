@@ -231,6 +231,5 @@ async function getDatesAndHolidays(year, quarter) {
             ret["holidays"].push(day)
         }
     }
-
     return ret
 }

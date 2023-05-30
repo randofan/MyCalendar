@@ -29,7 +29,7 @@ function buildICS(scheduleData, info, includeLink) {
     const givenHolidayArray = info["holidays"]
     let holidayArray = [];
 
-    for (let i = 0; i < holidayArray.length; i++) {
+    for (let i = 0; i < givenHolidayArray.length; i++) {
         console.log(`holidayArray[${i}] = ${holidayArray[i]}`);
         holidayArray[i] = convertDate(new Date(givenHolidayArray[i]));
     }

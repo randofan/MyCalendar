@@ -9,7 +9,8 @@
 - What you learned: how the use JSDom to unit test; how to work with async functions in js
 - Where you had trouble: n/a
 ## New Goals
-1. 
+1. fix any small bugs from user feedback.
+2. prepare repo for final release.
 
 # Contributions of Individuals
 
