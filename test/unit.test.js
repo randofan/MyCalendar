@@ -2,7 +2,6 @@ const { convertDays, convertTime, getFirstDay, getFirstDayOfMultiple, dateToICS,
 const { generateTableRow } = require('./src/popup/util.js');
 const { getClassSchedule, getQuarter } = require('./src/scripts/dom_scraper.js');
 const { getLink } = require('./src/popup/course_map.js')
-const { mapListTest } = require('./src/popup/course_map_temp.js')
 const assert = require('assert');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -161,9 +160,7 @@ describe('Section Map Unit Tests', () => {
     let expected_url = "https://www.washington.edu/students/timeschd/SPR2023/cse.html";
 
     let urla = getLink(course,quart, year);
-    let urlb = mapListTest(course)
     assert.deepEqual(urla, expected_url);
-    assert.deepEqual(urlb, expected_url);
   });
 });
   describe('Content Script Tests', () => {
