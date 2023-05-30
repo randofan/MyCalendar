@@ -1,3 +1,5 @@
+// function to get the url for the time schedule given a coudrse department and
+// quarter and year of schedule we are parsing
 function getLink(id, quarter, year) {
   let conn = "https://www.washington.edu/students/timeschd/";
   let tag = getQuart(quarter, year);
@@ -11,11 +13,14 @@ function getLink(id, quarter, year) {
   return conn;
 }
 
+// gets the appropriate quarter tag to append to html link, so Spring 2023 -> SPR2023
 function getQuart(quart, yr) {
   const vals = new Map([["Spring", "SPR"], ["Summer", "SUM"], ["Autumn", "AUT"], ["Winter", "WIN"],])
   let q = vals.get(quart);
   return q.concat(yr);
 }
+
+// gets the html tag given the department to access the current quarter's time schedule.
 function mapList(id) {
   const course = new Map([
     ["ARCTIC", "arctic.html"],
@@ -370,7 +375,7 @@ function mapList(id) {
   if (course.has(id)) {
     return course.get(id);
   } else {
-    return "-1";
+    return "";
   }
 
 }
