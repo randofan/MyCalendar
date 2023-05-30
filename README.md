@@ -5,7 +5,7 @@ MyCalendar is a Google chrome extension that launches on the [UW class schedule 
 1. Download your course schedule as an .ics file, which can be imported into any calendar app.
     - Works for any academic quarter
     - Calendar events are removed on holidays
-2. Download a separate .ics file with all the available sections for a class you’re registered for. 
+2. Download a separate .ics file with all the section times for a class you’re registered for. 
 3. Change your preferences of the plugin, including which courses the .ics files include.
     - Note: if a course appears as "To be arranged" for its time and date on your schedule, its checkboxes will be disabled on the plugin.
 4. Include a link to each course location on the UW map.
@@ -24,6 +24,7 @@ MyCalendar is a Google chrome extension that launches on the [UW class schedule 
 
 ## How to Use
 1. Navigate to your [Class Schedule](https://sdb.admin.uw.edu/sisStudents/uwnetid/schedule.aspx?Q=2)
+    - Note: If you are not on your Class Schedule, the popup will say "Loading... Please ensure you've navigated to your Class Schedule"
 2. In the upper right corner of your browser, click on the extension
 3. Select the courses you would like to include in your .ics file(s)
     - **Schedule**: Checking this box will include the scheduled meeting times for this course in a calendar file titled "schedule.ics"
