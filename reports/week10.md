@@ -3,10 +3,10 @@
 1. fix any small bugs from peer feedback.
 2. prepare repo for final release.
 ## Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: Finish unit testing, finish the sections feature, minor bug fixes, finalize the styling of the popup, review peer reviews to upate the README, record in our final presentation!
+- What worked: Delegate work in Slack and Github, merge PRs together in person
+- What you learned: We're ending the quarter on a good async/sync workflow incorporating delegation + code reviews
+- Where you had trouble: N/A
 ## New Goals
 1. finish project for final release
 
@@ -37,14 +37,14 @@
 
 ## Trinity
 ### Old Goals
-1.
+1. Work on edge case of if a course can not be made into an ICS file
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: Addressed edge case of if a class if "To be arranged" by disabling the checkbox for a course in this case, styled the preferences section of the popup, and wrote unit tests for the DOM scraper, originally in the content script, expand the user manual
+- What worked: Communicating async in Slack and on our PRs, merging PRs in person
+- What you learned: Learned about how to use JSDom for testing with mock DOMs!
+- Where you had trouble: N/A
 ### New Goals
-1.
+1. N/A
 
 ## Gavin
 ### Old Goals
