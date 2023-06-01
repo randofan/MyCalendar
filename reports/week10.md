@@ -51,12 +51,13 @@
 
 ## Gavin
 ### Old Goals
-1.
+1. write more unit tests
+2. help my teammates wherever I can preparing for final release.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: It turns out that we didn't need any more unit tests from me, so I instead helped patch final bugs in our project, like an edge case that happened when a holiday happened after the end of the quarter.
+- What worked: Comminicating with my team to debug the problem and determine its root cause.
+- What you learned: The importance of extremely throuough testing covering all possible cases.
+- Where you had trouble: N/A
 ### New Goals
-1. 
+1. N/A
 
