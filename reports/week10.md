@@ -26,14 +26,17 @@
 
 ## Saket
 ### Old Goals
-1.
+1. Finish writing tests
+2. finish user documentation
+3. finish commenting code
+4. get ready for final release.
 ### Issues
-- What you did:
-- What worked:
-- What you learned:
-- Where you had trouble:
+- What you did: finished up documentation, added tests, and prepared application for final release
+- What worked: working with the entire group to wrap up the project
+- What you learned: comunincation is very helpful for group work and teamwork makes the dreamwork
+- Where you had trouble: no troubles. Everything worked well
 ### New Goals
-1. 
+1. R-E-L-A-X!
 
 ## Trinity
 ### Old Goals
